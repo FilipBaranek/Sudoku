@@ -7,18 +7,33 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="DifficultyWindow.xaml.cs">
+    <Compile Update="Views\DifficultyView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="SudokuGameWindow.xaml.cs">
+    <Compile Update="Views\GameView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\TrainingView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\MenuView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="DifficultyWindow.xaml">
+    <Page Update="MainWindow.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="MainWindow.xaml">
+    <Page Update="Views\DifficultyView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\GameView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\TrainingView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\MenuView.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

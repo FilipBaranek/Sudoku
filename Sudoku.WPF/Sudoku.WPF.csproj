@@ -9,16 +9,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="images\background.jpg" />
+    <None Remove="images\darkBackground.jpg" />
     <None Remove="images\logo.jpg" />
+    <None Remove="images\logo.png" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Sudoku.ConsoleApp\Sudoku.ConsoleApp.csproj" />
-    <ProjectReference Include="..\Sudoku.GameLibrary\Sudoku.GameLibrary.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="images\logo.jpg">
+    <Resource Include="Config\config.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\background.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\darkBackground.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="images\logo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>

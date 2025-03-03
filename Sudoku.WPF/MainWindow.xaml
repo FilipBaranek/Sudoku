@@ -5,23 +5,11 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Sudoku.WPF"
         mc:Ignorable="d"
-        Title="Sudoku" Height="900" Width="810">
+        Title="Sudoku" Height="1080" Width="1920"
+        WindowStartupLocation="CenterScreen"
+        WindowState="Maximized">
+
     <Grid>
-
-        <Grid.RowDefinitions>
-            <RowDefinition Height="400"/>
-            <RowDefinition Height="100"/>
-            <RowDefinition Height="100"/>
-            <RowDefinition Height="100"/>
-            <RowDefinition Height="100"/>
-        </Grid.RowDefinitions>
-
-        <Image Source="/images/logo.jpg"/>
-
-        <Button x:Name="playButton"  Grid.Row="1" HorizontalAlignment="Center" Content="PLAY" FontSize="40" FontWeight="Bold" BorderThickness="5"  Margin="10" Padding="80, 0" Click="OnClickPlay"/>
-        <Button x:Name="rulesButton" Grid.Row="2" HorizontalAlignment="Center" Content="RULES" FontSize="40" Margin="10" Padding="70, 0"/>
-        <Button x:Name="infoButton" Grid.Row="3" HorizontalAlignment="Center" Content="INFO" FontSize="40" Margin="10" Padding="80, 0"/>
-        <Button x:Name="quitButton" Grid.Row="4" HorizontalAlignment="Center" Content="QUIT" FontSize="40" Margin="10" Padding="80, 0" Click="OnClickQuit"/>
-
+        <Frame Name="MainFrame" Content="{Binding CurrentView}"/>
     </Grid>
 </Window>
