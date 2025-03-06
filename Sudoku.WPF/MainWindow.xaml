@@ -10,6 +10,6 @@
         WindowState="Maximized">
 
     <Grid>
-        <Frame Name="MainFrame" Content="{Binding CurrentView}"/>
+        <ContentControl Content="{Binding Router.CurrentView}"/>
     </Grid>
 </Window>

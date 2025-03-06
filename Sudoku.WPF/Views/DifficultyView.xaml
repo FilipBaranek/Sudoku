@@ -11,6 +11,10 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
+        <Grid.Background>
+            <ImageBrush ImageSource="{Binding Background}" Stretch="Fill"/>
+        </Grid.Background>
+        
         <TextBlock Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="Choose difficulty" FontSize="50" FontWeight="DemiBold"></TextBlock>
         
         <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Orientation="Horizontal">

@@ -1,12 +1,12 @@
 ﻿using Sudoku.WPF.Models;
+using Sudoku.WPF.Services;
 
 namespace Sudoku.WPF.ViewModels
 {
     public class TrainingViewModel
     {
-        public TrainingViewModel(MainWindowViewModel mainWindowViewModel, Difficulty difficulty)
+        public TrainingViewModel(Router router, Difficulty difficulty)
         {
-            Training training = new Training(difficulty);
         }
     }
 }

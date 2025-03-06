@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
 C:\Users\filip\Desktop\skola\C#\bakalarka\Sudoku\Sudoku.WPF\App.xaml
-5-773872827
+6221992362
 
-251094098556
+281155389465
 198-352714763
-MainWindow.xaml;Views\DifficultyView.xaml;Views\GameView.xaml;Views\MenuView.xaml;Views\TrainingView.xaml;
+MainWindow.xaml;Views\DifficultyView.xaml;Views\GameEndView.xaml;Views\GameView.xaml;Views\MenuView.xaml;Views\TrainingView.xaml;
 
 True
 

@@ -1,8 +1,6 @@
-﻿
-using System.Windows.Controls;
-using System.Windows.Media;
+﻿using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Sudoku.WPF.Helpers;
+using Sudoku.WPF.Services;
 
 namespace Sudoku.WPF.Models
 {
@@ -14,42 +12,16 @@ namespace Sudoku.WPF.Models
             _configHandler = new ConfigHandler();
         }
 
-        public void SetBackground(Grid grid, int rows)
+        public BitmapImage Background()
         {
             string backgroundPath = _configHandler.Theme().Equals("dark") ? "darkBackground" : "background";
 
-            ImageBrush background = new ImageBrush
-            {
-                ImageSource = new BitmapImage(new Uri($"pack://application:,,,/images/{backgroundPath}.jpg", UriKind.Absolute)),
-                Stretch = Stretch.Fill
-            };
-
-            grid.Background = background;
+            return new BitmapImage(new Uri($"pack://application:,,,/images/{backgroundPath}.jpg", UriKind.Absolute));
         }
 
-        public void SetButtonsColor(Grid grid)
+        public Brush ButtonsColor()
         {
-            SolidColorBrush color = _configHandler.Theme().Equals("dark") ? new SolidColorBrush(Colors.Gray)
-                                                                          :  new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFFFF0"));
-
-            foreach (Button button in grid.Children.OfType<Button>())
-            {
-                button.Background = color;
-            }
-        }
-
-        public void SetButtonsInStackPanelColor(Grid grid)
-        {
-            SolidColorBrush color = _configHandler.Theme().Equals("dark") ? new SolidColorBrush(Colors.Gray)
-                                                                          : new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFFFF0"));
-
-            foreach (StackPanel stackPanel in grid.Children.OfType<StackPanel>())
-            {
-                foreach (Button button in stackPanel.Children.OfType<Button>())
-                {
-                    button.Background = color;
-                }
-            }
+            return _configHandler.Theme().Equals("dark") ? new SolidColorBrush(Colors.Gray) : new SolidColorBrush((Color)ColorConverter.ConvertFromString("#FFFFF0"));
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System.Windows.Controls;
 using Sudoku.WPF.Models;
+using Sudoku.WPF.Services;
 using Sudoku.WPF.ViewModels;
 
 
@@ -7,12 +8,10 @@ namespace Sudoku.WPF.Views
 {
     public partial class GameView : UserControl
     {
-        public GameView(MainWindowViewModel mainWindowViewModel,Difficulty difficulty)
+        public GameView(Router router, Difficulty difficulty)
         {
             InitializeComponent();
-            GameViewContent gameViewContent = new GameViewContent(GameGrid.Children.OfType<Grid>().FirstOrDefault());
-
-            DataContext = new GameViewModel(mainWindowViewModel, GameGrid, difficulty);
+            DataContext = new GameViewModel(router, difficulty);
         }
     }
 }

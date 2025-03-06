@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using Sudoku.WPF.Services;
 using Sudoku.WPF.ViewModels;
 
 namespace Sudoku.WPF.Views
@@ -6,10 +7,10 @@ namespace Sudoku.WPF.Views
 
     public partial class MenuView : UserControl
     {
-        public MenuView(MainWindowViewModel mainWindowModel)
+        public MenuView(Router router)
         {
             InitializeComponent();
-            DataContext = new MenuViewModel(mainWindowModel, MenuGrid);
+            DataContext = new MenuViewModel(router);
         }
     }
 }

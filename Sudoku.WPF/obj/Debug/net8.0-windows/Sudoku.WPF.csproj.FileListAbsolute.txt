@@ -26,3 +26,5 @@ C:\Users\filip\Desktop\skola\C#\bakalarka\Sudoku\Sudoku.WPF\obj\Debug\net8.0-win
 C:\Users\filip\Desktop\skola\C#\bakalarka\Sudoku\Sudoku.WPF\obj\Debug\net8.0-windows\Views\TrainingView.baml
 C:\Users\filip\Desktop\skola\C#\bakalarka\Sudoku\Sudoku.WPF\obj\Debug\net8.0-windows\Views\GameView.g.cs
 C:\Users\filip\Desktop\skola\C#\bakalarka\Sudoku\Sudoku.WPF\obj\Debug\net8.0-windows\Views\GameView.baml
+C:\Users\filip\Desktop\skola\C#\bakalarka\Sudoku\Sudoku.WPF\obj\Debug\net8.0-windows\Views\GameEndView.g.cs
+C:\Users\filip\Desktop\skola\C#\bakalarka\Sudoku\Sudoku.WPF\obj\Debug\net8.0-windows\Views\GameEndView.baml

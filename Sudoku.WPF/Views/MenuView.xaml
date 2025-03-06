@@ -17,6 +17,10 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
+        <Grid.Background>
+            <ImageBrush ImageSource="{Binding Background}" Stretch="Fill"/>
+        </Grid.Background>
+        
         <Image Grid.Row="0" Source="/images/logo.png"/>
 
         <Button 
@@ -24,7 +28,7 @@
             HorizontalAlignment="Center"
             Content="PLAY" FontSize="40"
             FontWeight="Bold" BorderThickness="5"
-            Background="#87CEEB"
+            Background="{Binding ButtonsBackground}"
             BorderBrush="Black"
             Margin="10"
             Padding="80, 0"
@@ -36,7 +40,7 @@
             FontSize="40"
             FontWeight="Bold"
             BorderThickness="5"
-            Background="#87CEEB"
+            Background="{Binding ButtonsBackground}"
             BorderBrush="Black"
             Margin="10"
             Padding="30, 0"
@@ -48,7 +52,7 @@
             FontSize="40" 
             Margin="10"
             FontWeight="Bold"
-            Background="#FFFFF0"
+            Background="{Binding ButtonsBackground}"
             BorderBrush="Black"
             BorderThickness="5"
             Padding="70, 0"/>
@@ -60,7 +64,7 @@
             Margin="10"
             FontWeight="Bold"
             BorderThickness="5"
-            Background="#FFFFF0"
+            Background="{Binding ButtonsBackground}"
             BorderBrush="Black"
             Padding="40, 0"/>
         <Button
@@ -71,7 +75,7 @@
             Margin="10"
             FontWeight="Bold"
             BorderThickness="5"
-            Background="#FFFFF0"
+            Background="{Binding ButtonsBackground}"
             BorderBrush="Black"
             Padding="80, 0"
             Command="{Binding QuitCommand}"/>

@@ -12,6 +12,9 @@ namespace Sudoku.WPF.Models
         {
             _random = new Random();
             _solutionGameBoard = new int[9, 9];
+
+            GenerateSolutionGameBoard();
+            GenerateGameBoard(difficulty);
         }
 
         public int SectorIndex(int index)

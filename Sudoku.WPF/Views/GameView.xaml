@@ -7,9 +7,13 @@
              mc:Ignorable="d" 
              d:DesignHeight="1080" d:DesignWidth="1920">
     <Grid x:Name="GameGrid">
+        <Grid.Background>
+            <ImageBrush ImageSource="{Binding Background}" Stretch="Fill"/>
+        </Grid.Background>
+
         <Grid HorizontalAlignment="Center" VerticalAlignment="Center">
             <Grid.RowDefinitions>
-                <RowDefinition Height="120"/>
+                <RowDefinition Height="80"/>
                 <RowDefinition Height="80"/>
                 <RowDefinition Height="80"/>
                 <RowDefinition Height="80"/>
@@ -20,16 +24,75 @@
                 <RowDefinition Height="80"/>
                 <RowDefinition Height="80"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <Image Source="/images/logo.png" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            <Image Grid.Row="0" Source="/images/logo.png" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-            <StackPanel Grid.Row="10" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+            <ItemsControl Grid.Row="1" Grid.RowSpan="9" ItemsSource="{Binding GameBoardRows}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                            <ItemsControl ItemsSource="{Binding}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <StackPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button Tag="{Binding Tag}"  
+                                                Content="{Binding Content}"
+                                                Width="{Binding Width}"
+                                                Height="{Binding Height}"
+                                                FontSize="20"
+                                                BorderBrush="Black"
+                                                Background="{Binding ButtonColor}"
+                                                BorderThickness="{Binding BorderThickness}"
+                                                Command="{Binding Command}"
+                                                CommandParameter="{Binding Parameter}"/>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            
+            <ItemsControl ItemsSource="{Binding PivotButtons}" Grid.Row="10">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Button Tag="{Binding Tag}"  
+                                Content="{Binding Content}"
+                                Width="{Binding Width}"
+                                Height="{Binding Height}"
+                                FontSize="20"
+                                FontWeight="Bold"
+                                BorderBrush="Black"
+                                Background="{Binding ButtonColor}"
+                                BorderThickness="{Binding BorderThickness}"
+                                Command="{Binding Command}"
+                                CommandParameter="{Binding Parameter}"/>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+
+            <StackPanel Grid.Row="11" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
                 <Button
                 Margin="10"
                 Height="60"
                 Width="230"
-                Background="#FFFFF0"
+                Background="{Binding ButtonsColor}"
                 FontWeight="Bold"
                 FontSize="20"
                 BorderThickness="3"
@@ -40,7 +103,7 @@
                 Margin="10"
                 Height="60"
                 Width="230"
-                Background="#FFFFF0"
+                Background="{Binding ButtonsColor}"
                 FontWeight="Bold"
                 FontSize="20"
                 BorderThickness="3"

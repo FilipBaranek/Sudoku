@@ -5,6 +5,6 @@ namespace Sudoku.WPF.Interfaces
 {
     public interface ISetTheme
     {
-        void SetTheme(Grid grid);
+        void SetTheme();
     }
 }
