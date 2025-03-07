@@ -1,50 +1,39 @@
-﻿using System.Windows.Input;
-using Sudoku.WPF.Models;
-using Sudoku.WPF.Commands;
+﻿using Sudoku.WPF.Models;
 using Sudoku.WPF.Interfaces;
 using Sudoku.WPF.Services;
 using Sudoku.WPF.Views;
+using Sudoku.WPF.Services.ContentHandlers;
 using System.Windows.Media;
-using System.ComponentModel;
 
 namespace Sudoku.WPF.ViewModels
 {
-    public class DifficultyViewModel : INotifyPropertyChanged, ISetTheme
+    public class DifficultyViewModel : IContentLoad
     {
         private const int GAMETYPE_GAME = 0;
         private const int GAMETYPE_TRAINING = 1;
-        private readonly Router _router;
         private readonly int _gameType;
+        private readonly Router _router;
         private Difficulty _difficulty;
-        private ImageSource _imageSource;
-        public ICommand EasyCommand { get; }
-        public ICommand MediumCommand { get; }
-        public ICommand HardCommand { get; }
-        public ImageSource Background
-        {
-            get => _imageSource;
-            set
-            {
-                _imageSource = value;
-                OnPropertyChanged(nameof(Background));
-            }
-        }
+        private Dictionary<string, Action> _commands;
+        public ImageSource Background { get; private set; }
+        public ButtonTemplate[] Buttons { get; private set; }
         public DifficultyViewModel(Router router, int gameType)
         {
             _router = router;
             _gameType = gameType;
+            _commands = new Dictionary<string, Action>();
 
-            EasyCommand = new RelayCommand(() => SelectDifficulty(Difficulty.Easy));
-            MediumCommand = new RelayCommand(() => SelectDifficulty(Difficulty.Medium));
-            HardCommand = new RelayCommand(() => SelectDifficulty(Difficulty.Hard));
+            _commands.Add("Easy", () => SelectDifficulty(Difficulty.Easy));
+            _commands.Add("Medium", () => SelectDifficulty(Difficulty.Medium));
+            _commands.Add("Hard", () => SelectDifficulty(Difficulty.Hard));
 
-            SetTheme();
+            LoadContent();
         }
 
         private void SelectDifficulty(Difficulty difficulty)
         {
             _difficulty = difficulty;
-            
+
             StartGame();
         }
 
@@ -64,16 +53,11 @@ namespace Sudoku.WPF.ViewModels
             }
         }
 
-        public void SetTheme()
+        public void LoadContent()
         {
-            Theme themeHandler = new Theme();
-            Background = themeHandler.Background();
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-        public void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            var contentHandler = new DifficultyContentHandler();
+            Background = contentHandler.GetBackground();
+            Buttons = contentHandler.CreateButtons(_commands);
         }
     }
 }

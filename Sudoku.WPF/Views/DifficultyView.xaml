@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Sudoku.WPF.Views"
         mc:Ignorable="d">
-    <Grid x:Name="DifficultyGrid">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="*"/>
@@ -16,11 +16,26 @@
         </Grid.Background>
         
         <TextBlock Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="Choose difficulty" FontSize="50" FontWeight="DemiBold"></TextBlock>
+
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding Buttons}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button Height="80"
+                            Width="200"
+                            Content="{Binding Content}"
+                            Background="{Binding ButtonColor}"
+                            FontSize="30"
+                            FontWeight="Bold"
+                            Margin="10"
+                            Command="{Binding Command}"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
         
-        <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Top" Orientation="Horizontal">
-            <Button Height="80" Width="200" Content="EASY" Background="LightGreen" FontSize="30" FontWeight="Bold" Margin="10" Command="{Binding EasyCommand}"/>
-            <Button Height="80" Width="200" Content="MEDIUM" Background="Orange" FontSize="30" FontWeight="Bold" Margin="10" Command="{Binding MediumCommand}"/>
-            <Button Height="80" Width="200" Content="HARD" Background="Red" FontSize="30" FontWeight="Bold" Margin="10" Command="{Binding HardCommand}"/>
-        </StackPanel>
     </Grid>
 </UserControl>

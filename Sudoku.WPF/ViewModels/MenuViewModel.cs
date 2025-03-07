@@ -1,57 +1,34 @@
-﻿using System.ComponentModel;
-using System.Windows;
-using System.Windows.Input;
+﻿using System.Windows;
 using System.Windows.Media;
-using Sudoku.WPF.Commands;
 using Sudoku.WPF.Interfaces;
 using Sudoku.WPF.Models;
 using Sudoku.WPF.Services;
+using Sudoku.WPF.Services.ContentHandlers;
 using Sudoku.WPF.Views;
 
 namespace Sudoku.WPF.ViewModels
 {
-    public class MenuViewModel : INotifyPropertyChanged, ISetTheme
+    public class MenuViewModel : IContentLoad
     {
         private readonly int GAMETYPE_GAME = 0;
         private readonly int GAMETYPE_TRAINING = 1;
         private readonly Router _router;
-        private Brush _buttonsBackground;
-        private ImageSource _imageSource;
-        public ICommand PlayCommand { get; }
-        public ICommand TrainingCommand { get; }
-        public ICommand RulesCommand { get; }
-        public ICommand OptionsCommand { get; }
-        public ICommand QuitCommand { get; }
-        public Brush ButtonsBackground
-        {
-            get => _buttonsBackground;
-            set
-            {
-                _buttonsBackground = value;
-                OnPropertyChanged(nameof(ButtonsBackground));
-            }
-        }
-        public ImageSource Background
-        {
-            get => _imageSource;
-            set
-            {
-                _imageSource = value;
-                OnPropertyChanged(nameof(Background));
-            }
-        }
+        private Dictionary<string, Action> _commands;
+        public ButtonTemplate[] Buttons { get; private set; }
+        public ImageSource Background { get; private set; }
 
         public MenuViewModel(Router router)
         {
+
             _router = router;
+            _commands = new Dictionary<string, Action>();
+            _commands.Add("PLAY", Play);
+            _commands.Add("TRAINING", Training);
+            _commands.Add("RULES", Rules);
+            _commands.Add("OPTIONS", Options);
+            _commands.Add("QUIT", Quit);
 
-            PlayCommand = new RelayCommand(Play);
-            TrainingCommand = new RelayCommand(Training);
-            RulesCommand = new RelayCommand(Rules);
-            OptionsCommand = new RelayCommand(Options);
-            QuitCommand = new RelayCommand(Quit);
-
-            SetTheme();
+            LoadContent();
         }
 
         private void Play()
@@ -84,18 +61,11 @@ namespace Sudoku.WPF.ViewModels
             }
         }
 
-        public void SetTheme()
+        public void LoadContent()
         {
-            Theme themeHandler = new Theme();
-            Background = themeHandler.Background();
-            ButtonsBackground = themeHandler.ButtonsColor();
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        public void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            var contentHandler = new MenuContentHandler();
+            Background = contentHandler.GetBackground();
+            Buttons = contentHandler.CreateButtons(_commands);
         }
     }
 }

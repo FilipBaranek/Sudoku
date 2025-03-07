@@ -1,17 +1,16 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
-using System.Windows.Input;
 using System.Windows.Media;
-using Sudoku.WPF.Commands;
 using Sudoku.WPF.Interfaces;
 using Sudoku.WPF.Models;
 using Sudoku.WPF.Services;
+using Sudoku.WPF.Services.ContentHandlers;
 using Sudoku.WPF.Views;
 
 namespace Sudoku.WPF.ViewModels
 {
-    public class GameViewModel : INotifyPropertyChanged, ISetTheme
+    public class GameViewModel : IContentLoad
     {
         private readonly int TOTAL_GAME_POINTS = 81;
         private readonly int TOTAL_INCORRECT_POINTS = 3;
@@ -23,30 +22,11 @@ namespace Sudoku.WPF.ViewModels
         private int[,] _sudokuElements;
         private Router _router;
         private GameBoard _gameBoard;
-        private ImageSource _imageSource;
-        private Brush _buttonsColor;
-        public ICommand BackToMenuCommand { get; }
-        public ICommand SwitchToTrainingCommand { get; }
-        public GameViewButton[] PivotButtons { get; set; }
-        public ObservableCollection<GameViewButton[]> GameBoardRows { get; set; }
-        public ImageSource Background
-        {
-            get => _imageSource;
-            set
-            {
-                _imageSource = value;
-                OnPropertyChanged(nameof(Background));
-            }
-        }
-        public Brush ButtonsColor
-        {
-            get => _buttonsColor;
-            set
-            {
-                _buttonsColor = value;
-                OnPropertyChanged(nameof(ButtonsColor));
-            }
-        }
+        private Dictionary<string, Action> _navigationCommands;
+        public ImageSource Background { get; private set; }
+        public ButtonTemplate[] Buttons { get; private set; }
+        public ButtonTemplate[] PivotButtons { get; private set; }
+        public ObservableCollection<ButtonTemplate[]> GameButtons { get; private set; }
 
         public GameViewModel(Router router, Difficulty difficulty)
         {
@@ -56,14 +36,14 @@ namespace Sudoku.WPF.ViewModels
             _selectedNumber = 0;
             _correct = (int)difficulty;
 
-            BackToMenuCommand = new RelayCommand(BackToMenu);
-            SwitchToTrainingCommand = new RelayCommand(SwitchToTraining);
+            _navigationCommands = new Dictionary<string, Action>();
+            _navigationCommands.Add("Back to menu", BackToMenu);
+            _navigationCommands.Add("Switch to training", SwitchToTraining);
 
-            SetTheme();
-            LoadWPFContent();
+            LoadContent();
         }
 
-        private void SelectNumber(GameViewButton pivotButton)
+        private void SelectNumber(ButtonTemplate pivotButton)
         {
             int value = int.Parse(pivotButton.Content);
 
@@ -87,7 +67,7 @@ namespace Sudoku.WPF.ViewModels
             }
         }
 
-        private void SetNumber(GameViewButton button)
+        private void SetNumber(ButtonTemplate button)
         {
             string tag = button.Tag.ToString();
             int i = int.Parse(tag[0].ToString());
@@ -146,24 +126,13 @@ namespace Sudoku.WPF.ViewModels
             }
         }
 
-        public void SetTheme()
+        public void LoadContent()
         {
-            Theme themeHandler = new Theme();
-            Background = themeHandler.Background();
-            ButtonsColor = themeHandler.ButtonsColor();
-        }
-
-        private void LoadWPFContent()
-        {
-            GameContentViewModel gameViewContent = new GameContentViewModel();
-            PivotButtons = gameViewContent.DrawButtons(SelectNumber);
-            GameBoardRows = gameViewContent.DrawGameBoard(_sudokuElements, SetNumber);
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-        public void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+            var contentHandler = new GameContentHandler();
+            Background = contentHandler.GetBackground();
+            Buttons = contentHandler.CreateButtons(_navigationCommands);
+            PivotButtons = contentHandler.CreateButtons(SelectNumber);
+            GameButtons = contentHandler.CreateButtons(_sudokuElements, SetNumber);
         }
     }
 }

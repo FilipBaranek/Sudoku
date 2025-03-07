@@ -6,15 +6,13 @@
              xmlns:local="clr-namespace:Sudoku.WPF.Views"
              mc:Ignorable="d" 
              d:DesignHeight="1080" d:DesignWidth="1920">
-    <Grid x:Name="MenuGrid">
+    
+    <Grid>
+        
         <Grid.RowDefinitions>
-            <RowDefinition Height="400"/>
-            <RowDefinition Height="100"/>
-            <RowDefinition Height="100"/>
-            <RowDefinition Height="100"/>
-            <RowDefinition Height="100"/>
-            <RowDefinition Height="100"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="0.5*"/>
         </Grid.RowDefinitions>
 
         <Grid.Background>
@@ -23,62 +21,28 @@
         
         <Image Grid.Row="0" Source="/images/logo.png"/>
 
-        <Button 
-            Grid.Row="1"
-            HorizontalAlignment="Center"
-            Content="PLAY" FontSize="40"
-            FontWeight="Bold" BorderThickness="5"
-            Background="{Binding ButtonsBackground}"
-            BorderBrush="Black"
-            Margin="10"
-            Padding="80, 0"
-            Command="{Binding PlayCommand}"/>
-        <Button
-            Grid.Row="2"
-            HorizontalAlignment="Center"
-            Content="TRAINING"
-            FontSize="40"
-            FontWeight="Bold"
-            BorderThickness="5"
-            Background="{Binding ButtonsBackground}"
-            BorderBrush="Black"
-            Margin="10"
-            Padding="30, 0"
-            Command="{Binding TrainingCommand}"/>
-        <Button
-            Grid.Row="3"
-            HorizontalAlignment="Center"
-            Content="RULES"
-            FontSize="40" 
-            Margin="10"
-            FontWeight="Bold"
-            Background="{Binding ButtonsBackground}"
-            BorderBrush="Black"
-            BorderThickness="5"
-            Padding="70, 0"/>
-        <Button 
-            Grid.Row="4"
-            HorizontalAlignment="Center"
-            Content="OPTIONS"
-            FontSize="40"
-            Margin="10"
-            FontWeight="Bold"
-            BorderThickness="5"
-            Background="{Binding ButtonsBackground}"
-            BorderBrush="Black"
-            Padding="40, 0"/>
-        <Button
-            Grid.Row="5"
-            HorizontalAlignment="Center"
-            Content="QUIT"
-            FontSize="40"
-            Margin="10"
-            FontWeight="Bold"
-            BorderThickness="5"
-            Background="{Binding ButtonsBackground}"
-            BorderBrush="Black"
-            Padding="80, 0"
-            Command="{Binding QuitCommand}"/>
-    
+        <ItemsControl Grid.Row="1" ItemsSource="{Binding Buttons}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button HorizontalAlignment="Center"
+                            Content="{Binding Content}" 
+                            FontSize="40"
+                            FontWeight="Bold" 
+                            BorderThickness="5"
+                            Background="{Binding ButtonColor}"
+                            BorderBrush="Black"
+                            Width="270"
+                            Height="80"
+                            Margin="10"
+                            Command="{Binding Command}"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
     </Grid>
 </UserControl>
