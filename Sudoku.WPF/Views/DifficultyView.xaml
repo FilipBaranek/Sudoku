@@ -15,7 +15,7 @@
             <ImageBrush ImageSource="{Binding Background}" Stretch="Fill"/>
         </Grid.Background>
         
-        <TextBlock Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="Choose difficulty" FontSize="50" FontWeight="DemiBold"></TextBlock>
+        <TextBlock Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="Choose difficulty" FontSize="60" FontWeight="Bold"></TextBlock>
 
         <ItemsControl Grid.Row="1" ItemsSource="{Binding Buttons}">
             <ItemsControl.ItemsPanel>

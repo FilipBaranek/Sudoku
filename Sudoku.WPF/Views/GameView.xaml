@@ -5,23 +5,52 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Sudoku.WPF.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="1080" d:DesignWidth="1920">
+             d:DesignHeight="1080" d:DesignWidth="1920"
+             Focusable="True">
+
+    <UserControl.InputBindings>
+        <KeyBinding Key="Esc" Command="{Binding Pause.ToggleVisibility}"/>
+        <KeyBinding Key="D1" Command="{Binding SelectNumberByKeyCommand}" CommandParameter="1"/>
+        <KeyBinding Key="D2" Command="{Binding SelectNumberByKeyCommand}" CommandParameter="2"/>
+        <KeyBinding Key="D3" Command="{Binding SelectNumberByKeyCommand}" CommandParameter="3"/>
+        <KeyBinding Key="D4" Command="{Binding SelectNumberByKeyCommand}" CommandParameter="4"/>
+        <KeyBinding Key="D5" Command="{Binding SelectNumberByKeyCommand}" CommandParameter="5"/>
+        <KeyBinding Key="D6" Command="{Binding SelectNumberByKeyCommand}" CommandParameter="6"/>
+        <KeyBinding Key="D7" Command="{Binding SelectNumberByKeyCommand}" CommandParameter="7"/>
+        <KeyBinding Key="D8" Command="{Binding SelectNumberByKeyCommand}" CommandParameter="8"/>
+        <KeyBinding Key="D9" Command="{Binding SelectNumberByKeyCommand}" CommandParameter="9"/>
+    </UserControl.InputBindings>
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="0.17*"/>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="0.08*"/>
             <RowDefinition Height="0.15*"/>
         </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="0.5*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="0.5*"/>
+        </Grid.ColumnDefinitions>
 
         <Grid.Background>
             <ImageBrush ImageSource="{Binding Background}" Stretch="Fill"/>
         </Grid.Background>
 
-        <Image Grid.Row="0" Source="/images/logo.png" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+        <Image Grid.Row="0" Grid.Column="1" Source="/images/logo.png" HorizontalAlignment="Center" VerticalAlignment="Center"/>
 
-        <ItemsControl Grid.Row="1" ItemsSource="{Binding GameButtons}">
+        <StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+            <TextBlock Text="Correct: " FontSize="40" FontWeight="Bold" Foreground="LightGreen"/>
+            <TextBlock Text="{Binding CorrectCount}" FontSize="40" Foreground="LightBlue"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Grid.Column="3" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+            <TextBlock Text="Incorrect left: " FontSize="40" FontWeight="Bold" Foreground="Red"/>
+            <TextBlock Text="{Binding IncorrectCount}" FontSize="40" Foreground="LightBlue"/>
+        </StackPanel>
+
+        <ItemsControl Grid.Row="1" Grid.Column="1" ItemsSource="{Binding GameButtons}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Vertical" HorizontalAlignment="Center"/>
@@ -56,7 +85,7 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
-        <ItemsControl Grid.Row="2" ItemsSource="{Binding PivotButtons}">
+        <ItemsControl Grid.Row="2" Grid.Column="1" ItemsSource="{Binding PivotButtons}">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top"/>
@@ -65,8 +94,8 @@
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
                     <Button Content="{Binding Content}"
-                            Width="60"
-                            Height="60"
+                            Width="70"
+                            Height="70"
                             FontSize="20"
                             FontWeight="Bold"
                             BorderBrush="Black"
@@ -78,27 +107,49 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
-        <ItemsControl Grid.Row="3" ItemsSource="{Binding Buttons}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Button Content="{Binding Content}"
-                            Width="210"
-                            Height="70"
-                            FontSize="22"
-                            FontWeight="Bold"
-                            BorderBrush="Black"
-                            Background="{Binding ButtonColor}"
-                            BorderThickness="4"
-                            Margin="8"
-                            Command="{Binding Command}"/>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+        <Grid Grid.RowSpan="4" Grid.ColumnSpan="3" Background="#CC000000" Visibility="{Binding Pause.Visible}">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+            
+            <TextBlock Grid.Row="0" Text="Pause menu"
+                       FontSize="50"
+                       FontWeight="Bold"
+                       Foreground="LightBlue"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Bottom"/>
+            
+            <ItemsControl Grid.Row="1" ItemsSource="{Binding PauseButtons}">
+                <ItemsControl.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <Border Width="280"
+                                Height="80" 
+                                Margin="10" 
+                                CornerRadius="20" 
+                                BorderThickness="7" 
+                                BorderBrush="Black" 
+                                Background="{Binding ButtonColor}">
+                            <Button Content="{Binding Content}" 
+                                    FontSize="30"
+                                    FontWeight="Bold"
+                                    Background="Transparent"
+                                    BorderThickness="0"
+                                    Focusable="False"
+                                    Command="{Binding Command}"/>
+                        </Border>
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+            
+        </Grid>
+
     </Grid>
     
 </UserControl>

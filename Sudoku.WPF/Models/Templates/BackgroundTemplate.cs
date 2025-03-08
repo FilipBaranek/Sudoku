@@ -1,32 +1,16 @@
-﻿using System.ComponentModel;
-using System.Windows.Media;
+﻿using System.Windows.Media;
 using Sudoku.WPF.Services;
 
 namespace Sudoku.WPF.Models
 {
-    public class BackgroundTemplate : INotifyPropertyChanged
+    public class BackgroundTemplate
     {
-        private ImageSource _background;
-        public ImageSource Background
-        {
-            get => _background;
-            set
-            {
-                _background = value;
-                OnPropertyChanged(nameof(Background));
-            }
-        }
+        public ImageSource Background {  get; private set; }
         public BackgroundTemplate()
         {
             Theme themeHandler = new Theme();
 
             Background = themeHandler.Background();
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-        public void OnPropertyChanged(string propertyName)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

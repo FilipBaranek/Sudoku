@@ -12,9 +12,9 @@ TRACE;DEBUG;NET;NET8_0;NETCOREAPP
 C:\Users\filip\Desktop\skola\C#\bakalarka\Sudoku\Sudoku.WPF\App.xaml
 6221992362
 
-33348925438
+35-1944165834
 198-352714763
 MainWindow.xaml;Views\DifficultyView.xaml;Views\GameEndView.xaml;Views\GameView.xaml;Views\MenuView.xaml;Views\TrainingView.xaml;
 
-False
+True
 

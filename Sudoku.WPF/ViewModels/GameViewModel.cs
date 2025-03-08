@@ -1,16 +1,19 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Media;
+using Sudoku.WPF.Commands;
 using Sudoku.WPF.Interfaces;
 using Sudoku.WPF.Models;
+using Sudoku.WPF.Models.Templates;
 using Sudoku.WPF.Services;
 using Sudoku.WPF.Services.ContentHandlers;
 using Sudoku.WPF.Views;
 
 namespace Sudoku.WPF.ViewModels
 {
-    public class GameViewModel : IContentLoad
+    public class GameViewModel : INotifyPropertyChanged, IContentLoad
     {
         private readonly int TOTAL_GAME_POINTS = 81;
         private readonly int TOTAL_INCORRECT_POINTS = 3;
@@ -18,15 +21,36 @@ namespace Sudoku.WPF.ViewModels
         private readonly int GAMETYPE_TRAINING = 1;
         private int _correct;
         private int _incorrect;
+        private int _totalCorrect;
         private int _selectedNumber;
         private int[,] _sudokuElements;
         private Router _router;
         private GameBoard _gameBoard;
-        private Dictionary<string, Action> _navigationCommands;
+        private Dictionary<string, Action> _pauseCommands;
+        public ICommand SelectNumberByKeyCommand { get; private set; }
+        public PauseTemplate Pause { get; private set; }
         public ImageSource Background { get; private set; }
-        public ButtonTemplate[] Buttons { get; private set; }
+        public ButtonTemplate[] PauseButtons { get; private set; }
         public ButtonTemplate[] PivotButtons { get; private set; }
         public ObservableCollection<ButtonTemplate[]> GameButtons { get; private set; }
+        public string CorrectCount
+        {
+            get => $"{_correct}/{_totalCorrect}";
+            set
+            {
+                _correct = int.Parse(value);
+                OnPropertyChanged(nameof(CorrectCount));
+            }
+        }
+        public string IncorrectCount
+        {
+            get => _incorrect.ToString();
+            set
+            {
+                _incorrect = int.Parse(value);
+                OnPropertyChanged(nameof(IncorrectCount));
+            }
+        }
 
         public GameViewModel(Router router, Difficulty difficulty)
         {
@@ -34,13 +58,20 @@ namespace Sudoku.WPF.ViewModels
             _gameBoard = new GameBoard(difficulty);
             _sudokuElements = _gameBoard.GetGameBoard();
             _selectedNumber = 0;
-            _correct = (int)difficulty;
+            _totalCorrect = TOTAL_GAME_POINTS - (int)difficulty;
+            IncorrectCount = TOTAL_INCORRECT_POINTS.ToString();
+            SelectNumberByKeyCommand = new RelayCommand<string>(SelectNumberByKey);
 
-            _navigationCommands = new Dictionary<string, Action>();
-            _navigationCommands.Add("Back to menu", BackToMenu);
-            _navigationCommands.Add("Switch to training", SwitchToTraining);
-
+            CommandsInit();
             LoadContent();
+        }
+
+        private void CommandsInit()
+        {
+            _pauseCommands = new Dictionary<string, Action>();
+            _pauseCommands.Add("Resume", Resume);
+            _pauseCommands.Add("Switch to training", SwitchToTraining);
+            _pauseCommands.Add("Back to menu", BackToMenu);
         }
 
         private void SelectNumber(ButtonTemplate pivotButton)
@@ -67,6 +98,11 @@ namespace Sudoku.WPF.ViewModels
             }
         }
 
+        private void SelectNumberByKey(string number)
+        {
+            SelectNumber(PivotButtons[int.Parse(number) - 1]);
+        }
+
         private void SetNumber(ButtonTemplate button)
         {
             string tag = button.Tag.ToString();
@@ -80,25 +116,30 @@ namespace Sudoku.WPF.ViewModels
             else if (_gameBoard.CheckPossibility(i, j, _selectedNumber, _sudokuElements))
             {
                 _sudokuElements[i, j] = _selectedNumber;
-                ++_correct;
+                CorrectCount = (_correct + 1).ToString();
                 button.Content = _selectedNumber.ToString();
                 button.ButtonColor = button.DefaultColor;
 
-                if (_correct == TOTAL_GAME_POINTS)
+                if (_correct == _totalCorrect)
                 {
                     EndGame(true);
                 }
             }
             else
             {
-                ++_incorrect;
+                IncorrectCount = (_incorrect - 1).ToString();
                 button.ButtonColor = new SolidColorBrush(Colors.Red);
 
-                if (_incorrect == TOTAL_INCORRECT_POINTS)
+                if (_incorrect == 0)
                 {
                     EndGame(false);
                 }
             }
+        }
+
+        private void Resume()
+        {
+            Pause.SwitchVisibility();
         }
 
         private void BackToMenu()
@@ -125,14 +166,21 @@ namespace Sudoku.WPF.ViewModels
                 _router.NavigateTo(page);
             }
         }
-
         public void LoadContent()
         {
             var contentHandler = new GameContentHandler();
             Background = contentHandler.GetBackground();
-            Buttons = contentHandler.CreateButtons(_navigationCommands);
             PivotButtons = contentHandler.CreateButtons(SelectNumber);
             GameButtons = contentHandler.CreateButtons(_sudokuElements, SetNumber);
+            Pause = contentHandler.CreatePauseTrigger();
+            PauseButtons = contentHandler.CreateButtons(_pauseCommands);
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+        
+        public void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
 }

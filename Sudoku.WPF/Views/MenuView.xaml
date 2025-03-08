@@ -29,17 +29,15 @@
             </ItemsControl.ItemsPanel>
             <ItemsControl.ItemTemplate>
                 <DataTemplate>
-                    <Button HorizontalAlignment="Center"
-                            Content="{Binding Content}" 
-                            FontSize="40"
-                            FontWeight="Bold" 
-                            BorderThickness="5"
-                            Background="{Binding ButtonColor}"
-                            BorderBrush="Black"
-                            Width="270"
-                            Height="80"
-                            Margin="10"
-                            Command="{Binding Command}"/>
+                    <Border Width="270" Height="80" Margin="10" CornerRadius="20" BorderThickness="6" BorderBrush="Black" Background="{Binding ButtonColor}">
+                        <Button Content="{Binding Content}" 
+                                FontSize="40"
+                                FontWeight="Bold"
+                                Background="Transparent"
+                                BorderThickness="0"
+                                Focusable="False"
+                                Command="{Binding Command}"/>
+                    </Border>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>

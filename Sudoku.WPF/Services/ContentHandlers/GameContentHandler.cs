@@ -3,12 +3,13 @@ using Sudoku.WPF.Models;
 using Sudoku.WPF.Commands;
 using System.Collections.ObjectModel;
 using System.Windows;
+using Sudoku.WPF.Models.Templates;
 
 namespace Sudoku.WPF.Services.ContentHandlers
 {
     public class GameContentHandler : ContentHandler
     {
-        private readonly int BUTTONS_COUNT = 2;
+        private readonly int PAUSE_BUTTONS_COUNT = 3;
         private readonly int GAMEBOARD_BUTTON_ROWS_COUNT = 9;
         private readonly int GAMEBOARD_BUTTON_COLUMNS_COUNT = 9;
         private readonly int PIVOT_BUTTONS_COUNT = 9;
@@ -16,6 +17,16 @@ namespace Sudoku.WPF.Services.ContentHandlers
         public GameContentHandler()
         {
             _theme = new Theme();
+        }
+
+        public Brush GameBoardButtonsColor()
+        {
+            return ((SolidColorBrush)_theme.ButtonsColor()).Color == Colors.Gray ? new SolidColorBrush(Colors.LightGray) : new SolidColorBrush(Colors.White);
+        }
+
+        public PauseTemplate CreatePauseTrigger()
+        {
+            return new PauseTemplate();
         }
 
         private Thickness Borders(int row, int column)
@@ -35,7 +46,7 @@ namespace Sudoku.WPF.Services.ContentHandlers
 
         public ObservableCollection<ButtonTemplate[]> CreateButtons(int[,] gameBoardElements, Action<ButtonTemplate> command)
         {
-            Brush buttonColor = _theme.ButtonsColor();
+            Brush buttonColor = GameBoardButtonsColor();
 
             var buttons = new ObservableCollection<ButtonTemplate[]>();
 
@@ -76,10 +87,12 @@ namespace Sudoku.WPF.Services.ContentHandlers
         {
             Brush buttonColor = _theme.ButtonsColor();
 
-            var buttons = new ButtonTemplate[BUTTONS_COUNT];
+            var buttons = new ButtonTemplate[PAUSE_BUTTONS_COUNT];
 
-            buttons[0] = new ButtonTemplate(buttonColor, new RelayCommand(commands.ElementAt(0).Value), false, commands.ElementAt(0).Key);
-            buttons[1] = new ButtonTemplate(buttonColor, new RelayCommand(commands.ElementAt(1).Value), false, commands.ElementAt(1).Key);
+            for (int i = 0; i < PAUSE_BUTTONS_COUNT; ++i)
+            {
+                buttons[i] = new ButtonTemplate(buttonColor, new RelayCommand(commands.ElementAt(i).Value), false, commands.ElementAt(i).Key);
+            }
 
             return buttons;
         }

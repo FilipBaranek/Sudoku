@@ -19,8 +19,8 @@
         <TextBlock Grid.Row="0"
                    HorizontalAlignment="Center"
                    VerticalAlignment="Bottom" 
-                   Text="{Binding EndGameMessage}"
-                   Foreground="{Binding MessageColor}"
+                   Text="{Binding Message.Message}"
+                   Foreground="{Binding Message.MessageColor}"
                    FontSize="140" 
                    FontWeight="ExtraBold"/>
         <Button Grid.Row="1"
@@ -33,8 +33,8 @@
                 Content="Back to menu"
                 BorderThickness="4"
                 BorderBrush="Black"
-                Background="{Binding ButtonColor}"
-                Command="{Binding ButtonCommand}"/>
+                Background="{Binding Button.ButtonColor}"
+                Command="{Binding Button.Command}"/>
 
     </Grid>
 </UserControl>
