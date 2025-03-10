@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="Current" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup />
+  <ItemGroup>
+    <ApplicationDefinition Update="App.xaml">
+      <SubType>Designer</SubType>
+    </ApplicationDefinition>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="View\DifficultyView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\GameView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\MenuView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="View\TrainingView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="MainWindow.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Resources\DarkTheme\DarkBackground.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Resources\DarkTheme\DarkDifficultyButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Resources\DarkTheme\DarkGameButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Resources\DarkTheme\DarkMenuButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Resources\DarkTheme\DarkText.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Resources\LightTheme\LightBackground.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Resources\LightTheme\LightDifficultyButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Resources\LightTheme\LightMenuButton.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Resources\LightTheme\LightText.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\DifficultyView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\GameView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\MenuView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\TrainingView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+</Project>
