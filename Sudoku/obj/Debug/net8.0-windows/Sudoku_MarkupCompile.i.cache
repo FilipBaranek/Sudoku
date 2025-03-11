@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
 C:\Users\filip\Desktop\skola\C#\bakalarka\Sudoku\Sudoku\App.xaml
-14-1010652271
+111574480700
 
-23-948862202
+27-709893866
 198-352714763
-MainWindow.xaml;Resources\DarkTheme\DarkBackground.xaml;Resources\DarkTheme\DarkDifficultyButton.xaml;Resources\DarkTheme\DarkGameButton.xaml;Resources\DarkTheme\DarkMenuButton.xaml;Resources\DarkTheme\DarkText.xaml;Resources\LightTheme\LightBackground.xaml;Resources\LightTheme\LightDifficultyButton.xaml;Resources\LightTheme\LightMenuButton.xaml;Resources\LightTheme\LightText.xaml;View\DifficultyView.xaml;View\GameView.xaml;View\MenuView.xaml;View\TrainingView.xaml;
+MainWindow.xaml;Resources\DarkTheme\DarkBackground.xaml;Resources\DarkTheme\DarkDifficulty.xaml;Resources\DarkTheme\DarkGame.xaml;Resources\DarkTheme\DarkGameEnd.xaml;Resources\DarkTheme\DarkMenu.xaml;Views\DifficultyView.xaml;Views\GameEndView.xaml;Views\GameView.xaml;Views\MenuView.xaml;Views\TrainingView.xaml;
 
-False
+True
 

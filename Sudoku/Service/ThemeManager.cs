@@ -1,11 +1,13 @@
-﻿using System.Windows;
+﻿using System.Printing;
+using System.Windows;
+using System.Windows.Media;
 using Sudoku.Service.Config;
 
 namespace Sudoku.Service
 {
     public static class ThemeManager
     {
-        public static void SetTheme(bool setText, string buttonType)
+        public static void SetTheme(string page)
         {
             var configHandler = new ConfigHandler();
             string theme = configHandler.Theme().Equals("dark") ? "Dark" : "Light";
@@ -13,11 +15,7 @@ namespace Sudoku.Service
             Application.Current.Resources.MergedDictionaries.Clear();
             
             SetBackground(theme);
-            SetButtons(theme, buttonType);
-            if (setText)
-            {
-                SetText(theme);
-            }
+            SetPageTheme(theme, page);
         }
 
         private static void SetBackground(string theme)
@@ -32,28 +30,25 @@ namespace Sudoku.Service
             Application.Current.Resources.MergedDictionaries.Add(backgroundThemeDictionary);
         }
 
-        private static void SetButtons(string theme, string buttonType)
+        private static void SetPageTheme(string theme, string page)
         {
-            string buttonThemeFile = $"Resources/{theme}Theme/{theme}{buttonType}.xaml";
+            string pageFile = $"Resources/{theme}Theme/{theme}{page}.xaml";
 
-            var buttonThemeDictionary = new ResourceDictionary
+            var pageThemeDictionary = new ResourceDictionary
             {
-                Source = new System.Uri(buttonThemeFile, System.UriKind.Relative)
+                Source = new System.Uri(pageFile, System.UriKind.Relative)
             };
 
-            Application.Current.Resources.MergedDictionaries.Add(buttonThemeDictionary);
+            Application.Current.Resources.MergedDictionaries.Add(pageThemeDictionary);
         }
 
-        private static void SetText(string theme)
+        public static Brush? GameButtonColor()
         {
-            string textThemeFile = $"Resources/{theme}Theme/{theme}Text.xaml";
-            
-            var textDictionary = new ResourceDictionary
-            {
-                Source = new System.Uri(textThemeFile, System.UriKind.Relative)
-            };
+            var darkColor = Application.Current.Resources["DarkGameButton"] as Brush;
+            var lightColor = Application.Current.Resources["LightGameButton"] as Brush;
 
-            Application.Current.Resources.MergedDictionaries.Add(textDictionary);
+            return darkColor != null ? darkColor : lightColor;
         }
+
     }
 }

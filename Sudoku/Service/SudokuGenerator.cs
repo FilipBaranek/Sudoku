@@ -1,7 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
 using Sudoku.Commands;
-using Sudoku.Model;
+using Sudoku.Models;
 
 namespace Sudoku.Service
 {
@@ -33,11 +33,26 @@ namespace Sudoku.Service
             {
                 for (int j  = 0; j < COLUMN_COUNT; ++j)
                 {
-                    sudokuGameBoard.Add(new SudokuCell(i, j, sudokuElements[i, j].ToString(), Borders(i, j), new RelayCommand<SudokuCell>(command)));
+                    string content = sudokuElements[i, j] == 0 ? "" : sudokuElements[i, j].ToString();
+
+                    sudokuGameBoard.Add(new SudokuCell(i, j, content, Borders(i, j), ThemeManager.GameButtonColor(), new RelayCommand<SudokuCell>(command)));
                 }
             }
 
             return sudokuGameBoard;
         }
+
+        public static ObservableCollection<SudokuPivot> GeneratePivotCells(Action<int> command)
+        {
+            var pivotElements = new ObservableCollection<SudokuPivot>();
+
+            for (int i = 1; i <= ROW_COUNT; ++i)
+            {
+                pivotElements.Add(new SudokuPivot(i, i.ToString(), new RelayCommand<int>(command)));
+            }
+
+            return pivotElements;
+        }
+
     }
 }

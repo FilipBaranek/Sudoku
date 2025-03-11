@@ -7,16 +7,19 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="View\DifficultyView.xaml.cs">
+    <Compile Update="Views\DifficultyView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="View\GameView.xaml.cs">
+    <Compile Update="Views\GameEndView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="View\MenuView.xaml.cs">
+    <Compile Update="Views\GameView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="View\TrainingView.xaml.cs">
+    <Compile Update="Views\MenuView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\TrainingView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
@@ -27,40 +30,31 @@
     <Page Update="Resources\DarkTheme\DarkBackground.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Resources\DarkTheme\DarkDifficultyButton.xaml">
+    <Page Update="Resources\DarkTheme\DarkDifficulty.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Resources\DarkTheme\DarkGameButton.xaml">
+    <Page Update="Resources\DarkTheme\DarkGame.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Resources\DarkTheme\DarkMenuButton.xaml">
+    <Page Update="Resources\DarkTheme\DarkGameEnd.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Resources\DarkTheme\DarkText.xaml">
+    <Page Update="Resources\DarkTheme\DarkMenu.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Resources\LightTheme\LightBackground.xaml">
+    <Page Update="Views\DifficultyView.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Resources\LightTheme\LightDifficultyButton.xaml">
+    <Page Update="Views\GameEndView.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Resources\LightTheme\LightMenuButton.xaml">
+    <Page Update="Views\GameView.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Resources\LightTheme\LightText.xaml">
+    <Page Update="Views\MenuView.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="View\DifficultyView.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="View\GameView.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="View\MenuView.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="View\TrainingView.xaml">
+    <Page Update="Views\TrainingView.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

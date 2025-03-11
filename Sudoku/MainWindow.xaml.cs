@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using Sudoku.ViewModel;
+using Sudoku.ViewModels;
 
 namespace Sudoku
 {
