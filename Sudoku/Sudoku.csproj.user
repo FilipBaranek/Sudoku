@@ -42,6 +42,9 @@
     <Page Update="Resources\DarkTheme\DarkMenu.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Resources\DarkTheme\DarkTraining.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Views\DifficultyView.xaml">
       <SubType>Designer</SubType>
     </Page>

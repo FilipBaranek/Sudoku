@@ -1,130 +1,30 @@
-﻿namespace Sudoku.Models
+﻿using System;
+using System.Windows.Documents;
+
+namespace Sudoku.Models
 {
     public class GameBoard
     {
-        private int[,] _gameBoard;
-        private int[,] _solutionGameBoard;
-        private List<int>[,] _trainingGameBoard;
+        private const int TOTAL_POINTS = 81;
+        private const int GAMEBOARD_SIZE = 9;
+        private const int SECTOR_SIZE = 3;
         private Random _random;
 
-        public GameBoard(Difficulty difficulty)
+        public GameBoard()
         {
             _random = new Random();
-            _solutionGameBoard = new int[9, 9];
-
-            GenerateSolutionGameBoard();
-            GenerateGameBoard(difficulty);
         }
 
         public int SectorIndex(int index)
         {
-            return (index / 3) * 3;
+            return index - (index % SECTOR_SIZE);
         }
 
-        public bool DeadEnd(string usedOptions)
+        private bool CheckPossibility(int row, int column, int number, int[,] sudokuElements)
         {
-            for (int i = 1; i <= 9; ++i)
+            for (int i = SectorIndex(row); i < SectorIndex(row) + SECTOR_SIZE; ++i)
             {
-                if (!usedOptions.Contains(i.ToString()))
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        public void GenerateGameBoard(Difficulty difficulty)
-        {
-            _gameBoard = (int[,])_solutionGameBoard.Clone();
-
-            int difficultyLayout = 81 - (int)difficulty;
-
-            while (difficultyLayout != 0)
-            {
-                int randRowIndex = _random.Next(0, 9);
-                int randColumnIndex = _random.Next(0, 9);
-
-                while (_gameBoard[randRowIndex, randColumnIndex] == 0)
-                {
-                    randRowIndex = _random.Next(0, 9);
-                    randColumnIndex = _random.Next(0, 9);
-                }
-
-                _gameBoard[randRowIndex, randColumnIndex] = 0;
-
-                --difficultyLayout;
-            }
-        }
-
-        public bool GenerateSolutionGameBoard()
-        {
-            for (int i = 0; i < 9; ++i)
-            {
-                for (int j = 0; j < 9; ++j)
-                {
-                    if (_solutionGameBoard[i, j] == 0)
-                    {
-                        int randNumber;
-                        string usedOptions = "";
-
-                        while (true)
-                        {
-                            randNumber = _random.Next(1, 10);
-
-                            if (CheckPossibility(i, j, randNumber, _solutionGameBoard))
-                            {
-                                _solutionGameBoard[i, j] = randNumber;
-
-                                if (GenerateSolutionGameBoard())
-                                {
-                                    return true;
-                                }
-
-                                _solutionGameBoard[i, j] = 0;
-                            }
-
-                            usedOptions += randNumber.ToString();
-                            if (DeadEnd(usedOptions))
-                            {
-                                break;
-                            }
-                        }
-                        return false;
-                    }
-                }
-            }
-            return true;
-        }
-
-        public void GenerateAvalaibleElements()
-        {
-            _trainingGameBoard = new List<int>[9, 9];
-
-            for (int i = 0; i < 9; ++i)
-            {
-                for (int j = 0; j < 9; ++j)
-                {
-                    _trainingGameBoard[i, j] = new List<int>();
-                    if (_gameBoard[i, j] == 0)
-                    {
-                        for (int k = 1; k <= 9; ++k)
-                        {
-                            if (CheckPossibility(i, j, k, _gameBoard))
-                            {
-                                _trainingGameBoard[i, j].Add(k);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        public bool CheckPossibility(int row, int column, int number, int[,] sudokuElements)
-        {
-            for (int i = SectorIndex(row); i < SectorIndex(row) + 3; ++i)
-            {
-                for (int j = SectorIndex(column); j < SectorIndex(column) + 3; ++j)
+                for (int j = SectorIndex(column); j < SectorIndex(column) + SECTOR_SIZE; ++j)
                 {
                     if (sudokuElements[i, j] == number)
                     {
@@ -133,7 +33,7 @@
                 }
             }
 
-            for (int i = 0; i < 9; ++i)
+            for (int i = 0; i < GAMEBOARD_SIZE; ++i)
             {
                 if (sudokuElements[i, column] == number || sudokuElements[row, i] == number)
                 {
@@ -144,32 +44,168 @@
             return true;
         }
 
+        private bool GenerateSolutionGameBoard(ref int[,] solutionGameBoard)
+        {
+            for (int i = 0; i < 9; ++i)
+            {
+                for (int j = 0; j < 9; ++j)
+                {
+                    if (solutionGameBoard[i, j] == 0)
+                    {
+                        HashSet<int> usedOptions = new HashSet<int>();
+                        int maxAttempts = 100;
+                        int attempts = 0;
+
+                        while (usedOptions.Count < 9 && attempts < maxAttempts)
+                        {
+                            int randNumber = _random.Next(1, 10);
+                            ++attempts;
+
+                            if (!usedOptions.Contains(randNumber))
+                            {
+                                usedOptions.Add(randNumber);
+
+                                if (CheckPossibility(i, j, randNumber, solutionGameBoard))
+                                {
+                                    solutionGameBoard[i, j] = randNumber;
+
+                                    if (GenerateSolutionGameBoard(ref solutionGameBoard))
+                                    {
+                                        return true;
+                                    }
+
+                                    solutionGameBoard[i, j] = 0;
+                                }
+                            }
+                        }
+                        return false;
+                    }
+                }
+            }
+            return true;
+        }
+
+        private void CountSolutions(int[,] gameBoard, ref int solutionCount)
+        {
+            for (int i = 0; i < 9; ++i)
+            {
+                for (int j = 0; j < 9; ++j)
+                {
+                    if (gameBoard[i, j] == 0)
+                    {
+                        for (int number = 1; number <= 9; ++number)
+                        {
+                            if (CheckPossibility(i, j, number, gameBoard))
+                            {
+                                gameBoard[i, j] = number;
+
+                                CountSolutions(gameBoard, ref solutionCount);
+
+                                if (solutionCount > 1)
+                                {
+                                    return;
+                                }
+
+                                gameBoard[i, j] = 0;
+                            }
+                        }
+                        return;
+                    }
+                }
+            }
+
+            ++solutionCount;
+        }
+
+        private bool HasSingleSolution(int[,] gameBoard)
+        {
+            int[,] gameBoardCopy = (int[,])gameBoard.Clone();
+            int solutionCount = 0;
+            
+            CountSolutions(gameBoardCopy, ref solutionCount);
+
+            return solutionCount == 1;
+        }
+
+        public void GenerateGameBoard(int[,] gameBoard, int numbersToHide)
+        {
+            for (int i = 0; i < numbersToHide; ++i)
+            {
+                int row = _random.Next(0, 9);
+                int column = _random.Next(0, 9);
+
+                while (gameBoard[row, column] == 0)
+                {
+                    row = _random.Next(0, 9);
+                    column = _random.Next(0, 9);
+                }
+
+                int hiddenValue = gameBoard[row, column];
+                gameBoard[row, column] = 0;
+
+                if (!HasSingleSolution(gameBoard))
+                {
+                    gameBoard[row, column] = hiddenValue;
+                    --i;
+                }
+            }
+        }
+
+        public int[,] SolutionGameBoard()
+        {
+            int[,] solutionGameBoard = new int[GAMEBOARD_SIZE, GAMEBOARD_SIZE];
+
+            GenerateSolutionGameBoard(ref solutionGameBoard);
+
+            return solutionGameBoard;
+        }
+
+        public int[,] SudokuGameBoard(int[,] solutionGameBoard, Difficulty difficulty)
+        {
+            int[,] gameBoard = (int[,])solutionGameBoard.Clone();
+
+            GenerateGameBoard(gameBoard, TOTAL_POINTS - (int)difficulty);
+
+            return gameBoard;
+        }
+
+        public List<int>[,] TrainingGameBoard(int[,] gameBoard)
+        {
+            var trainingElements = new List<int>[9, 9];
+
+            for (int i = 0; i < 9; ++i)
+            {
+                for (int j = 0; j < 9; ++j)
+                {
+                    trainingElements[i, j] = new List<int>();
+                    if (gameBoard[i, j] == 0)
+                    {
+                        for (int k = 1; k <= 9; ++k)
+                        {
+                            if (CheckPossibility(i, j, k, gameBoard))
+                            {
+                                trainingElements[i, j].Add(k);
+                            }
+                        }
+                    }
+                }
+            }
+
+            return trainingElements;
+        }
+
         public int InitialTime(Difficulty difficulty)
         {
             switch (difficulty)
             {
                 case Difficulty.Easy:
-                    return 220;
+                    return 300;
                 case Difficulty.Medium:
-                    return 160;
+                    return 280;
                 default:
-                    return 100;
+                    return 270;
             }
         }
 
-        public int[,] Solution()
-        {
-            return _solutionGameBoard;
-        }
-
-        public int[,] GetGameBoard()
-        {
-            return _gameBoard;
-        }
-
-        public List<int>[,] GetTrainingGameBoard()
-        {
-            return _trainingGameBoard;
-        }
     }
 }

@@ -42,6 +42,25 @@ namespace Sudoku.Service
             return sudokuGameBoard;
         }
 
+        public static ObservableCollection<SudokuTrainingCell> GenerateTrainingCells(Action<SudokuTrainingCell> command, Action<SudokuTrainingCell> rightClickCommand, int[,] trainingElements)
+        {
+            var trainingGameBoard = new ObservableCollection<SudokuTrainingCell>();
+
+            for (int i = 0; i < ROW_COUNT; ++i)
+            {
+                for (int j = 0; j < COLUMN_COUNT; ++j)
+                {
+                    string content = trainingElements[i, j] == 0 ? "" : trainingElements[i, j].ToString();
+
+                    trainingGameBoard.Add(new SudokuTrainingCell(i, j, content, Borders(i, j), ThemeManager.GameButtonColor(),
+                                                                ThemeManager.GameButtonTextColor(), new RelayCommand<SudokuTrainingCell>(command),
+                                                                new RelayCommand<SudokuTrainingCell>(rightClickCommand)));
+                }
+            }
+
+            return trainingGameBoard;
+        }
+
         public static ObservableCollection<SudokuPivot> GeneratePivotCells(Action<int> command)
         {
             var pivotElements = new ObservableCollection<SudokuPivot>();

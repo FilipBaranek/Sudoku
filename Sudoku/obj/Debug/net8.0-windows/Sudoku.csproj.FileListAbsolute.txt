@@ -33,3 +33,4 @@ C:\Users\filip\Desktop\skola\C#\bakalarka\Sudoku\Sudoku\obj\Debug\net8.0-windows
 C:\Users\filip\Desktop\skola\C#\bakalarka\Sudoku\Sudoku\obj\Debug\net8.0-windows\Views\GameEndView.g.cs
 C:\Users\filip\Desktop\skola\C#\bakalarka\Sudoku\Sudoku\obj\Debug\net8.0-windows\Views\GameEndView.baml
 C:\Users\filip\Desktop\skola\C#\bakalarka\Sudoku\Sudoku\obj\Debug\net8.0-windows\Resources\DarkTheme\DarkGameEnd.baml
+C:\Users\filip\Desktop\skola\C#\bakalarka\Sudoku\Sudoku\obj\Debug\net8.0-windows\Resources\DarkTheme\DarkTraining.baml
