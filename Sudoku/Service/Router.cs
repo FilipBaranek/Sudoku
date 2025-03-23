@@ -1,6 +1,5 @@
 ﻿using System.ComponentModel;
 using System.Windows.Controls;
-using Sudoku.Views;
 
 namespace Sudoku.Service
 {
@@ -12,7 +11,6 @@ namespace Sudoku.Service
             get => _currentView;
             set
             {
-                //Skontrolovat memory leaky možno to nebude treba
                 if (_currentView is IDisposable disposable)
                 {
                     disposable.Dispose();

@@ -8,7 +8,9 @@
         {
             _execute = execute ?? throw new ArgumentNullException(nameof(execute));
         }
+
         public override void Execute(object? parameter) => _execute();
+
     }
 
     public class RelayCommand<T> : RelayCommandBase

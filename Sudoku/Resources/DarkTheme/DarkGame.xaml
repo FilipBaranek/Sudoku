@@ -82,17 +82,17 @@
         <Setter Property="FontWeight" Value="Bold"/>
         <Setter Property="BorderBrush" Value="Turquoise"/>
         <Setter Property="BorderThickness" Value="3"/>
-        <Setter Property="Width" Value="250"/>
-        <Setter Property="Height" Value="80"/>
+        <Setter Property="Width" Value="280"/>
+        <Setter Property="Height" Value="85"/>
         <Setter Property="Margin" Value="10"/>
         <Setter Property="Cursor" Value="Hand"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">
                     <Border Background="{TemplateBinding Background}"
-                BorderBrush="{TemplateBinding BorderBrush}"
-                BorderThickness="{TemplateBinding BorderThickness}"
-                CornerRadius="15">
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="15">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
                 </ControlTemplate>

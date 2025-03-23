@@ -8,7 +8,7 @@
              d:DesignHeight="1080" d:DesignWidth="1920">
 
     <UserControl.InputBindings>
-        <KeyBinding Key="Esc" Command="{Binding PauseTrigger}"/>
+        <KeyBinding Key="Esc" Command="{Binding PauseManager.PauseTrigger}"/>
     </UserControl.InputBindings>
 
     <Grid Background="{DynamicResource Background}">
@@ -124,7 +124,7 @@
         <Grid Grid.RowSpan="4" 
               Grid.ColumnSpan="2"
               Background="#CC000000" 
-              Visibility="{Binding PauseManager.Pause}">
+              Visibility="{Binding PauseManager.Visible}">
             <StackPanel HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Orientation="Vertical">
@@ -132,13 +132,13 @@
                            Text="MENU"/>
                 <Button Style="{DynamicResource PauseButton}"
                         Content="Resume"
-                        Command="{Binding PauseTrigger}"/>
+                        Command="{Binding PauseManager.PauseTrigger}"/>
                 <Button Style="{DynamicResource PauseButton}"
                         Content="Rules"
-                        Command="{Binding Rules}"/>
+                        Command="{Binding PauseManager.Rules}"/>
                 <Button Style="{DynamicResource PauseButton}"
                         Content="Back to menu"
-                        Command="{Binding BackToMenu}"/>
+                        Command="{Binding PauseManager.BackToMenu}"/>
             </StackPanel>
         </Grid>
 

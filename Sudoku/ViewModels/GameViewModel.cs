@@ -1,37 +1,22 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Threading;
 using Sudoku.Commands;
 using Sudoku.Models;
+using Sudoku.Models.Game;
+using Sudoku.Models.GameElements;
+using Sudoku.Models.Pause;
 using Sudoku.Service;
 using Sudoku.Views;
 
 namespace Sudoku.ViewModels
 {
-    public class GameViewModel : INotifyPropertyChanged
+    public class GameViewModel : INotifyPropertyChanged, IDisposable
     {
+        private const int INITIAL_TIME = 300;
         private readonly Router _router;
-        private const int TOTAL_CORRECT = 81;
-        private const int TOTAL_INCORRECT = 3;
-        private int _correct;
-        private int _selectedNumber;
-        private int[,] _solutionGameBoard;
-        private int[,] _sudokuGameBoard;
-        private GameBoard _gameBoard;
         private DispatcherTimer _timer;
-
-        private int _incorrect;
-        public int Incorrect
-        {
-            get => _incorrect;
-            set
-            {
-                _incorrect = value;
-                OnPropertyChanged(nameof(Incorrect));
-            }
-        }
 
         private int _timeLeft;
         public int TimeLeft
@@ -44,79 +29,45 @@ namespace Sudoku.ViewModels
             }
         }
 
+        private RegularGame _game;
+        public Game Game
+        {
+            get => _game;
+        }
+
         public ICommand PauseTrigger { get; private set; }
-        public ICommand BackToMenu { get; private set; }
-        public ICommand Rules { get; private set; }
-        public PauseManager PauseManager { get; private set; }
+        public Pause PauseManager { get; private set; }
         public ObservableCollection<SudokuCell> GameCells { get; private set; }
         public ObservableCollection<SudokuPivot> PivotElements { get; private set; }
 
         public GameViewModel(Router router, Difficulty difficulty)
         {
             _router = router;
-            _gameBoard = new GameBoard();
-            _solutionGameBoard = _gameBoard.SolutionGameBoard();
-            _sudokuGameBoard = _gameBoard.SudokuGameBoard(_solutionGameBoard, difficulty);
-            _correct = (int)difficulty;
-            Incorrect = TOTAL_INCORRECT;
+            _game = new RegularGame(difficulty);
+            _timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(1)
+            };
+            TimerInit();
 
-            TimerInit(_gameBoard.InitialTime(difficulty));
-            this.PauseManager = new PauseManager(router, _timer);
+            PauseManager = new GamePause(router, _timer);
+            GameCells = SudokuGenerator.GenerateCells(PlaceNumber, _game.SudokuGameBoard);
+            PivotElements = SudokuGenerator.GeneratePivotCells(_game.SelectNumber);
 
-            PauseTrigger = new RelayCommand(this.PauseManager.PauseToggle);
-            BackToMenu = new RelayCommand(this.PauseManager.RedirectToMenu);
-            Rules = new RelayCommand(this.PauseManager.RedirectToRules);
-
-            GenerateSudoku();
+            PauseTrigger = new RelayCommand(PauseManager.PauseToggle);
         }
 
-        private bool IsCorrectMove(int row, int column)
+        private void PlaceNumber(SudokuCell cell)
         {
-            return _solutionGameBoard[row, column] == _selectedNumber;
-        }
+            _game.PlaceNumber(cell);
 
-        private async void PlaceNumber(SudokuCell cell)
-        {
-            if (_selectedNumber == 0 || _sudokuGameBoard[cell.Row, cell.Column] != 0)
+            if (_game.Win)
             {
-                return;
+                GameEnd(true);
             }
-            else if (IsCorrectMove(cell.Row, cell.Column))
+            else if (_game.Lose)
             {
-                _sudokuGameBoard[cell.Row, cell.Column] = _selectedNumber;
-                ++_correct;
-
-                cell.Content = _selectedNumber.ToString();
-                cell.Background = cell.DefaultBackground;
-
-                if (_correct == TOTAL_CORRECT)
-                {
-                    _timer.Stop();
-                    GameEnd(true);
-                }
-            }
-            else
-            {
-                --Incorrect;
-                cell.Background = new SolidColorBrush(Colors.Red);
-
-                if (_incorrect == -1)
-                {
-                    _timer.Stop();
-                    GameEnd(false);
-                }
-
-                await Task.Delay(2000);
-
-                cell.Background = cell.DefaultBackground;
-            }
-        }
-
-        private void SelectNumber(int pivot)
-        {
-            if (_selectedNumber != pivot)
-            {
-                _selectedNumber = pivot;
+                GameEnd(false);
             }
         }
 
@@ -125,32 +76,22 @@ namespace Sudoku.ViewModels
             _router.RedirectTo(new GameEndView(_router, win));
         }
 
-        private void GenerateSudoku()
+        private void TimerInit()
         {
-            GameCells = SudokuGenerator.GenerateCells(PlaceNumber, _sudokuGameBoard);
-            PivotElements = SudokuGenerator.GeneratePivotCells(SelectNumber);
-        }
-
-        private void TimerInit(int initialTime)
-        {
-            TimeLeft = initialTime;
-
-            _timer = new DispatcherTimer
-            {
-                Interval = TimeSpan.FromSeconds(1)
-            };
+            TimeLeft = INITIAL_TIME;
 
             _timer.Tick += TimerTick;
             _timer.Start();
         }
 
-        private void TimerTick(object sender, EventArgs e)
+        private void TimerTick(object? sender, EventArgs e)
         {
             --TimeLeft;
 
             if (TimeLeft <= 0)
             {
                 _timer.Stop();
+
                 GameEnd(false);
             }
         }
@@ -162,5 +103,10 @@ namespace Sudoku.ViewModels
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
+        public void Dispose()
+        {
+            _timer.Stop();
+            _timer.Tick -= TimerTick;
+        }
     }
 }

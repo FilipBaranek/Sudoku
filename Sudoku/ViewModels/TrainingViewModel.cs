@@ -1,24 +1,18 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Windows.Input;
 using System.Windows.Media;
-using Sudoku.Commands;
 using Sudoku.Models;
+using Sudoku.Models.Game;
+using Sudoku.Models.GameElements;
+using Sudoku.Models.Pause;
 using Sudoku.Service;
 using Sudoku.Views;
 
 namespace Sudoku.ViewModels
 {
-    public class TrainingViewModel : INotifyPropertyChanged
+    public class TrainingViewModel
     {
         private readonly Router _router;
-        private const int TOTAL_CORRECT = 81;
-        private int _selectedNumber;
-        private int _correct;
-        private int[,] _solutionGameBoard;
-        private int[,] _sudokuGameBoard;
-        private List<int>[,] _trainingElements;
-        private GameBoard _gameBoard;
 
         private bool _toggleCandidates;
         public bool ToggleCandidates
@@ -28,14 +22,14 @@ namespace Sudoku.ViewModels
             {
                 _toggleCandidates = value;
                 OnPropertyChanged(nameof(ToggleCandidates));
-
+                
                 if (ToggleCandidates)
                 {
-                    UpdateCandidates();
+                    DrawAllCandidates();
                 }
                 else
                 {
-                    DisableAvailableElements();
+                    RemoveAllCandidates();
                 }
             }
         }
@@ -48,132 +42,81 @@ namespace Sudoku.ViewModels
             {
                 _toggleMarkNumbers = value;
                 OnPropertyChanged(nameof(ToggleMarkNumbers));
-
+                
                 if (ToggleMarkNumbers)
                 {
-                    MarkSelectedNumber();
+                    UpdateMarkedNumbers();
                 }
                 else
                 {
-                    UnMarkSelectedNumber();
+                    RemoveMarkedNumbers();
                 }
             }
+        }
+
+        private Training _game;
+        public Game Game
+        {
+            get => _game;
         }
 
         public ObservableCollection<SudokuTrainingCell> GameCells { get; private set; }
         public ObservableCollection<SudokuPivot> PivotElements { get; private set; }
-        public PauseManager PauseManager { get; private set; }
-        public ICommand PauseTrigger { get; private set; }
-        public ICommand Rules {  get; private set; }
-        public ICommand BackToMenu { get; private set; }
+        public Pause PauseManager { get; private set; }
 
         public TrainingViewModel(Router router, Difficulty difficulty)
         {
             _router = router;
-            _correct = (int)difficulty;
-            _gameBoard = new GameBoard();
-            _solutionGameBoard = _gameBoard.SolutionGameBoard();
-            _sudokuGameBoard = _gameBoard.SudokuGameBoard(_solutionGameBoard, difficulty);
-            _trainingElements = _gameBoard.TrainingGameBoard(_sudokuGameBoard);
-            this.PauseManager = new PauseManager(router);
-
-            PauseTrigger = new RelayCommand(this.PauseManager.PauseToggle);
-            Rules = new RelayCommand(this.PauseManager.RedirectToRules);
-            BackToMenu = new RelayCommand(this.PauseManager.RedirectToMenu);
-
-            GenerateSudoku();
-        }
-
-        private bool IsCorrectMove(int row, int column)
-        {
-            return _solutionGameBoard[row, column] == _selectedNumber;
-        }
-
-        private async void PlaceNumber(SudokuTrainingCell cell)
-        {
-            if (_selectedNumber == 0 || _sudokuGameBoard[cell.Row, cell.Column] != 0)
-            {
-                return;
-            }
-            else if (IsCorrectMove(cell.Row, cell.Column))
-            {
-                _sudokuGameBoard[cell.Row, cell.Column] = _selectedNumber;
-                ++_correct;
-
-                UpdateAvailableElements(cell);
-                if (ToggleCandidates)
-                {
-                    UpdateCandidates();
-                }
-                if (ToggleMarkNumbers)
-                {
-                    MarkSelectedNumber();
-                }
-
-                cell.Content = _selectedNumber.ToString();
-                cell.Background = cell.DefaultBackground;
-                cell.SetDefaultFontSize();
-                cell.SetDefaultForeground();
-                cell.SetDefaultAlignment();
-
-                
-                if (_correct == TOTAL_CORRECT)
-                {
-                    GameEnd();
-                }
-            }
-            else
-            {
-                cell.Background = new SolidColorBrush(Colors.Red);
-
-                await Task.Delay(2000);
-
-                cell.Background = cell.DefaultBackground;
-            }
+            _game = new Training(difficulty);
+                       
+            PauseManager = new TrainingPause(router);
+            GameCells = SudokuGenerator.GenerateTrainingCells(PlaceNumber, HandleCandidate, _game.SudokuGameBoard);
+            PivotElements = SudokuGenerator.GeneratePivotCells(SelectNumber);
         }
 
         private void SelectNumber(int pivot)
         {
-            if (_selectedNumber != pivot)
-            {
-                _selectedNumber = pivot;
+            _game.SelectNumber(pivot);
 
-                if (ToggleMarkNumbers)
-                {
-                    MarkSelectedNumber();
-                }
+            if (ToggleMarkNumbers)
+            {
+                UpdateMarkedNumbers();
             }
         }
 
-        private void GameEnd()
+        private void PlaceNumber(SudokuTrainingCell cell)
         {
-            _router.RedirectTo(new GameEndView(_router, true));
-        }
+            _game.PlaceNumber(cell);
 
-        private void HandleCandidate(SudokuTrainingCell cell)
-        {
-            if (_selectedNumber != 0)
+            if (_game.IsUpdateNeeded())
             {
-                if (_trainingElements[cell.Row, cell.Column].Contains(_selectedNumber))
-                {
-                    _trainingElements[cell.Row, cell.Column].Remove(_selectedNumber);
+                UpdateCandidates(cell);
+            }
 
-                    UpdateCandidates();     //PREROBIT
-                }
-                else
-                {
-                    _trainingElements[cell.Row, cell.Column].Add(_selectedNumber);
-
-                    UpdateCandidates();     //PREROBIT
-                }
+            if (_game.Win)
+            {
+                GameEnd();
             }
         }
 
-        private void MarkSelectedNumber()
+        private void HandleCandidate(SudokuTrainingCell trainingCell)
+        {
+            if (_game.HandleCandidate(trainingCell.Row, trainingCell.Column))
+            {
+                ShowAllAvailableCandidates(trainingCell);
+            }
+            else
+            {
+                DrawCandidateCell(trainingCell);
+                ShowAllAvailableCandidates(trainingCell);
+            }
+        }
+
+        private void UpdateMarkedNumbers()
         {
             foreach (var cell in GameCells)
             {
-                if (_selectedNumber != 0 && _sudokuGameBoard[cell.Row, cell.Column] == _selectedNumber)
+                if (_game.IsMarkedNumber(cell.Row, cell.Column))
                 {
                     cell.Background = new SolidColorBrush(Colors.Green);
                 }
@@ -184,7 +127,7 @@ namespace Sudoku.ViewModels
             }
         }
 
-        private void UnMarkSelectedNumber()
+        private void RemoveMarkedNumbers()
         {
             foreach (var cell in GameCells)
             {
@@ -192,73 +135,70 @@ namespace Sudoku.ViewModels
             }
         }
 
-        private void UpdateSectorCandidates(int row, int column)
+        private void UpdateCandidates(SudokuTrainingCell cell)
         {
-            for (int i = row; i < row + 3; ++i)
+            _game.UpdateSectorCandidates(cell.Row, cell.Column);
+            _game.UpdateRowAndColumn(cell.Row, cell.Column);
+
+            DrawAllCandidates();
+        }
+
+        private void ShowAllAvailableCandidates(SudokuTrainingCell cell)
+        {
+            cell.Content = "";
+
+            var candidates = _game.Candidates(cell.Row, cell.Column);
+
+            if (candidates != null)
             {
-                for (int j = column; j < column + 3; ++j)
+                foreach (int candidate in candidates)
                 {
-                    if (_trainingElements[i, j].Contains(_selectedNumber))
-                    {
-                        _trainingElements[i, j].Remove(_selectedNumber);
-                    }
+                    cell.Content += $"{candidate} ";
                 }
             }
         }
 
-        private void UpdateAvailableElements(SudokuTrainingCell cell)
+        private void DrawCandidateCell(SudokuTrainingCell cell)
         {
-            UpdateSectorCandidates(_gameBoard.SectorIndex(cell.Row), _gameBoard.SectorIndex(cell.Column));
-
-            for (int i = 0; i < 9; ++i)
-            {
-                if (_trainingElements[cell.Row, i].Contains(_selectedNumber))
-                {
-                    _trainingElements[cell.Row, i].Remove(_selectedNumber);
-                }
-
-                if (_trainingElements[i, cell.Column].Contains(_selectedNumber))
-                {
-                    _trainingElements[i, cell.Column].Remove(_selectedNumber);
-                }
-            }
+            cell.SetHintFontSize();
+            cell.SetHintForeground();
+            cell.SetHintAlignment();
         }
 
-        private void UpdateCandidates()
+        private void DrawAllCandidates()
         {
             foreach (SudokuTrainingCell cell in GameCells)
             {
-                if (_sudokuGameBoard[cell.Row, cell.Column] == 0)
+                if (_game.IsCandidateCell(cell.Row, cell.Column))
                 {
-                    cell.Content = "";
-
-                    foreach (int availableNumber in _trainingElements[cell.Row, cell.Column])
-                    {
-                        cell.Content += $"{availableNumber} ";
-                    }
-
-                    cell.SetHintFontSize();
-                    cell.SetHintForeground();
-                    cell.SetHintAlignment();
+                    DrawCandidateCell(cell);
+                    ShowAllAvailableCandidates(cell);
                 }
             }
         }
 
-        private void DisableAvailableElements()
+        private void RemoveCandidateCell(SudokuTrainingCell cell)
+        {
+            cell.SetDefaultAlignment();
+            cell.SetDefaultFontSize();
+            cell.SetDefaultForeground();
+            cell.Content = "";
+        }
+
+        private void RemoveAllCandidates()
         {
             foreach (SudokuTrainingCell cell in GameCells)
             {
-                if (_sudokuGameBoard[cell.Row, cell.Column] == 0)
+                if (_game.IsCandidateCell(cell.Row, cell.Column))
                 {
-                    cell.Content = "";
+                    RemoveCandidateCell(cell);
                 }
             }
         }
 
-        private void GenerateSudoku()
+        private void GameEnd()
         {
-            GameCells = SudokuGenerator.GenerateTrainingCells(PlaceNumber, HandleCandidate, _sudokuGameBoard);
-            PivotElements = SudokuGenerator.GeneratePivotCells(SelectNumber);
+            _router.RedirectTo(new GameEndView(_router, true));
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
@@ -267,6 +207,6 @@ namespace Sudoku.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
-
+        
     }
 }
