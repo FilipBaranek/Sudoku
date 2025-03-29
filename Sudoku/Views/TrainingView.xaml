@@ -12,12 +12,6 @@
     </UserControl.InputBindings>
 
     <Grid Background="{DynamicResource Background}">
-
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="*"/>
-        </Grid.ColumnDefinitions>
-
         <Grid.RowDefinitions>
             <RowDefinition Height="0.5*"/>
             <RowDefinition Height="2*"/>
@@ -25,7 +19,7 @@
             <RowDefinition Height="0.3*"/>
         </Grid.RowDefinitions>
 
-        <Image Grid.Row="0" Grid.ColumnSpan="2" Source="/Images/logo.png"/>
+        <Image Grid.Row="0" Source="/Images/logo.png"/>
 
         <ItemsControl Grid.Row="1"
                       VerticalAlignment="Center"
@@ -79,52 +73,21 @@
             </ItemsControl.ItemTemplate>
         </ItemsControl>
 
-        <StackPanel Grid.Row="1"
-                    Grid.Column="1"
+        <StackPanel Grid.Row="3"
                     HorizontalAlignment="Center"
-                    VerticalAlignment="Top"
-                    Orientation="Vertical">
-            
-            <Border Style="{DynamicResource HintMessageBorder}">
-                <TextBlock Style="{DynamicResource HintMessage}"
-                           Text="Only number X could be placed at this position"/>
-            </Border>
+                    Orientation="Horizontal">
 
-            <StackPanel Orientation="Horizontal"
-                        Margin="210, 20">
-                <StackPanel Orientation="Vertical">
-                    <CheckBox Style="{DynamicResource CheckBox}" 
-                              Content="Automatic candidates"
-                              IsChecked="{Binding ToggleCandidates, Mode=TwoWay}"/>
-                    <CheckBox Style="{DynamicResource CheckBox}"
-                              Content="Mark selected numbers"
-                              IsChecked="{Binding ToggleMarkNumbers, Mode=TwoWay}"/>
-                    <CheckBox Style="{DynamicResource CheckBox}"
-                              IsEnabled="False"
-                              Content="Automatic hints"/>
-                </StackPanel>
-
-                <ComboBox Style="{DynamicResource Algorithms}">
-                    <ComboBoxItem Content="Choose hint type.."
-                                  IsSelected="True"
-                                  IsEnabled="False"/>
-                    <ComboBoxItem Content="Optimal"/>
-                    <ComboBoxItem Content="Naked / hidden pairs"/>
-                    <ComboBoxItem Content="Wings"/>
-                </ComboBox>
-            </StackPanel>
+            <Button Style="{DynamicResource HintButton}" 
+                    Content="Hint"/>
+            <Button Style="{DynamicResource HintButton}" 
+                    Content="Show"/>
 
         </StackPanel>
 
-        <Button Grid.Row="2"
-                Grid.Column="1"
-                Style="{DynamicResource Hint}"
-                Content="Hint"/>
-
-        <Grid Grid.RowSpan="4" 
-              Grid.ColumnSpan="2"
+        <Grid Grid.RowSpan="4"
               Background="#CC000000" 
               Visibility="{Binding PauseManager.Visible}">
+            
             <StackPanel HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Orientation="Vertical">
@@ -137,9 +100,57 @@
                         Content="Rules"
                         Command="{Binding PauseManager.Rules}"/>
                 <Button Style="{DynamicResource PauseButton}"
+                        Content="Hint options"
+                        Command="{Binding PauseManager.HintOptions}"/>
+                <Button Style="{DynamicResource PauseButton}"
                         Content="Back to menu"
                         Command="{Binding PauseManager.BackToMenu}"/>
             </StackPanel>
+
+            <Grid Grid.RowSpan="4"
+                  Background="#E6000000" 
+                  Visibility="{Binding PauseManager.HintsVisible}">
+
+                <Image Style="{DynamicResource HintMenuLogo}" 
+                       Source="/Images/logo.png"/>
+                
+                <StackPanel HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Orientation="Vertical">
+
+                    <StackPanel HorizontalAlignment="Center">
+                        
+                        <CheckBox Style="{DynamicResource CheckBox}" 
+                                  Content="Automatic candidates"
+                                  IsChecked="{Binding ToggleCandidates, Mode=TwoWay}"/>
+                        <CheckBox Style="{DynamicResource CheckBox}"
+                                  Content="Mark selected numbers"
+                                  IsChecked="{Binding ToggleMarkNumbers, Mode=TwoWay}"/>
+                        <CheckBox Style="{DynamicResource CheckBox}"
+                                  IsEnabled="False"
+                                  Content="Automatic hints"/>
+
+                    </StackPanel>
+
+                    <ComboBox Style="{DynamicResource Algorithms}">
+                        <ComboBoxItem Content="Choose hint type.."
+                                      IsSelected="True"
+                                      IsEnabled="False"/>
+                        <ComboBoxItem Content="Optimal"/>
+                        <ComboBoxItem Content="Naked / hidden pairs"/>
+                        <ComboBoxItem Content="Wings"/>
+                    </ComboBox>
+
+                </StackPanel>
+
+                <Button Style="{DynamicResource PauseButton}"
+                        VerticalAlignment="Bottom"
+                        Margin="100"
+                        Content="Back"
+                        Command="{Binding PauseManager.HintOptions}"/>
+
+            </Grid>
+
         </Grid>
 
     </Grid>

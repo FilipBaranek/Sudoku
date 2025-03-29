@@ -5,43 +5,103 @@
         <ResourceDictionary Source="DarkGame.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
-    <Style x:Key="HintMessageBorder" TargetType="Border">
-        <Setter Property="Background" Value="#111"/>
-        <Setter Property="BorderBrush" Value="#444"/>
-        <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="Width" Value="600"/>
-        <Setter Property="Height" Value="250"/>
-        <Setter Property="Margin" Value="10"/>
+
+    <Style x:Key="HintMenuLogo" TargetType="Image">
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="Margin" Value="30"/>
+        <Setter Property="Width" Value="200"/>
+        <Setter Property="Height" Value="200"/>
     </Style>
 
-    <Style x:Key="HintMessage" TargetType="TextBlock">
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="HorizontalAlignment" Value="Center"/>
+    <Style x:Key="HintButton" TargetType="Button">
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="Background" Value="#111"/>
         <Setter Property="Foreground" Value="#DCDCAA"/>
-        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="Width" Value="150"/>
+        <Setter Property="Height" Value="50"/>
         <Setter Property="FontWeight" Value="Bold"/>
-        <Setter Property="TextWrapping" Value="Wrap"/>
+        <Setter Property="FontSize" Value="30"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="BorderElement"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="10">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="BorderElement" Property="Background" Value="Yellow"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="BorderElement" Property="Background" Value="#111"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <Style x:Key="CheckBox" TargetType="CheckBox">
-        <Setter Property="Margin" Value="0, 10"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="FontSize" Value="35"/>
         <Setter Property="FontWeight" Value="Bold"/>
         <Setter Property="Foreground" Value="#DCDCAA"/>
+        <Setter Property="Padding" Value="15"/>
+        <Setter Property="Background" Value="#111"/>
+        <Setter Property="BorderBrush" Value="#333"/>
+        <Setter Property="BorderThickness" Value="2"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="CheckBox">
+                    <Border x:Name="border"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="8">
+                        <Grid Margin="5">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Viewbox Grid.Column="0" Width="30" Height="30" Margin="0,0,10,0">
+                                <Path x:Name="checkPath"
+                                  Data="M0,5 L5,10 L15,0"
+                                  Stroke="#80DCDCAA"
+                                  StrokeThickness="3"
+                                  StrokeLineJoin="Round"
+                                  Stretch="Uniform"/>
+                            </Viewbox>
+                            <ContentPresenter Grid.Column="1"
+                                          VerticalAlignment="Center"
+                                          TextElement.Foreground="{TemplateBinding Foreground}"/>
+                        </Grid>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsChecked" Value="True">
+                            <Setter TargetName="border" Property="Background" Value="#FF4CAF50"/>
+                            <Setter TargetName="checkPath" Property="Stroke" Value="#DCDCAA"/>
+                        </Trigger>
+                        <Trigger Property="IsChecked" Value="False">
+                            <Setter TargetName="border" Property="Background" Value="#111"/>
+                            <Setter TargetName="checkPath" Property="Stroke" Value="#80DCDCAA"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
     <Style x:Key="Algorithms" TargetType="ComboBox">
-        <Setter Property="Margin" Value="40, 0"/>
-        <Setter Property="VerticalAlignment" Value="Top"/>
-        <Setter Property="HorizontalAlignment" Value="Right"/>
-        <Setter Property="Width" Value="220"/>
-        <Setter Property="Height" Value="40"/>
-        <Setter Property="FontSize" Value="20"/>
+        <Setter Property="Margin" Value="20"/>
+        <Setter Property="Width" Value="450"/>
+        <Setter Property="Height" Value="70"/>
+        <Setter Property="FontSize" Value="40"/>
         <Setter Property="FontWeight" Value="Bold"/>
         <Setter Property="Foreground" Value="#DCDCAA"/>
         <Setter Property="Background" Value="#111"/>
-        <Setter Property="BorderBrush" Value="#444"/>
+        <Setter Property="BorderBrush" Value="#333"/>
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="Template">
             <Setter.Value>

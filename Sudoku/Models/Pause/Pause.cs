@@ -9,15 +9,15 @@ namespace Sudoku.Models.Pause
 {
     public abstract class Pause : INotifyPropertyChanged
     {
-        private readonly Router _router;
+        protected readonly Router _router;
 
-        private Visibility _pause;
+        private Visibility _visible;
         public Visibility Visible
         {
-            get => _pause;
+            get => _visible;
             set
             {
-                _pause = value;
+                _visible = value;
                 OnPropertyChanged(nameof(Visible));
             }
         }

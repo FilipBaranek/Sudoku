@@ -1,22 +1,45 @@
 ﻿using System.Windows;
+using System.Windows.Input;
+using Sudoku.Commands;
 using Sudoku.Service;
 
 namespace Sudoku.Models.Pause
 {
     public class TrainingPause : Pause
     {
-        public TrainingPause(Router router) : base(router) { }
+        private Visibility _hintsVisible;
+        public Visibility HintsVisible
+        {
+            get => _hintsVisible;
+            set
+            {
+                _hintsVisible = value;
+                OnPropertyChanged(nameof(HintsVisible));
+            }
+        }
+
+        public ICommand HintOptions { get; private set; }
+
+        public TrainingPause(Router router) : base(router)
+        {
+            HintsVisible = Visibility.Hidden;
+
+            HintOptions = new RelayCommand(RedirectToHintOptions);
+        }
+
+        private Visibility ToggleVisibility(Visibility menuVisibility)
+        {
+            return menuVisibility == Visibility.Visible ? Visibility.Hidden : Visibility.Visible;
+        }
+
+        private void RedirectToHintOptions()
+        {
+            HintsVisible = ToggleVisibility(HintsVisible);
+        }
 
         public override void PauseToggle()
         {
-            if (Visible == Visibility.Visible)
-            {
-                Visible = Visibility.Hidden;
-            }
-            else if (Visible == Visibility.Hidden)
-            {
-                Visible = Visibility.Visible;
-            }
+            Visible = ToggleVisibility(Visible);
         }
     }
 }
