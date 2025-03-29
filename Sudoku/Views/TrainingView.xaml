@@ -5,8 +5,153 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:Sudoku.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <Grid>
+             d:DesignHeight="1080" d:DesignWidth="1920">
+
+    <UserControl.InputBindings>
+        <KeyBinding Key="Esc" Command="{Binding PauseManager.PauseTrigger}"/>
+        <KeyBinding Key="H" Command="{Binding HintManager.HintTrigger}"/>
+    </UserControl.InputBindings>
+
+    <Grid Background="{DynamicResource Background}">
+        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0.5*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="0.3*"/>
+            <RowDefinition Height="0.3*"/>
+        </Grid.RowDefinitions>
+
+        <Image Grid.Row="0" Source="/Images/logo.png"/>
+
+        <ItemsControl Grid.Row="1"
+                      VerticalAlignment="Center"
+                      HorizontalAlignment="Center"
+                      ItemsSource="{Binding GameCells}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Rows="9" Columns="9"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Button Style="{DynamicResource GameButton}"
+                            Command="{Binding Command}"
+                            CommandParameter="{Binding Parameter}"
+                            Background="{Binding Background}"
+                            BorderThickness="{Binding BorderThickness}"
+                            Content="{Binding Content}"
+                            FontSize="{Binding FontSize}"
+                            Foreground="{Binding Foreground}"
+                            VerticalContentAlignment="{Binding Alignment}">
+                        <Button.InputBindings>
+                            <MouseBinding Gesture="RightClick" 
+                                          Command="{Binding RightClickCommand}" 
+                                          CommandParameter="{Binding RightClickParameter}"/>
+                        </Button.InputBindings>
+                    </Button>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <ItemsControl Grid.Row="2"
+                      VerticalAlignment="Center"
+                      HorizontalAlignment="Center"
+                      ItemsSource="{Binding PivotElements}">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <RadioButton Style="{DynamicResource PivotButton}"
+                                 GroupName="PivotGroup"
+                                 Command="{Binding Command}"
+                                 CommandParameter="{Binding Value}"
+                                 Content="{Binding Content}"/>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
+
+        <Button Grid.Row="3"
+                HorizontalAlignment="Center"
+                Style="{DynamicResource HintButton}" 
+                Content="Hint"
+                Command="{Binding HintManager.HintTrigger}"/>
+
+        <Border Grid.Row="1"
+                Style="{DynamicResource HintMessageBorder}"
+                Visibility="{Binding HintManager.MessageVisible}">
+            <Grid>
+                <TextBlock Style="{DynamicResource HintMessage}"
+                           Text="{Binding HintManager.Message}"/>
+                <Button Style="{DynamicResource CloseButton}"
+                        Command="{Binding HintManager.VisibilityTrigger}"/>
+            </Grid>
+        </Border>
+
+        <Grid Grid.RowSpan="4"
+              Background="#CC000000" 
+              Visibility="{Binding PauseManager.Visible}">
             
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Vertical">
+                <TextBlock Style="{DynamicResource PauseText}"
+                           Text="MENU"/>
+                <Button Style="{DynamicResource PauseButton}"
+                        Content="Resume"
+                        Command="{Binding PauseManager.PauseTrigger}"/>
+                <Button Style="{DynamicResource PauseButton}"
+                        Content="Rules"
+                        Command="{Binding PauseManager.Rules}"/>
+                <Button Style="{DynamicResource PauseButton}"
+                        Content="Hint options"
+                        Command="{Binding PauseManager.HintOptions}"/>
+                <Button Style="{DynamicResource PauseButton}"
+                        Content="Back to menu"
+                        Command="{Binding PauseManager.BackToMenu}"/>
+            </StackPanel>
+
+            <Grid Grid.RowSpan="4"
+                  Background="#E6000000" 
+                  Visibility="{Binding PauseManager.HintsVisible}">
+
+                <Image Style="{DynamicResource HintMenuLogo}" 
+                       Source="/Images/logo.png"/>
+
+                <StackPanel HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            Orientation="Vertical">
+                    <StackPanel HorizontalAlignment="Center">
+                        <CheckBox Style="{DynamicResource CheckBox}" 
+                                  Content="Automatic candidates"
+                                  IsChecked="{Binding ToggleCandidates, Mode=TwoWay}"/>
+                        <CheckBox Style="{DynamicResource CheckBox}"
+                                  Content="Mark selected numbers"
+                                  IsChecked="{Binding ToggleMarkNumbers, Mode=TwoWay}"/>
+                        <CheckBox Style="{DynamicResource CheckBox}"
+                                  IsEnabled="False"
+                                  Content="Automatic hints"/>
+                    </StackPanel>
+
+                    <ComboBox Style="{DynamicResource Algorithms}"
+                              ItemsSource="{Binding HintManager.HintTypes}"
+                              DisplayMemberPath="Name"
+                              SelectedItem="{Binding HintManager.SelectedHint}"/>
+                </StackPanel>
+
+                <Button Style="{DynamicResource PauseButton}"
+                        VerticalAlignment="Bottom"
+                        Margin="100"
+                        Content="Back"
+                        Command="{Binding PauseManager.HintOptions}"/>
+                
+            </Grid>
+            
+        </Grid>
+
     </Grid>
 </UserControl>

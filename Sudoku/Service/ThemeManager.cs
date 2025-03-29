@@ -50,5 +50,13 @@ namespace Sudoku.Service
             return darkColor != null ? darkColor : lightColor;
         }
 
+        public static Brush? GameButtonTextColor()
+        {
+            var darkColor = Application.Current.Resources["DarkGameButtonText"] as Brush;
+            var lightColor = Application.Current.Resources["LightGameButtonText"] as Brush;
+
+            return darkColor != null ? darkColor : lightColor;
+        }
+
     }
 }
