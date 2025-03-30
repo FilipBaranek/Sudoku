@@ -57,11 +57,12 @@
     <Style x:Key="HintMessage" TargetType="TextBlock">
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
+        <Setter Property="Margin" Value="15"/>
         <Setter Property="TextAlignment" Value="Center"/>
         <Setter Property="TextWrapping" Value="Wrap"/>
         <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
         <Setter Property="Foreground" Value="#DCDCAA"/>
-        <Setter Property="FontSize" Value="40"/>
+        <Setter Property="FontSize" Value="35"/>
         <Setter Property="FontWeight" Value="Bold"/>
     </Style>
 

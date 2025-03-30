@@ -63,44 +63,42 @@ namespace Sudoku.Models.Hint
 
         private void LoadHints(List<int>[,] gameboard)
         {
-            HintTypes.Add(new OptimalHint("Optimal", gameboard));
-            HintTypes.Add(new PairHint("Naked / hidden pairs", gameboard));
-            HintTypes.Add(new WingHint("Wings", gameboard));
+            HintTypes.Add(new OptimalHint("Optimal", gameboard, _gameCells));
+            HintTypes.Add(new PairHint("Naked / hidden pairs", gameboard, _gameCells));
+            HintTypes.Add(new WingHint("Wings", gameboard, _gameCells));
         }
 
-        private void MarkCell(int row, int column)
+        private void ClearHints()
         {
             foreach (var cell in _gameCells)
             {
-                if (cell.Row == row && cell.Column == column)
-                {
-                    cell.SetHintBackground();
-                }
+                cell.Background = cell.DefaultBackground;
             }
         }
 
         private void GenerateHint()
         {
-            if (_selectedHint != null && !_toggled)
-            {
-                int? row = null;
-                int? column = null;
-
-                string? message = _selectedHint.GetHint(ref row, ref column);
-
-                Message = message == null ? "" : message;
-
-                ToggleHintMessage();
-                
-                if (row != null && column != null)
-                {
-                    MarkCell((int)row, (int)column);
-                }
-            }
-            else if (_selectedHint != null && _toggled)
+            if (_toggled)
             {
                 ToggleHintMessage();
                 _toggled = false;
+            }
+            else if (!_toggled && _selectedHint != null)
+            {
+                ClearHints();
+
+                string? message = _selectedHint.GetHint();
+
+                Message = message == null ? "No avalaible hints" : message;
+
+                ToggleHintMessage();
+                _toggled = true;
+            }
+            else
+            {
+                Message = "You need to select hint type in hint menu first";
+
+                ToggleHintMessage();
             }
         }
 
