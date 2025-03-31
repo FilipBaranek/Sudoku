@@ -6,7 +6,7 @@ using Sudoku.Service.Config;
 
 namespace Sudoku.Models.GameElements
 {
-    public class SudokuTrainingCell : SudokuCell, INotifyPropertyChanged
+    public class SudokuTrainingCell : GameCell, INotifyPropertyChanged
     {
         private const int DEFAULT_FONTSIZE = 35;
         private const int HINT_FONTSIZE = 10;
@@ -58,7 +58,7 @@ namespace Sudoku.Models.GameElements
             RightClickParameter = this;
             Alignment = VerticalAlignment.Center;
             FontSize = DEFAULT_FONTSIZE;
-            Foreground = foreground;
+            _foreground = foreground;
             _defaultForeground = foreground;
             _hintForeground = configHandler.Theme().Equals("dark") ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.Gray);
         }
@@ -91,6 +91,16 @@ namespace Sudoku.Models.GameElements
         public void SetDefaultAlignment()
         {
             Alignment = VerticalAlignment.Center;
+        }
+
+        public void SetDefaultBackground()
+        {
+            Background = DefaultBackground;
+        }
+
+        public void SetSelectedNumberBackground()
+        {
+            Background = new SolidColorBrush(Colors.Green);
         }
 
         public void SetHintBackground()

@@ -125,6 +125,11 @@
                 <StackPanel HorizontalAlignment="Center"
                             VerticalAlignment="Center"
                             Orientation="Vertical">
+                    
+                    <TextBlock Style="{DynamicResource HintOptionsHeader}"
+                               Text="CHECK GAMEBOARD STYLE"
+                               Margin="20"/>
+                    
                     <StackPanel HorizontalAlignment="Center">
                         <CheckBox Style="{DynamicResource CheckBox}" 
                                   Content="Automatic candidates"
@@ -137,10 +142,15 @@
                                   Content="Automatic hints"/>
                     </StackPanel>
 
-                    <ComboBox Style="{DynamicResource Algorithms}"
+                    <StackPanel Orientation="Vertical"
+                                Margin="60">
+                        <TextBlock Style="{DynamicResource HintOptionsHeader}"
+                               Text="SELECT HINT TYPE"/>
+                        <ComboBox Style="{DynamicResource Algorithms}"
                               ItemsSource="{Binding HintManager.HintTypes}"
                               DisplayMemberPath="Name"
                               SelectedItem="{Binding HintManager.SelectedHint}"/>
+                    </StackPanel>
                 </StackPanel>
 
                 <Button Style="{DynamicResource PauseButton}"

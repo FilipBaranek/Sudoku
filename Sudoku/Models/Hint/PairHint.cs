@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using Sudoku.Models.GameElements;
+﻿using Sudoku.Models.GameElements;
 
 namespace Sudoku.Models.Hint
 {
@@ -11,12 +10,49 @@ namespace Sudoku.Models.Hint
         private bool _foundAtRow;
         private int _pairSize;
 
-        public PairHint(string name, List<int>[,] gameboard, ObservableCollection<SudokuTrainingCell> gameCells, bool isIndependend = true) : base(name, gameboard, gameCells) 
+        public PairHint(string name, List<int>[,] gameboard, bool isIndependend = true) : base(name, gameboard) 
         {
             _isIndependent = isIndependend;
         }
 
-        private bool CompareCandidates(int foundRow, int foundColumn, int potentialRow, int potentialColumn)
+        private bool HasNakedPair(int pairSize)
+        {
+            for (int i = 0; i < GAMEBOARD_SIZE; ++i)
+            {
+                for (int j = 0; j < GAMEBOARD_SIZE; ++j)
+                {
+                    if (_gameBoard[i, j].Count == pairSize && TryFindOtherNakedPair(i, j))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        private bool TryFindOtherNakedPair(int foundRow, int foundColumn)
+        {
+            for (int i = 0; i < GAMEBOARD_SIZE; ++i)
+            {
+                if (_gameBoard[i, foundColumn].Count == _pairSize && CompareNakedPair(foundRow, foundColumn, i, foundColumn))
+                {
+                    _foundAtRow = false;
+
+                    return true;
+                }
+                if (_gameBoard[foundRow, i].Count == _pairSize && CompareNakedPair(foundRow, foundColumn, foundRow, i))
+                {
+                    _foundAtRow = true;
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool CompareNakedPair(int foundRow, int foundColumn, int potentialRow, int potentialColumn)
         {
             if (!(foundRow == potentialRow && foundColumn == potentialColumn))
             {
@@ -30,8 +66,10 @@ namespace Sudoku.Models.Hint
 
                 if (_usedHints.Count == 0 || IsNewHint(foundRow, foundColumn) || IsNewHint(potentialRow, potentialColumn))
                 {
-                    _usedHints.Add(new Pair(foundRow, foundColumn));
-                    _usedHints.Add(new Pair(potentialRow, potentialColumn));
+                    var foundPair = new Cell(foundRow, foundColumn);
+                    var potentialdPair = new Cell(potentialRow, potentialColumn);
+
+                    Update(foundPair, potentialdPair);
 
                     return true;
                 }
@@ -40,47 +78,14 @@ namespace Sudoku.Models.Hint
             return false;
         }
 
-        private bool TryFindOtherPair(int foundPairRow, int foundPairColumn)
+        private void Update(Cell foundPair, Cell potentialPair)
         {
-            for (int i = 0; i < GAMEBOARD_SIZE; ++i)
-            {
-                if (_gameBoard[i, foundPairColumn].Count == _pairSize && CompareCandidates(foundPairRow, foundPairColumn, i, foundPairColumn))
-                {
-                    MarkCells(foundPairRow, foundPairColumn);
-                    MarkCells(i, foundPairColumn);
+            MarkedHint.Clear();
+            MarkedHint.Add(foundPair);
+            MarkedHint.Add(potentialPair);
 
-                    _foundAtRow = false;
-
-                    return true;
-                }
-                if (_gameBoard[foundPairRow, i].Count == _pairSize && CompareCandidates(foundPairRow, foundPairColumn, foundPairRow, i))
-                {
-                    MarkCells(foundPairRow, foundPairColumn);
-                    MarkCells(foundPairRow, i);
-
-                    _foundAtRow = true;
-
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        private bool HasNakedPair(int pairSize)
-        {
-            for (int i = 0; i < GAMEBOARD_SIZE; ++i)
-            {
-                for (int j = 0; j < GAMEBOARD_SIZE; ++j)
-                {
-                    if (_gameBoard[i, j].Count == pairSize && TryFindOtherPair(i, j))
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
+            _usedHints.Add(foundPair);
+            _usedHints.Add(potentialPair);
         }
 
         public override string Message()
@@ -96,6 +101,8 @@ namespace Sudoku.Models.Hint
         {
             while (true)
             {
+                _isHidden = false;
+
                 for (_pairSize = 2; _pairSize <= OPTIMAL_MAX_PAIR_LENGTH; ++_pairSize)
                 {
                     if (HasNakedPair(_pairSize))
@@ -104,13 +111,12 @@ namespace Sudoku.Models.Hint
                     }
                 }
 
+                _isHidden = true;
+
                 /*
-                for (_pairSize = OPTIMAL_MAX_PAIR_LENGTH; _pairSize >= 2; --_pairSize)
+                if (HasHiddenPair())
                 {
-                    if (HasHiddenPair(_pairSize))
-                    {
-                        return Message();
-                    }
+                    return Message();
                 }
                 */
 

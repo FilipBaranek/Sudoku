@@ -2,15 +2,15 @@
 using System.ComponentModel;
 using System.Windows.Input;
 using System.Windows;
-using System.Collections.ObjectModel;
 using Sudoku.Models.GameElements;
 
 namespace Sudoku.Models.Hint
 {
     public class HintManager : INotifyPropertyChanged
     {
-        private readonly ObservableCollection<SudokuTrainingCell> _gameCells;
         private bool _toggled;
+        private Action _markHintCells;
+
 
         private Hint? _selectedHint;
         public Hint? SelectedHint
@@ -47,33 +47,36 @@ namespace Sudoku.Models.Hint
 
         public ICommand VisibilityTrigger { get; private set; }
         public ICommand HintTrigger { get; private set; }
-        public ObservableCollection<Hint> HintTypes { get; private set; }
-
-        public HintManager(List<int>[,] gameboard, ObservableCollection<SudokuTrainingCell> gameCells)
+        public List<Hint> HintTypes { get; private set; }
+        public List<Cell>? HintCells
         {
-            _gameCells = gameCells;
+            get
+            {
+                if (_selectedHint != null)
+                {
+                    return _selectedHint.MarkedHint;
+                }
+                return null;
+            }
+        }
+
+        public HintManager(List<int>[,] gameboard, Action markHintCells)
+        {
             _message = "";
+            _markHintCells = markHintCells;
             MessageVisible = Visibility.Hidden;
             VisibilityTrigger = new RelayCommand(ToggleHintMessage);
             HintTrigger = new RelayCommand(GenerateHint);
-            HintTypes = new ObservableCollection<Hint>();
+            HintTypes = new List<Hint>();
 
             LoadHints(gameboard);
         }
 
         private void LoadHints(List<int>[,] gameboard)
         {
-            HintTypes.Add(new OptimalHint("Optimal", gameboard, _gameCells));
-            HintTypes.Add(new PairHint("Naked / hidden pairs", gameboard, _gameCells));
-            HintTypes.Add(new WingHint("Wings", gameboard, _gameCells));
-        }
-
-        private void ClearHints()
-        {
-            foreach (var cell in _gameCells)
-            {
-                cell.Background = cell.DefaultBackground;
-            }
+            HintTypes.Add(new OptimalHint("Optimal", gameboard));
+            HintTypes.Add(new PairHint("Naked / hidden pairs", gameboard));
+            HintTypes.Add(new WingHint("Wings", gameboard));
         }
 
         private void GenerateHint()
@@ -85,11 +88,10 @@ namespace Sudoku.Models.Hint
             }
             else if (!_toggled && _selectedHint != null)
             {
-                ClearHints();
-
                 string? message = _selectedHint.GetHint();
 
                 Message = message == null ? "No avalaible hints" : message;
+                _markHintCells();
 
                 ToggleHintMessage();
                 _toggled = true;
@@ -105,6 +107,22 @@ namespace Sudoku.Models.Hint
         private void ToggleHintMessage()
         {
             MessageVisible = MessageVisible == Visibility.Visible ? Visibility.Hidden : Visibility.Visible;
+        }
+
+        public void ChangeCandidates(List<int>[,] newGameBoard)
+        {
+            foreach (var hint in HintTypes)
+            {
+                hint.ChangeCandidates(newGameBoard);
+            }
+        }
+
+        public void ClearPotentialHint(int row, int column)
+        {
+            foreach (var hint in HintTypes)
+            {
+                hint.ClearPotentialHint(row, column);
+            }
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

@@ -12,9 +12,9 @@ TRACE;DEBUG;NET;NET8_0;NETCOREAPP
 C:\Users\filip\Desktop\skola\C#\bakalarka\Sudoku\Sudoku\App.xaml
 121928238256
 
-412120796239
+41-800726502
 198-352714763
 MainWindow.xaml;Resources\DarkTheme\DarkBackground.xaml;Resources\DarkTheme\DarkDifficulty.xaml;Resources\DarkTheme\DarkGame.xaml;Resources\DarkTheme\DarkGameEnd.xaml;Resources\DarkTheme\DarkMenu.xaml;Resources\DarkTheme\DarkTraining.xaml;Views\DifficultyView.xaml;Views\GameEndView.xaml;Views\GameView.xaml;Views\MenuView.xaml;Views\TrainingView.xaml;
 
-True
+False
 

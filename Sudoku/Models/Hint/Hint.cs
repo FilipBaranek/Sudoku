@@ -1,5 +1,4 @@
 ﻿using Sudoku.Models.GameElements;
-using System.Collections.ObjectModel;
 
 namespace Sudoku.Models.Hint
 {
@@ -7,17 +6,18 @@ namespace Sudoku.Models.Hint
     {
         protected const int GAMEBOARD_SIZE = 9;
         protected List<int>[,] _gameBoard;
-        protected List<Pair> _usedHints;
-        protected ObservableCollection<SudokuTrainingCell> _gameCells;
-        public string Name { get; private set; }
-        public int UsedHints { get => _usedHints.Count; }
+        protected List<Cell> _usedHints;
 
-        public Hint(string name, List<int>[,] gameBoard, ObservableCollection<SudokuTrainingCell> gameCells)
+        public string Name { get; private set; }
+        public List<Cell> UsedHints { get => _usedHints; }
+        public List<Cell> MarkedHint { get; set; }
+
+        public Hint(string name, List<int>[,] gameBoard)
         {
             Name = name;
             _gameBoard = gameBoard;
-            _gameCells = gameCells;
-            _usedHints = new List<Pair>();
+            _usedHints = new List<Cell>();
+            MarkedHint = new List<Cell>();
         }
 
         protected bool IsNewHint(int row, int column)
@@ -33,15 +33,14 @@ namespace Sudoku.Models.Hint
             return true;
         }
 
-        protected void MarkCells(int row, int column)
+        public void ClearPotentialHint(int row, int column)
         {
-            foreach (var cell in _gameCells)
-            {
-                if (cell.Row == row && cell.Column == column)
-                {
-                    cell.SetHintBackground();
-                }
-            }
+            _gameBoard[row, column].Clear();
+        }
+
+        public void ChangeCandidates(List<int>[,] newGameBoard)
+        {
+            _gameBoard = newGameBoard;
         }
 
         public abstract string Message();

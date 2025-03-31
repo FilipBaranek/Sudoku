@@ -96,6 +96,13 @@
         </Setter>
     </Style>
 
+    <Style x:Key="HintOptionsHeader" TargetType="TextBlock">
+        <Setter Property="FontSize" Value="45"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Foreground" Value="Turquoise"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+    </Style>
+    
     <Style x:Key="CheckBox" TargetType="CheckBox">
         <Setter Property="FontSize" Value="35"/>
         <Setter Property="FontWeight" Value="Bold"/>

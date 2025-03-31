@@ -1,11 +1,8 @@
-﻿using Sudoku.Models.GameElements;
-using System.Collections.ObjectModel;
-
-namespace Sudoku.Models.Hint
+﻿namespace Sudoku.Models.Hint
 {
     public class WingHint : Hint
     {
-        public WingHint(string name, List<int>[,] gameboard, ObservableCollection<SudokuTrainingCell> gameCells, bool isIndependend = true) : base(name, gameboard, gameCells) { }
+        public WingHint(string name, List<int>[,] gameboard,  bool isIndependend = true) : base(name, gameboard) { }
 
         public override string Message()
         {

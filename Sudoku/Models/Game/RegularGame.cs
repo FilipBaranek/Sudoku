@@ -25,18 +25,18 @@ namespace Sudoku.Models.Game
             Incorrect = TOTAL_INCORRECT;
         }
 
-        public override void PlaceNumber(SudokuCell cell)
+        public override void PlaceNumber(GameCell cell)
         {
-            if (_selectedNumber == 0 || _sudokuGameBoard[cell.Row, cell.Column] != 0)
+            if (SelectedNumber == 0 || _sudokuGameBoard[cell.Row, cell.Column] != 0)
             {
                 return;
             }
-            else if (_solutionGameBoard[cell.Row, cell.Column] == _selectedNumber)
+            else if (_solutionGameBoard[cell.Row, cell.Column] == SelectedNumber)
             {
-                _sudokuGameBoard[cell.Row, cell.Column] = _selectedNumber;
+                _sudokuGameBoard[cell.Row, cell.Column] = SelectedNumber;
                 ++_correct;
 
-                cell.Content = _selectedNumber.ToString();
+                cell.Content = SelectedNumber.ToString();
                 cell.Background = cell.DefaultBackground;
 
                 if (_correct == TOTAL_CORRECT)
@@ -53,7 +53,7 @@ namespace Sudoku.Models.Game
                     Lose = true;
                 }
 
-                WrongMove(cell);
+                _isWrongMove = true;
             }
         }
 

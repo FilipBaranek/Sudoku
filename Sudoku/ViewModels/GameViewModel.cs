@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
+using System.Windows.Media;
 using System.Windows.Threading;
 using Sudoku.Commands;
 using Sudoku.Models;
@@ -37,7 +38,7 @@ namespace Sudoku.ViewModels
 
         public ICommand PauseTrigger { get; private set; }
         public Pause PauseManager { get; private set; }
-        public ObservableCollection<SudokuCell> GameCells { get; private set; }
+        public ObservableCollection<GameCell> GameCells { get; private set; }
         public ObservableCollection<SudokuPivot> PivotElements { get; private set; }
 
         public GameViewModel(Router router, Difficulty difficulty)
@@ -57,7 +58,7 @@ namespace Sudoku.ViewModels
             PauseTrigger = new RelayCommand(PauseManager.PauseToggle);
         }
 
-        private void PlaceNumber(SudokuCell cell)
+        private async void PlaceNumber(GameCell cell)
         {
             _game.PlaceNumber(cell);
 
@@ -65,9 +66,18 @@ namespace Sudoku.ViewModels
             {
                 GameEnd(true);
             }
-            else if (_game.Lose)
+            else if (_game.IsWrongMove())
             {
-                GameEnd(false);
+                if (_game.Lose)
+                {
+                    GameEnd(false);
+                }
+
+                cell.Background = new SolidColorBrush(Colors.Red);
+
+                await Task.Delay(2000);
+
+                cell.Background = cell.DefaultBackground;
             }
         }
 

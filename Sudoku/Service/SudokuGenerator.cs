@@ -25,9 +25,9 @@ namespace Sudoku.Service
             return new Thickness(left, top, right, bottom);
         }
 
-        public static ObservableCollection<SudokuCell> GenerateCells(Action<SudokuCell> command, int[,] sudokuElements)
+        public static ObservableCollection<GameCell> GenerateCells(Action<GameCell> command, int[,] sudokuElements)
         {
-            var sudokuGameBoard = new ObservableCollection<SudokuCell>();
+            var sudokuGameBoard = new ObservableCollection<GameCell>();
 
             for (int i = 0; i < ROW_COUNT; ++i)
             {
@@ -35,7 +35,7 @@ namespace Sudoku.Service
                 {
                     string content = sudokuElements[i, j] == 0 ? "" : sudokuElements[i, j].ToString();
 
-                    sudokuGameBoard.Add(new SudokuCell(i, j, content, Borders(i, j), ThemeManager.GameButtonColor(), new RelayCommand<SudokuCell>(command)));
+                    sudokuGameBoard.Add(new GameCell(i, j, content, Borders(i, j), ThemeManager.GameButtonColor(), new RelayCommand<GameCell>(command)));
                 }
             }
 

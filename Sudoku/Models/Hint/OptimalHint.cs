@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using Sudoku.Models.GameElements;
+﻿using Sudoku.Models.GameElements;
 
 namespace Sudoku.Models.Hint
 {
@@ -8,10 +7,10 @@ namespace Sudoku.Models.Hint
         private Hint _pairHint;
         private Hint _wingHint;
 
-        public OptimalHint(string name, List<int>[,] gameboard, ObservableCollection<SudokuTrainingCell> gameCells) : base(name, gameboard, gameCells)
+        public OptimalHint(string name, List<int>[,] gameboard) : base(name, gameboard)
         {
-            _pairHint = new PairHint(name, gameboard, gameCells, false);
-            _wingHint = new WingHint(name, gameboard, gameCells, false);
+            _pairHint = new PairHint(name, gameboard, false);
+            _wingHint = new WingHint(name, gameboard, false);
         }
 
         private bool TryFindSingleCandidate()
@@ -22,9 +21,11 @@ namespace Sudoku.Models.Hint
                 {
                     if (_gameBoard[i,j].Count == 1 && IsNewHint(i, j))
                     {
-                        MarkCells(i, j);
+                        var cell = new Cell(i, j);
 
-                        _usedHints.Add(new Pair(i, j));
+                        MarkedHint.Clear();
+                        MarkedHint.Add(cell);
+                        _usedHints.Add(cell);
 
                         return true;
                     }
@@ -62,12 +63,14 @@ namespace Sudoku.Models.Hint
                     return hint;
                 }
 
-                if (_usedHints.Count == 0 && _pairHint.UsedHints == 0 && _wingHint.UsedHints == 0)
+                if (_usedHints.Count == 0 && _pairHint.UsedHints.Count == 0 && _wingHint.UsedHints.Count == 0)
                 {
                     break;
                 }
 
                 _usedHints.Clear();
+                _pairHint.UsedHints.Clear();
+                _wingHint.UsedHints.Clear();
             }
 
             return null;
