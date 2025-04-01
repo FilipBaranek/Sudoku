@@ -156,7 +156,7 @@ namespace Sudoku.ViewModels
 
         private void HandleCandidate(SudokuTrainingCell trainingCell)
         {
-            if (trainingCell.Content.Length == 0 || trainingCell.Content.Length > 1)
+            if (_game.IsCandidateCell(trainingCell.Row, trainingCell.Column))
             {
                 if (!_game.HandleCandidate(trainingCell.Row, trainingCell.Column))
                 {

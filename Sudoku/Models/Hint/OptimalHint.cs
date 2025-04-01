@@ -9,8 +9,8 @@ namespace Sudoku.Models.Hint
 
         public OptimalHint(string name, List<int>[,] gameboard) : base(name, gameboard)
         {
-            _pairHint = new PairHint(name, gameboard, false);
-            _wingHint = new WingHint(name, gameboard, false);
+            _pairHint = new PairHint(name, gameboard, MarkedHint);
+            _wingHint = new WingHint(name, gameboard);
         }
 
         private bool TryFindSingleCandidate()

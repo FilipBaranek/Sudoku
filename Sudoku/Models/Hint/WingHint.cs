@@ -2,7 +2,7 @@
 {
     public class WingHint : Hint
     {
-        public WingHint(string name, List<int>[,] gameboard,  bool isIndependend = true) : base(name, gameboard) { }
+        public WingHint(string name, List<int>[,] gameboard) : base(name, gameboard) { }
 
         public override string Message()
         {
