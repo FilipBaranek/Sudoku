@@ -37,7 +37,7 @@ namespace Sudoku.Models.Hint
 
         public override string Message()
         {
-            return "This cell has only single candidate";
+            return "This cell has naked single candidate";
         }
 
         public override string? GetHint()
