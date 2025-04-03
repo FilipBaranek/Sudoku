@@ -2,7 +2,8 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:Sudoku.Views"
              mc:Ignorable="d" 
              d:DesignHeight="1080" d:DesignWidth="1920">
@@ -47,8 +48,14 @@
                         <Button.InputBindings>
                             <MouseBinding Gesture="RightClick" 
                                           Command="{Binding RightClickCommand}" 
-                                          CommandParameter="{Binding RightClickParameter}"/>
+                                          CommandParameter="{Binding Parameter}"/>
                         </Button.InputBindings>
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseEnter">
+                                <i:InvokeCommandAction Command="{Binding MouseOverCommand}"
+                                                       CommandParameter="{Binding Parameter}" />
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
                     </Button>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
@@ -95,7 +102,7 @@
         <Grid Grid.RowSpan="4"
               Background="#CC000000" 
               Visibility="{Binding PauseManager.Visible}">
-            
+
             <StackPanel HorizontalAlignment="Center"
                         VerticalAlignment="Center"
                         Orientation="Vertical">
@@ -114,53 +121,48 @@
                         Content="Back to menu"
                         Command="{Binding PauseManager.BackToMenu}"/>
             </StackPanel>
+        </Grid>
 
-            <Grid Grid.RowSpan="4"
-                  Background="#E6000000" 
-                  Visibility="{Binding PauseManager.HintsVisible}">
+        <Grid Grid.RowSpan="4"
+              Background="#CC000000" 
+              Visibility="{Binding PauseManager.HintsVisible}">
+            <Image Style="{DynamicResource HintMenuLogo}" 
+                   Source="/Images/logo.png"/>
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Orientation="Vertical">
+                <TextBlock Style="{DynamicResource HintOptionsHeader}"
+                           Text="CHECK GAMEBOARD STYLE"
+                           Margin="20"/>
+                <StackPanel HorizontalAlignment="Center">
+                    <CheckBox Style="{DynamicResource CheckBox}" 
+                              Content="Automatic candidates"
+                              IsChecked="{Binding ToggleCandidates, Mode=TwoWay}"/>
+                    <CheckBox Style="{DynamicResource CheckBox}"
+                              Content="Mark selected numbers"
+                              IsChecked="{Binding ToggleMarkNumbers, Mode=TwoWay}"/>
+                    <CheckBox Style="{DynamicResource CheckBox}"
+                              Content="Crosshair"
+                              IsChecked="{Binding ToggleCrosshair, Mode=TwoWay}"/>
+                </StackPanel>
 
-                <Image Style="{DynamicResource HintMenuLogo}" 
-                       Source="/Images/logo.png"/>
-
-                <StackPanel HorizontalAlignment="Center"
-                            VerticalAlignment="Center"
-                            Orientation="Vertical">
-                    
+                <StackPanel Orientation="Vertical"
+                            Margin="60">
                     <TextBlock Style="{DynamicResource HintOptionsHeader}"
-                               Text="CHECK GAMEBOARD STYLE"
-                               Margin="20"/>
-                    
-                    <StackPanel HorizontalAlignment="Center">
-                        <CheckBox Style="{DynamicResource CheckBox}" 
-                                  Content="Automatic candidates"
-                                  IsChecked="{Binding ToggleCandidates, Mode=TwoWay}"/>
-                        <CheckBox Style="{DynamicResource CheckBox}"
-                                  Content="Mark selected numbers"
-                                  IsChecked="{Binding ToggleMarkNumbers, Mode=TwoWay}"/>
-                        <CheckBox Style="{DynamicResource CheckBox}"
-                                  IsEnabled="False"
-                                  Content="Automatic hints"/>
-                    </StackPanel>
-
-                    <StackPanel Orientation="Vertical"
-                                Margin="60">
-                        <TextBlock Style="{DynamicResource HintOptionsHeader}"
                                Text="SELECT HINT TYPE"/>
-                        <ComboBox Style="{DynamicResource Algorithms}"
+                    <ComboBox Style="{DynamicResource Algorithms}"
                               ItemsSource="{Binding HintManager.HintTypes}"
                               DisplayMemberPath="Name"
                               SelectedItem="{Binding HintManager.SelectedHint}"/>
-                    </StackPanel>
                 </StackPanel>
+            </StackPanel>
 
-                <Button Style="{DynamicResource PauseButton}"
-                        VerticalAlignment="Bottom"
-                        Margin="100"
-                        Content="Back"
-                        Command="{Binding PauseManager.HintOptions}"/>
-                
-            </Grid>
-            
+            <Button Style="{DynamicResource PauseButton}"
+                    VerticalAlignment="Bottom"
+                    Margin="100"
+                    Content="Back"
+                    Command="{Binding PauseManager.HintOptions}"/>
+
         </Grid>
 
     </Grid>

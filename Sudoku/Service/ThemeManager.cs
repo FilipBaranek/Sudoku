@@ -1,5 +1,4 @@
-﻿using System.Printing;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Media;
 using Sudoku.Service.Config;
 
@@ -10,7 +9,7 @@ namespace Sudoku.Service
         public static void SetTheme(string page)
         {
             var configHandler = new ConfigHandler();
-            string theme = configHandler.Theme().Equals("dark") ? "Dark" : "Light";
+            string theme = configHandler.Theme.Equals("dark") ? "Dark" : "Light";
 
             Application.Current.Resources.MergedDictionaries.Clear();
             

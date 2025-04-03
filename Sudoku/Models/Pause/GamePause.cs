@@ -21,19 +21,9 @@ namespace Sudoku.Models.Pause
             }
         }
 
-        public ICommand Switch { get; private set; }
-
         public GamePause(Router router, DispatcherTimer timer) : base(router)
         {
             _timer = timer;
-
-            Switch = new RelayCommand(SwitchToTraining);
-        }
-
-        public void SwitchToTraining()
-        {
-            //TODO
-            //TU ISTU MATICU POSIELAT (DOLEZITE!!!)
         }
 
         public override void PauseToggle()

@@ -3,11 +3,13 @@ using System.ComponentModel;
 using System.Windows.Input;
 using System.Windows;
 using Sudoku.Models.GameElements;
+using Sudoku.Service.Config;
 
 namespace Sudoku.Models.Hint
 {
     public class HintManager : INotifyPropertyChanged
     {
+        private readonly ConfigHandler _config;
         private bool _toggled;
         private Action _markHintCells;
 
@@ -20,6 +22,7 @@ namespace Sudoku.Models.Hint
             {
                 _selectedHint = value;
                 OnPropertyChanged(nameof(SelectedHint));
+                UpdateConfigAlgorithm();
             }
         }
 
@@ -60,8 +63,9 @@ namespace Sudoku.Models.Hint
             }
         }
 
-        public HintManager(List<int>[,] gameboard, Action markHintCells)
+        public HintManager(List<int>[,] gameboard, Action markHintCells, ConfigHandler config)
         {
+            _config = config;
             _message = "";
             _markHintCells = markHintCells;
             MessageVisible = Visibility.Hidden;
@@ -77,6 +81,24 @@ namespace Sudoku.Models.Hint
             HintTypes.Add(new OptimalHint("Optimal", gameboard));
             HintTypes.Add(new PairHint("Naked / hidden pairs", gameboard));
             HintTypes.Add(new WingHint("Wings", gameboard));
+
+            foreach (var hint in HintTypes)
+            {
+                if (hint.Name.Equals(_config.Algorithm))
+                {
+                    SelectedHint = hint;
+                    
+                    break;
+                }
+            }
+        }
+
+        private void UpdateConfigAlgorithm()
+        {
+            if (SelectedHint != null)
+            {
+                _config.UpdateAlgorithm(SelectedHint.Name);
+            }
         }
 
         private void GenerateHint()

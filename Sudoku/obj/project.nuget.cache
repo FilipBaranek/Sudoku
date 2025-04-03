@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "WONPTTfLmyY=",
+  "dgSpecHash": "0WZjyrsBFek=",
   "success": true,
   "projectFilePath": "C:\\Users\\filip\\Desktop\\skola\\C#\\bakalarka\\Sudoku\\Sudoku\\Sudoku.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\filip\\.nuget\\packages\\microsoft.xaml.behaviors.wpf\\1.1.135\\microsoft.xaml.behaviors.wpf.1.1.135.nupkg.sha512"
+  ],
   "logs": []
 }

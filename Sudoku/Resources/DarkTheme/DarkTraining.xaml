@@ -3,272 +3,56 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="DarkGame.xaml"/>
+        <ResourceDictionary Source="../Training.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
+    <!-- Logo -->
+    <Style x:Key="HintMenuLogo" TargetType="Image" BasedOn="{StaticResource HintMenuLogoStyle}"/>
 
-    <Style x:Key="HintMenuLogo" TargetType="Image">
-        <Setter Property="VerticalAlignment" Value="Top"/>
-        <Setter Property="Margin" Value="30"/>
-        <Setter Property="Width" Value="200"/>
-        <Setter Property="Height" Value="200"/>
-    </Style>
+    <!-- Hint button -->
+    <SolidColorBrush x:Key="HintButtonHoverBackground" Color="Turquoise"/>
+    <SolidColorBrush x:Key="HintButtonPressedBackground" Color="#111"/>
 
-    <Style x:Key="HintButton" TargetType="Button">
-        <Setter Property="Margin" Value="5"/>
+    <Style x:Key="HintButton" TargetType="Button" BasedOn="{StaticResource HintButtonStyle}">
         <Setter Property="Background" Value="#111"/>
         <Setter Property="Foreground" Value="#DCDCAA"/>
-        <Setter Property="Width" Value="150"/>
-        <Setter Property="Height" Value="50"/>
-        <Setter Property="FontWeight" Value="Bold"/>
-        <Setter Property="FontSize" Value="30"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <Border x:Name="BorderElement"
-                            Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="10">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="BorderElement" Property="Background" Value="Yellow"/>
-                        </Trigger>
-                        <Trigger Property="IsPressed" Value="True">
-                            <Setter TargetName="BorderElement" Property="Background" Value="#111"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="HintMessageBorder" TargetType="Border">
-        <Setter Property="Background" Value="#E6000000"/>
-        <Setter Property="BorderBrush" Value="#333"/>
-        <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="CornerRadius" Value="2"/>
-        <Setter Property="Width" Value="500"/>
-        <Setter Property="Height" Value="500"/>
-        <Setter Property="CornerRadius" Value="5"/>
-    </Style>
-
-    <Style x:Key="HintMessage" TargetType="TextBlock">
-        <Setter Property="HorizontalAlignment" Value="Center"/>
-        <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="Margin" Value="15"/>
-        <Setter Property="TextAlignment" Value="Center"/>
-        <Setter Property="TextWrapping" Value="Wrap"/>
-        <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
-        <Setter Property="Foreground" Value="#DCDCAA"/>
-        <Setter Property="FontSize" Value="35"/>
-        <Setter Property="FontWeight" Value="Bold"/>
-    </Style>
-
-    <Style x:Key="CloseButton" TargetType="Button">
-        <Setter Property="Width" Value="40"/>
-        <Setter Property="Height" Value="40"/>
-        <Setter Property="HorizontalAlignment" Value="Right"/>
-        <Setter Property="VerticalAlignment" Value="Top"/>
-        <Setter Property="Margin" Value="2"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <Grid>
-                        <Ellipse x:Name="BackgroundCircle"
-                                 Fill="Transparent"
-                                 Stroke="#DCDCAA"
-                                 StrokeThickness="1"/>
-                        <Path Data="M0,0 L8,8 M8,0 L0,8" 
-                              Stroke="#DCDCAA" 
-                              StrokeThickness="2"
-                              HorizontalAlignment="Center"
-                              VerticalAlignment="Center"/>
-                    </Grid>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="True">
-                            <Setter TargetName="BackgroundCircle" Property="Fill" Value="Red"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-    </Style>
-
-    <Style x:Key="HintOptionsHeader" TargetType="TextBlock">
-        <Setter Property="FontSize" Value="45"/>
-        <Setter Property="FontWeight" Value="Bold"/>
-        <Setter Property="Foreground" Value="Turquoise"/>
-        <Setter Property="HorizontalAlignment" Value="Center"/>
     </Style>
     
-    <Style x:Key="CheckBox" TargetType="CheckBox">
-        <Setter Property="FontSize" Value="35"/>
-        <Setter Property="FontWeight" Value="Bold"/>
-        <Setter Property="Foreground" Value="#DCDCAA"/>
-        <Setter Property="Padding" Value="15"/>
-        <Setter Property="Background" Value="#111"/>
+    <!-- Hint message window -->
+    <Style x:Key="HintMessageBorder" TargetType="Border" BasedOn="{StaticResource HintMessageBorderStyle}">
         <Setter Property="BorderBrush" Value="#333"/>
-        <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="CheckBox">
-                    <Border x:Name="border"
-                        Background="{TemplateBinding Background}"
-                        BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="{TemplateBinding BorderThickness}"
-                        CornerRadius="8">
-                        <Grid Margin="5">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="Auto"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Viewbox Grid.Column="0" Width="30" Height="30" Margin="0,0,10,0">
-                                <Path x:Name="checkPath"
-                                  Data="M0,5 L5,10 L15,0"
-                                  Stroke="#80DCDCAA"
-                                  StrokeThickness="3"
-                                  StrokeLineJoin="Round"
-                                  Stretch="Uniform"/>
-                            </Viewbox>
-                            <ContentPresenter Grid.Column="1"
-                                          VerticalAlignment="Center"
-                                          TextElement.Foreground="{TemplateBinding Foreground}"/>
-                        </Grid>
-                    </Border>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsChecked" Value="True">
-                            <Setter TargetName="border" Property="Background" Value="#FF4CAF50"/>
-                            <Setter TargetName="checkPath" Property="Stroke" Value="#DCDCAA"/>
-                        </Trigger>
-                        <Trigger Property="IsChecked" Value="False">
-                            <Setter TargetName="border" Property="Background" Value="#111"/>
-                            <Setter TargetName="checkPath" Property="Stroke" Value="#80DCDCAA"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
+        <Setter Property="Background" Value="#E6000000"/>
     </Style>
 
-    <Style x:Key="Algorithms" TargetType="ComboBox">
-        <Setter Property="Margin" Value="20"/>
-        <Setter Property="Width" Value="450"/>
-        <Setter Property="Height" Value="70"/>
-        <Setter Property="FontSize" Value="40"/>
-        <Setter Property="FontWeight" Value="Bold"/>
+    <!-- Hint message -->
+    <Style x:Key="HintMessage" TargetType="TextBlock" BasedOn="{StaticResource HintMessageStyle}">
+        <Setter Property="Foreground" Value="#DCDCAA"/>
+    </Style>
+
+    <!-- Close button -->
+    <Style x:Key="CloseButton" TargetType="Button" BasedOn="{StaticResource CloseButtonStyle}"/>
+
+    <!-- Options header -->
+    <Style x:Key="HintOptionsHeader" TargetType="TextBlock" BasedOn="{StaticResource HintOptionsHeaderStyle}">
+        <Setter Property="Foreground" Value="Turquoise"/>
+    </Style>
+    
+    <!-- Options -->
+    <SolidColorBrush x:Key="IsChecked" Color="#DCDCAA"/>
+    <SolidColorBrush x:Key="IsNotChecked" Color="#80DCDCAA"/>
+    <SolidColorBrush x:Key="OptionsBackground" Color="#111"/>
+    
+    <Style x:Key="CheckBox" TargetType="CheckBox" BasedOn="{StaticResource CheckBoxStyle}">
         <Setter Property="Foreground" Value="#DCDCAA"/>
         <Setter Property="Background" Value="#111"/>
         <Setter Property="BorderBrush" Value="#333"/>
-        <Setter Property="BorderThickness" Value="2"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="ComboBox">
-                    <Grid>
-                        <Border x:Name="MainBorder" 
-                                Background="{TemplateBinding Background}" 
-                                BorderBrush="{TemplateBinding BorderBrush}" 
-                                BorderThickness="{TemplateBinding BorderThickness}" 
-                                CornerRadius="10"/>
-                        <ToggleButton x:Name="ToggleButton" 
-                                    Grid.Column="2" 
-                                    Focusable="false"
-                                    IsChecked="{Binding Path=IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}" 
-                                    ClickMode="Press">
-                            <ToggleButton.Template>
-                                <ControlTemplate TargetType="ToggleButton">
-                                    <Border Background="Transparent"/>
-                                </ControlTemplate>
-                            </ToggleButton.Template>
-                        </ToggleButton>
-                        <ContentPresenter x:Name="ContentSite"
-                                        IsHitTestVisible="False" 
-                                        Content="{TemplateBinding SelectionBoxItem}"
-                                        ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
-                                        ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
-                                        Margin="10,0,0,0"
-                                        VerticalAlignment="Center"
-                                        HorizontalAlignment="Left" />
-                        <TextBox x:Name="PART_EditableTextBox"
-                                 Style="{x:Null}" 
-                                 Template="{DynamicResource ComboBoxTextBox}" 
-                                 HorizontalAlignment="Left" 
-                                 VerticalAlignment="Center" 
-                                 Margin="10,0,0,0"
-                                 Focusable="True" 
-                                 Background="Transparent"
-                                 Visibility="Hidden"
-                                 IsReadOnly="{TemplateBinding IsReadOnly}"/>
-                        <Popup x:Name="Popup"
-                               Placement="Bottom"
-                               IsOpen="{TemplateBinding IsDropDownOpen}"
-                               AllowsTransparency="True" 
-                               Focusable="False"
-                               PopupAnimation="Slide">
-                            <Grid x:Name="DropDown"
-                                  SnapsToDevicePixels="True"                
-                                  MinWidth="{TemplateBinding ActualWidth}"
-                                  MaxHeight="{TemplateBinding MaxDropDownHeight}">
-                                <Border x:Name="DropDownBorder"
-                                        Background="{TemplateBinding Background}"
-                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                        BorderThickness="{TemplateBinding BorderThickness}"
-                                        CornerRadius="10"/>
-                                <ScrollViewer Margin="4,6,4,6" SnapsToDevicePixels="True">
-                                    <StackPanel IsItemsHost="True" KeyboardNavigation.DirectionalNavigation="Contained" />
-                                </ScrollViewer>
-                            </Grid>
-                        </Popup>
-                    </Grid>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="HasItems" Value="false">
-                            <Setter TargetName="DropDownBorder" Property="MinHeight" Value="95"/>
-                        </Trigger>
-                        <Trigger Property="IsGrouping" Value="true">
-                            <Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
-                        </Trigger>
-                        <Trigger SourceName="Popup" Property="AllowsTransparency" Value="true">
-                            <Setter TargetName="DropDownBorder" Property="CornerRadius" Value="10"/>
-                            <Setter TargetName="DropDownBorder" Property="Margin" Value="0,2,0,0"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
     </Style>
 
-    <Style x:Key="Hint" TargetType="Button">
-        <Setter Property="Background" Value="#111"/>
+    <!-- Rolldown options -->
+    <Style x:Key="Algorithms" TargetType="ComboBox" BasedOn="{StaticResource AlgorithmsStyle}">
         <Setter Property="Foreground" Value="#DCDCAA"/>
-        <Setter Property="FontSize" Value="45"/>
-        <Setter Property="FontWeight" Value="Bold"/>
-        <Setter Property="BorderBrush" Value="#444"/>
-        <Setter Property="BorderThickness" Value="3"/>
-        <Setter Property="Width" Value="250"/>
-        <Setter Property="Height" Value="80"/>
-        <Setter Property="Cursor" Value="Hand"/>
-        <Setter Property="Template">
-            <Setter.Value>
-                <ControlTemplate TargetType="Button">
-                    <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="15">
-                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                    </Border>
-                </ControlTemplate>
-            </Setter.Value>
-        </Setter>
-
-        <Style.Triggers>
-            <Trigger Property="IsMouseOver" Value="True">
-                <Setter Property="Background" Value="Yellow"/>
-            </Trigger>
-            <Trigger Property="IsPressed" Value="True">
-                <Setter Property="Background" Value="#111"/>
-            </Trigger>
-        </Style.Triggers>
+        <Setter Property="Background" Value="#111"/>
+        <Setter Property="BorderBrush" Value="#333"/>
     </Style>
 
 </ResourceDictionary>

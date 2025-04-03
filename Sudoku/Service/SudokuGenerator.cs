@@ -42,7 +42,8 @@ namespace Sudoku.Service
             return sudokuGameBoard;
         }
 
-        public static ObservableCollection<SudokuTrainingCell> GenerateTrainingCells(Action<SudokuTrainingCell> command, Action<SudokuTrainingCell> rightClickCommand, int[,] trainingElements)
+        public static ObservableCollection<SudokuTrainingCell> GenerateTrainingCells(Action<SudokuTrainingCell> command, Action<SudokuTrainingCell> rightClickCommand,
+                                                                                     Action<SudokuTrainingCell> mouseOverCommand, int[,] trainingElements)
         {
             var trainingGameBoard = new ObservableCollection<SudokuTrainingCell>();
 
@@ -54,7 +55,7 @@ namespace Sudoku.Service
 
                     trainingGameBoard.Add(new SudokuTrainingCell(i, j, content, Borders(i, j), ThemeManager.GameButtonColor(),
                                                                 ThemeManager.GameButtonTextColor(), new RelayCommand<SudokuTrainingCell>(command),
-                                                                new RelayCommand<SudokuTrainingCell>(rightClickCommand)));
+                                                                new RelayCommand<SudokuTrainingCell>(rightClickCommand), new RelayCommand<SudokuTrainingCell>(mouseOverCommand)));
                 }
             }
 

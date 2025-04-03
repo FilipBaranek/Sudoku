@@ -47,20 +47,21 @@ namespace Sudoku.Models.GameElements
         }
 
         public ICommand RightClickCommand { get; private set; }
-        public SudokuTrainingCell RightClickParameter { get; private set; }
+        public ICommand MouseOverCommand { get; private set; }
 
-        public SudokuTrainingCell(int row, int column, string content, Thickness bordrThickness, Brush background, Brush foreground, ICommand command, ICommand rightClickCommand) :
-                base(row, column, content, bordrThickness, background, command)
+        public SudokuTrainingCell(int row, int column, string content, Thickness bordrThickness, Brush background,
+                                  Brush foreground, ICommand command, ICommand rightClickCommand, ICommand mouseOverCommand) :
+        base(row, column, content, bordrThickness, background, command)
         {
             ConfigHandler configHandler = new ConfigHandler();
 
             RightClickCommand = rightClickCommand;
-            RightClickParameter = this;
+            MouseOverCommand = mouseOverCommand;
             Alignment = VerticalAlignment.Center;
             FontSize = DEFAULT_FONTSIZE;
             _foreground = foreground;
             _defaultForeground = foreground;
-            _hintForeground = configHandler.Theme().Equals("dark") ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.Gray);
+            _hintForeground = configHandler.Theme.Equals("dark") ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.Gray);
         }
 
         public void SetHintFontSize()
@@ -106,6 +107,11 @@ namespace Sudoku.Models.GameElements
         public void SetHintBackground()
         {
             Background = new SolidColorBrush(Colors.Turquoise);
+        }
+
+        public void SetCrosshairBackground()
+        {
+            Background = new SolidColorBrush(Colors.LightGoldenrodYellow);
         }
 
     }

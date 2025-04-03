@@ -102,9 +102,6 @@
                         Content="Rules"
                         Command="{Binding PauseManager.Rules}"/>
                 <Button Style="{DynamicResource PauseButton}"
-                        Content="Switch to training"
-                        Command="{Binding PauseManager.Switch}"/>
-                <Button Style="{DynamicResource PauseButton}"
                         Content="Back to menu"
                         Command="{Binding PauseManager.BackToMenu}"/>
             </StackPanel>
