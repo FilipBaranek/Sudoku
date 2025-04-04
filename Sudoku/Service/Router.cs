@@ -5,12 +5,16 @@ namespace Sudoku.Service
 {
     public class Router : INotifyPropertyChanged
     {
+        private UserControl _lastPage;
+
         private UserControl _currentView;
         public UserControl CurrentView
         {
             get => _currentView;
             set
             {
+                _lastPage = _currentView;
+
                 if (_currentView is IDisposable disposable)
                 {
                     disposable.Dispose();
@@ -24,6 +28,11 @@ namespace Sudoku.Service
         public void RedirectTo(UserControl viewModel)
         {
             CurrentView = viewModel;
+        }
+
+        public void NavigateBack()
+        {
+            CurrentView = _lastPage;
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

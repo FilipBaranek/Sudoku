@@ -8,18 +8,37 @@ namespace Sudoku.Service.Config
         private Config _config;
         private readonly string _configPath = "C:\\Users\\filip\\Desktop\\skola\\C#\\bakalarka\\Sudoku\\Sudoku\\Config\\config.json"; // TREBA PREROBIT PATH
 
+        public bool AutomaticCandidates => _config.AutomaticCandidates;
+        public bool MarkSelectedNumber => _config.MarkSelectedNumber;
+        public bool Crosshair => _config.Crosshair;
+        public string? Algorithm => _config.Algorithm;
+        public string Theme => _config.Theme;
+        public int Wins => _config.Wins;
+
         public ConfigHandler()
         {
-            LoadConfig();
+            _config = LoadConfig();
         }
 
-        private void LoadConfig()
+        private Config LoadConfig()
         {
             FileInfo file = new FileInfo(_configPath);
 
+            if (!file.Exists)
+            {
+                throw new FileNotFoundException();
+            }
+
             string jsonData = File.ReadAllText(file.FullName);
 
-            _config = JsonSerializer.Deserialize<Config>(jsonData);
+            Config? config = JsonSerializer.Deserialize<Config>(jsonData);
+        
+            if (config == null)
+            {
+                throw new InvalidOperationException("Wrong config format");
+            }
+
+            return config;
         }
 
         private void SaveConfig()
@@ -31,9 +50,9 @@ namespace Sudoku.Service.Config
             File.WriteAllText(file.FullName, jsonData);
         }
 
-        public void UpdateTheme(string theme)
+        public void SwitchTheme()
         {
-            _config.Theme = theme;
+            _config.Theme = _config.Theme.Equals("dark") ? "light" : "dark";
             SaveConfig();
         }
 
@@ -43,8 +62,19 @@ namespace Sudoku.Service.Config
             SaveConfig();
         }
 
-        public string Theme() => _config.Theme;
+        public void UpdateSettings(bool automaticCandidates, bool markSelectedNumbers, bool automaticHints)
+        {
+            _config.AutomaticCandidates = automaticCandidates;
+            _config.MarkSelectedNumber = markSelectedNumbers;
+            _config.Crosshair = automaticHints;
+            SaveConfig();
+        }
 
-        public int Wins() => _config.Wins;
+        public void UpdateAlgorithm(string algorithm)
+        {
+            _config.Algorithm = algorithm;
+            SaveConfig();
+        }
+
     }
 }

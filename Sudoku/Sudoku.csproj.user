@@ -19,6 +19,12 @@
     <Compile Update="Views\MenuView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\OptionsView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Views\RulesView.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Views\TrainingView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -42,7 +48,58 @@
     <Page Update="Resources\DarkTheme\DarkMenu.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Update="Resources\DarkTheme\DarkOptions.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Resources\DarkTheme\DarkRules.xaml">
+      <SubType>Designer</SubType>
+    </Page>
     <Page Update="Resources\DarkTheme\DarkTraining.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Resources\Difficulty.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Resources\Game.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Resources\GameEnd.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Resources\LightTheme\LightBackground.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Resources\LightTheme\LightDifficulty.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Resources\LightTheme\LightGame.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Resources\LightTheme\LightGameEnd.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Resources\LightTheme\LightMenu.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Resources\LightTheme\LightRules.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Resources\LightTheme\LightTraining.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Resources\Menu.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Resources\Options.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Resources\Pause.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Resources\Rules.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Resources\Training.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\DifficultyView.xaml">
@@ -55,6 +112,12 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\MenuView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\OptionsView.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\RulesView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\TrainingView.xaml">

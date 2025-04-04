@@ -1,21 +1,31 @@
-﻿namespace Sudoku.Models.Hint
+﻿using Sudoku.Models.GameElements;
+
+namespace Sudoku.Models.Hint
 {
     public class OptimalHint : Hint
     {
-        private Hint? _complexHint;
+        private Hint _pairHint;
+        private Hint _wingHint;
 
-        public OptimalHint(string name, List<int>[,] gameboard) : base(name, gameboard) { }
-
-        private bool TryFindSingleCandidate(ref int? row, ref int? column)
+        public OptimalHint(string name, List<int>[,] gameboard) : base(name, gameboard)
         {
-            for (int i = 0; i < ROWS; ++i)
+            _pairHint = new PairHint(name, gameboard, MarkedHint);
+            _wingHint = new WingHint(name, gameboard);
+        }
+
+        private bool TryFindSingleCandidate()
+        {
+            for (int i = 0; i < GAMEBOARD_SIZE; ++i)
             {
-                for (int j = 0; j < COLUMNS; ++j)
+                for (int j = 0; j < GAMEBOARD_SIZE; ++j)
                 {
-                    if (_gameBoard[i,j].Count == 1)
+                    if (_gameBoard[i,j].Count == 1 && IsNewHint(i, j))
                     {
-                        row = i;
-                        column = j;
+                        var cell = new Cell(i, j);
+
+                        MarkedHint.Clear();
+                        MarkedHint.Add(cell);
+                        _usedHints.Add(cell);
 
                         return true;
                     }
@@ -27,35 +37,43 @@
 
         public override string Message()
         {
-            return "This cell has only single candidate";
+            return "This cell has naked single candidate";
         }
 
-        public override string? GetHint(ref int? row, ref int? column)
+        public override string? GetHint()
         {
-            if (TryFindSingleCandidate(ref row, ref column))
+            while (true)
             {
-                return Message();
+                if (TryFindSingleCandidate())
+                {
+                    return Message();
+                }
+
+                string? hint = null;
+
+                hint = _pairHint.GetHint();
+                if (hint != null)
+                {
+                    return hint;
+                }
+
+                hint = _wingHint.GetHint();
+                if (hint != null)
+                {
+                    return hint;
+                }
+
+                if (_usedHints.Count == 0 && _pairHint.UsedHints.Count == 0 && _wingHint.UsedHints.Count == 0)
+                {
+                    break;
+                }
+
+                _usedHints.Clear();
+                _pairHint.UsedHints.Clear();
+                _wingHint.UsedHints.Clear();
             }
 
-            string? hint = null;
-
-            _complexHint = new PairHint("Naked / hidden pair", _gameBoard);
-            hint = _complexHint.GetHint(ref row, ref column);
-
-            if (hint != null)
-            {
-                return hint;
-            }
-
-            _complexHint = new WingHint("Wings", _gameBoard);
-            hint = _complexHint.GetHint(ref row, ref column);
-
-            if (hint != null)
-            {
-                return hint;
-            }
-
-            return "No avalaible hints";
+            return null;
         }
     }
 }

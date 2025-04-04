@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET8_0;NETCOREAPP
 C:\Users\filip\Desktop\skola\C#\bakalarka\Sudoku\Sudoku\App.xaml
-121928238256
+31-28846178
 
-40113239080
-198-352714763
-MainWindow.xaml;Resources\DarkTheme\DarkBackground.xaml;Resources\DarkTheme\DarkDifficulty.xaml;Resources\DarkTheme\DarkGame.xaml;Resources\DarkTheme\DarkGameEnd.xaml;Resources\DarkTheme\DarkMenu.xaml;Resources\DarkTheme\DarkTraining.xaml;Views\DifficultyView.xaml;Views\GameEndView.xaml;Views\GameView.xaml;Views\MenuView.xaml;Views\TrainingView.xaml;
+45-58867399
+199-21936921
+MainWindow.xaml;Resources\DarkTheme\DarkBackground.xaml;Resources\DarkTheme\DarkDifficulty.xaml;Resources\DarkTheme\DarkGame.xaml;Resources\DarkTheme\DarkGameEnd.xaml;Resources\DarkTheme\DarkMenu.xaml;Resources\DarkTheme\DarkOptions.xaml;Resources\DarkTheme\DarkRules.xaml;Resources\DarkTheme\DarkTraining.xaml;Resources\Difficulty.xaml;Resources\Game.xaml;Resources\GameEnd.xaml;Resources\LightTheme\LightBackground.xaml;Resources\LightTheme\LightDifficulty.xaml;Resources\LightTheme\LightGame.xaml;Resources\LightTheme\LightGameEnd.xaml;Resources\LightTheme\LightMenu.xaml;Resources\LightTheme\LightRules.xaml;Resources\LightTheme\LightTraining.xaml;Resources\Menu.xaml;Resources\Options.xaml;Resources\Pause.xaml;Resources\Rules.xaml;Resources\Training.xaml;Views\DifficultyView.xaml;Views\GameEndView.xaml;Views\GameView.xaml;Views\MenuView.xaml;Views\OptionsView.xaml;Views\RulesView.xaml;Views\TrainingView.xaml;
 
 False
 

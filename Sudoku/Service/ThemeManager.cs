@@ -1,5 +1,4 @@
-﻿using System.Printing;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Media;
 using Sudoku.Service.Config;
 
@@ -10,9 +9,7 @@ namespace Sudoku.Service
         public static void SetTheme(string page)
         {
             var configHandler = new ConfigHandler();
-            string theme = configHandler.Theme().Equals("dark") ? "Dark" : "Light";
-
-            Application.Current.Resources.MergedDictionaries.Clear();
+            string theme = configHandler.Theme.Equals("dark") ? "Dark" : "Light";
             
             SetBackground(theme);
             SetPageTheme(theme, page);
@@ -27,7 +24,10 @@ namespace Sudoku.Service
                 Source = new System.Uri(backgroundThemeFile, System.UriKind.Relative)
             };
 
-            Application.Current.Resources.MergedDictionaries.Add(backgroundThemeDictionary);
+            if (!Application.Current.Resources.MergedDictionaries.Contains(backgroundThemeDictionary))
+            {
+                Application.Current.Resources.MergedDictionaries.Add(backgroundThemeDictionary);
+            }
         }
 
         private static void SetPageTheme(string theme, string page)
@@ -39,23 +39,51 @@ namespace Sudoku.Service
                 Source = new System.Uri(pageFile, System.UriKind.Relative)
             };
 
-            Application.Current.Resources.MergedDictionaries.Add(pageThemeDictionary);
+            if (!Application.Current.Resources.MergedDictionaries.Contains(pageThemeDictionary))
+            {
+                Application.Current.Resources.MergedDictionaries.Add(pageThemeDictionary);
+            }
         }
 
-        public static Brush? GameButtonColor()
+        public static Brush GameButtonColor()
         {
             var darkColor = Application.Current.Resources["DarkGameButton"] as Brush;
             var lightColor = Application.Current.Resources["LightGameButton"] as Brush;
 
-            return darkColor != null ? darkColor : lightColor;
+            if (darkColor != null)
+            {
+                return darkColor;
+            }
+            else if (lightColor != null)
+            {
+                return lightColor;
+            }
+
+            throw new KeyNotFoundException("Game button background not defined");
         }
 
-        public static Brush? GameButtonTextColor()
+        public static Brush GameButtonTextColor()
         {
             var darkColor = Application.Current.Resources["DarkGameButtonText"] as Brush;
             var lightColor = Application.Current.Resources["LightGameButtonText"] as Brush;
 
-            return darkColor != null ? darkColor : lightColor;
+            if (darkColor != null)
+            {
+                return darkColor;
+            }
+            else if(lightColor != null)
+            {
+                return lightColor;
+            }
+
+            throw new KeyNotFoundException("Game button foreground color not defined");
+        }
+
+        public static string ThemeType()
+        {
+            var config = new ConfigHandler();
+
+            return config.Theme;
         }
 
     }

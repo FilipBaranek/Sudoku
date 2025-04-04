@@ -2,15 +2,17 @@
 using System.ComponentModel;
 using System.Windows.Input;
 using System.Windows;
-using System.Collections.ObjectModel;
 using Sudoku.Models.GameElements;
+using Sudoku.Service.Config;
 
 namespace Sudoku.Models.Hint
 {
     public class HintManager : INotifyPropertyChanged
     {
-        private readonly ObservableCollection<SudokuTrainingCell> _gameCells;
+        private readonly ConfigHandler _config;
         private bool _toggled;
+        private Action _markHintCells;
+
 
         private Hint? _selectedHint;
         public Hint? SelectedHint
@@ -20,6 +22,7 @@ namespace Sudoku.Models.Hint
             {
                 _selectedHint = value;
                 OnPropertyChanged(nameof(SelectedHint));
+                UpdateConfigAlgorithm();
             }
         }
 
@@ -47,16 +50,28 @@ namespace Sudoku.Models.Hint
 
         public ICommand VisibilityTrigger { get; private set; }
         public ICommand HintTrigger { get; private set; }
-        public ObservableCollection<Hint> HintTypes { get; private set; }
-
-        public HintManager(List<int>[,] gameboard, ObservableCollection<SudokuTrainingCell> gameCells)
+        public List<Hint> HintTypes { get; private set; }
+        public List<Cell>? HintCells
         {
-            _gameCells = gameCells;
+            get
+            {
+                if (_selectedHint != null)
+                {
+                    return _selectedHint.MarkedHint;
+                }
+                return null;
+            }
+        }
+
+        public HintManager(List<int>[,] gameboard, Action markHintCells, ConfigHandler config)
+        {
+            _config = config;
             _message = "";
+            _markHintCells = markHintCells;
             MessageVisible = Visibility.Hidden;
             VisibilityTrigger = new RelayCommand(ToggleHintMessage);
             HintTrigger = new RelayCommand(GenerateHint);
-            HintTypes = new ObservableCollection<Hint>();
+            HintTypes = new List<Hint>();
 
             LoadHints(gameboard);
         }
@@ -66,47 +81,70 @@ namespace Sudoku.Models.Hint
             HintTypes.Add(new OptimalHint("Optimal", gameboard));
             HintTypes.Add(new PairHint("Naked / hidden pairs", gameboard));
             HintTypes.Add(new WingHint("Wings", gameboard));
+
+            foreach (var hint in HintTypes)
+            {
+                if (hint.Name.Equals(_config.Algorithm))
+                {
+                    SelectedHint = hint;
+                    
+                    break;
+                }
+            }
         }
 
-        private void MarkCell(int row, int column)
+        private void UpdateConfigAlgorithm()
         {
-            foreach (var cell in _gameCells)
+            if (SelectedHint != null)
             {
-                if (cell.Row == row && cell.Column == column)
-                {
-                    cell.SetHintBackground();
-                }
+                _config.UpdateAlgorithm(SelectedHint.Name);
             }
         }
 
         private void GenerateHint()
         {
-            if (_selectedHint != null && !_toggled)
-            {
-                int? row = null;
-                int? column = null;
-
-                string? message = _selectedHint.GetHint(ref row, ref column);
-
-                Message = message == null ? "" : message;
-
-                ToggleHintMessage();
-                
-                if (row != null && column != null)
-                {
-                    MarkCell((int)row, (int)column);
-                }
-            }
-            else if (_selectedHint != null && _toggled)
+            if (_toggled)
             {
                 ToggleHintMessage();
                 _toggled = false;
+            }
+            else if (!_toggled && _selectedHint != null)
+            {
+                string? message = _selectedHint.GetHint();
+
+                Message = message == null ? "No avalaible hints" : message;
+                _markHintCells();
+
+                ToggleHintMessage();
+                _toggled = true;
+            }
+            else
+            {
+                Message = "You need to select hint type in hint menu first";
+
+                ToggleHintMessage();
             }
         }
 
         private void ToggleHintMessage()
         {
             MessageVisible = MessageVisible == Visibility.Visible ? Visibility.Hidden : Visibility.Visible;
+        }
+
+        public void ChangeCandidates(List<int>[,] newGameBoard)
+        {
+            foreach (var hint in HintTypes)
+            {
+                hint.ChangeCandidates(newGameBoard);
+            }
+        }
+
+        public void ClearPotentialHint(int row, int column)
+        {
+            foreach (var hint in HintTypes)
+            {
+                hint.ClearPotentialHint(row, column);
+            }
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

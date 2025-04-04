@@ -1,12 +1,15 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows.Input;
 using System.Windows.Media;
+using Sudoku.Commands;
 using Sudoku.Models;
 using Sudoku.Models.Game;
 using Sudoku.Models.GameElements;
 using Sudoku.Models.Hint;
 using Sudoku.Models.Pause;
 using Sudoku.Service;
+using Sudoku.Service.Config;
 using Sudoku.Views;
 
 namespace Sudoku.ViewModels
@@ -14,6 +17,8 @@ namespace Sudoku.ViewModels
     public class TrainingViewModel
     {
         private readonly Router _router;
+        private readonly ConfigHandler _config;
+        private List<Cell> _cellsInCrossHair;
 
         private bool _toggleCandidates;
         public bool ToggleCandidates
@@ -23,15 +28,12 @@ namespace Sudoku.ViewModels
             {
                 _toggleCandidates = value;
                 OnPropertyChanged(nameof(ToggleCandidates));
-                
-                if (ToggleCandidates)
-                {
-                    DrawAllCandidates();
-                }
-                else
-                {
-                    RemoveAllCandidates();
-                }
+
+                _game.SwitchCandidatesGameBoard();
+                HintManager.ChangeCandidates(_game.ActualCandidates);
+                RemoveAllCandidates();
+                DrawAllCandidates();
+                UpdateConfig();
             }
         }
 
@@ -46,11 +48,29 @@ namespace Sudoku.ViewModels
                 
                 if (ToggleMarkNumbers)
                 {
-                    UpdateMarkedNumbers();
+                    UpdateMarkedCells();
                 }
                 else
                 {
                     RemoveMarkedNumbers();
+                }
+                UpdateConfig();
+            }
+        }
+
+        private bool _toggleCrosshair;
+        public bool ToggleCrosshair
+        {
+            get => _toggleCrosshair;
+            set
+            {
+                _toggleCrosshair = value;
+                OnPropertyChanged(nameof(ToggleCrosshair));
+                UpdateConfig();
+                if (!ToggleCandidates)
+                {
+                    _cellsInCrossHair.Clear();
+                    UpdateMarkedCells();
                 }
             }
         }
@@ -65,16 +85,47 @@ namespace Sudoku.ViewModels
         public ObservableCollection<SudokuPivot> PivotElements { get; private set; }
         public Pause PauseManager { get; private set; }
         public HintManager HintManager { get; private set; }
+        public ICommand SelectNumberByKeyTrigger { get; private set; }
 
         public TrainingViewModel(Router router, Difficulty difficulty)
         {
             _router = router;
+            _config = new ConfigHandler();            
             _game = new Training(difficulty);
+            _cellsInCrossHair = new List<Cell>();
 
-            GameCells = SudokuGenerator.GenerateTrainingCells(PlaceNumber, HandleCandidate, _game.SudokuGameBoard);
+            GameCells = SudokuGenerator.GenerateTrainingCells(PlaceNumber, HandleCandidate, MarkCrossHairCells, _game.SudokuGameBoard);
             PivotElements = SudokuGenerator.GeneratePivotCells(SelectNumber);
-            HintManager = new HintManager(_game.TrainingElements, GameCells);
+            HintManager = new HintManager(_game.ActualCandidates, UpdateMarkedCells, _config);
             PauseManager = new TrainingPause(router);
+            SelectNumberByKeyTrigger = new RelayCommand<string>(SelectNumberByKey);
+
+            LoadConfig();
+        }
+
+        private void LoadConfig()
+        {
+            bool markSelected = _config.MarkSelectedNumber;
+            bool toggleCandidates = _config.AutomaticCandidates;
+            bool crosshair = _config.Crosshair;
+            
+            ToggleCrosshair = crosshair;
+            ToggleMarkNumbers = markSelected;
+            _toggleCandidates = toggleCandidates;
+
+            if (_toggleCandidates)
+            {
+                _game.SwitchCandidatesGameBoard();
+                HintManager.ChangeCandidates(_game.ActualCandidates);
+                RemoveAllCandidates();
+                DrawAllCandidates();
+                UpdateConfig();
+            }
+        }
+
+        private void UpdateConfig()
+        {
+            _config.UpdateSettings(ToggleCandidates, ToggleMarkNumbers, ToggleCrosshair);
         }
 
         private void SelectNumber(int pivot)
@@ -83,17 +134,34 @@ namespace Sudoku.ViewModels
 
             if (ToggleMarkNumbers)
             {
-                UpdateMarkedNumbers();
+                UpdateMarkedCells();
             }
         }
 
-        private void PlaceNumber(SudokuTrainingCell cell)
+        private void SelectNumberByKey(string number)
+        {
+            SelectNumber(int.Parse(number));
+
+            PivotElements[int.Parse(number) - 1].IsChecked = true;
+        }
+
+        private async void PlaceNumber(SudokuTrainingCell cell)
         {
             _game.PlaceNumber(cell);
 
             if (_game.IsUpdateNeeded())
             {
+                SetCellToDefault(cell);
                 UpdateCandidates(cell);
+                HintManager.ClearPotentialHint(cell.Row, cell.Column);
+            }
+            else if (_game.IsWrongMove())
+            {
+                cell.Background = new SolidColorBrush(Colors.Red);
+
+                await Task.Delay(2000);
+
+                cell.Background = cell.DefaultBackground;
             }
 
             if (_game.Win)
@@ -102,30 +170,81 @@ namespace Sudoku.ViewModels
             }
         }
 
-        private void HandleCandidate(SudokuTrainingCell trainingCell)
+        private void MarkCrossHairCells(SudokuTrainingCell cell)
         {
-            if (_game.HandleCandidate(trainingCell.Row, trainingCell.Column))
+            if (ToggleCrosshair)
             {
-                ShowAllAvailableCandidates(trainingCell);
-            }
-            else
-            {
-                DrawCandidateCell(trainingCell);
-                ShowAllAvailableCandidates(trainingCell);
+                _cellsInCrossHair.Clear();
+
+                int blockRowStart = (cell.Row / 3) * 3;
+                int blockColumnStart = (cell.Column / 3) * 3;
+
+                for (int i = 0; i < 9; ++i)
+                {
+                    _cellsInCrossHair.Add(new Cell(cell.Row, i));
+                    _cellsInCrossHair.Add(new Cell(i, cell.Column));
+                }
+
+                for (int i = 0; i < 3; ++i)
+                {
+                    for (int j = 0; j < 3; ++j)
+                    {
+                        _cellsInCrossHair.Add(new Cell(blockRowStart + i, blockColumnStart + j));
+                    }
+                }
+
+                UpdateMarkedCells();
             }
         }
 
-        private void UpdateMarkedNumbers()
+        private bool IsMarkedAsCrosshair(SudokuTrainingCell cell)
+        {
+            foreach (var crosshairCell in _cellsInCrossHair)
+            {
+                if (cell.Row == crosshairCell.Row && cell.Column == crosshairCell.Column)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        private bool IsMarkedAsHint(SudokuTrainingCell cell)
+        {
+            if (HintManager.HintCells != null)
+            {
+                foreach (var hintCell in HintManager.HintCells)
+                {
+                    if (hintCell.Row == cell.Row && hintCell.Column == cell.Column)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        private void UpdateMarkedCells()
         {
             foreach (var cell in GameCells)
             {
-                if (_game.IsMarkedNumber(cell.Row, cell.Column))
+                if (IsMarkedAsHint(cell))
                 {
-                    cell.Background = new SolidColorBrush(Colors.Green);
+                    cell.SetHintBackground();
+                }
+                else if (ToggleMarkNumbers && _game.IsMarkedNumber(cell.Row, cell.Column))
+                {
+                    cell.SetSelectedNumberBackground();
+                }
+                else if (IsMarkedAsCrosshair(cell))
+                {
+                    cell.SetCrosshairBackground();
                 }
                 else
                 {
-                    cell.Background = cell.DefaultBackground;
+                    cell.SetDefaultBackground();
                 }
             }
         }
@@ -134,7 +253,22 @@ namespace Sudoku.ViewModels
         {
             foreach (var cell in GameCells)
             {
-                cell.Background = cell.DefaultBackground;
+                if (!IsMarkedAsHint(cell))
+                {
+                    cell.SetDefaultBackground();
+                }
+            }
+        }
+
+        private void HandleCandidate(SudokuTrainingCell trainingCell)
+        {
+            if (_game.IsCandidateCell(trainingCell.Row, trainingCell.Column))
+            {
+                if (!_game.HandleCandidate(trainingCell.Row, trainingCell.Column))
+                {
+                    DrawCandidateCell(trainingCell);
+                }
+                ShowAllAvailableCandidates(trainingCell);
             }
         }
 
@@ -164,13 +298,6 @@ namespace Sudoku.ViewModels
             }
         }
 
-        private void DrawCandidateCell(SudokuTrainingCell cell)
-        {
-            cell.SetHintFontSize();
-            cell.SetHintForeground();
-            cell.SetHintAlignment();
-        }
-
         private void DrawAllCandidates()
         {
             foreach (SudokuTrainingCell cell in GameCells)
@@ -183,14 +310,6 @@ namespace Sudoku.ViewModels
             }
         }
 
-        private void RemoveCandidateCell(SudokuTrainingCell cell)
-        {
-            cell.SetDefaultAlignment();
-            cell.SetDefaultFontSize();
-            cell.SetDefaultForeground();
-            cell.Content = "";
-        }
-
         private void RemoveAllCandidates()
         {
             foreach (SudokuTrainingCell cell in GameCells)
@@ -200,6 +319,30 @@ namespace Sudoku.ViewModels
                     RemoveCandidateCell(cell);
                 }
             }
+        }
+
+        private void SetCellToDefault(SudokuTrainingCell trainingCell)
+        {
+            trainingCell.Content = _game.SelectedNumber.ToString();
+            trainingCell.SetDefaultBackground();
+            trainingCell.SetDefaultFontSize();
+            trainingCell.SetDefaultForeground();
+            trainingCell.SetDefaultAlignment();
+        }
+
+        private void DrawCandidateCell(SudokuTrainingCell cell)
+        {
+            cell.SetHintFontSize();
+            cell.SetHintForeground();
+            cell.SetHintAlignment();
+        }
+
+        private void RemoveCandidateCell(SudokuTrainingCell cell)
+        {
+            cell.SetDefaultAlignment();
+            cell.SetDefaultFontSize();
+            cell.SetDefaultForeground();
+            cell.Content = "";
         }
 
         private void GameEnd()

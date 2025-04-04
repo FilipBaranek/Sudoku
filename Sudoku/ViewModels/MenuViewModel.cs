@@ -38,12 +38,12 @@ namespace Sudoku.ViewModels
 
         private void Rules()
         {
-            //TODO
+            _router.CurrentView = new RulesView(_router);
         }
 
         private void Options()
         {
-            //TODO
+            _router.CurrentView = new OptionsView(_router);
         }
 
         private void Exit()

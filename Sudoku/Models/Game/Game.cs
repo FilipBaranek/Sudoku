@@ -6,12 +6,14 @@ namespace Sudoku.Models.Game
     public abstract class Game
     {
         protected const int TOTAL_CORRECT = 81;
+        protected bool _isWrongMove;
         protected int _correct;
-        protected int _selectedNumber;
         protected int[,] _solutionGameBoard;
         protected int[,] _sudokuGameBoard;
         protected GameBoard _gameBoard;
 
+
+        public int SelectedNumber { get; private set; }
         public bool Win { get; set; }
 
         public int[,] SudokuGameBoard
@@ -27,21 +29,20 @@ namespace Sudoku.Models.Game
             _correct = (int)difficulty;
         }
 
-        protected async void WrongMove(SudokuCell cell)
+        public bool IsWrongMove()
         {
-            cell.Background = new SolidColorBrush(Colors.Red);
+            bool isWrongMove = _isWrongMove;
+            _isWrongMove = false;
 
-            await Task.Delay(2000);
-
-            cell.Background = cell.DefaultBackground;
+            return isWrongMove;
         }
 
         public void SelectNumber(int pivot)
         {
-            _selectedNumber = pivot;
+            SelectedNumber = pivot;
         }
 
-        public abstract void PlaceNumber(SudokuCell cell);
+        public abstract void PlaceNumber(GameCell cell);
 
     }
 }

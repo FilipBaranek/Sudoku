@@ -9,7 +9,7 @@
             throw new NotImplementedException();
         }
 
-        public override string? GetHint(ref int? row, ref int? column)
+        public override string? GetHint()
         {
             throw new NotImplementedException();
         }

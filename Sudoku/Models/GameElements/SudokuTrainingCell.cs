@@ -2,16 +2,16 @@
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
-using Sudoku.Service.Config;
 
 namespace Sudoku.Models.GameElements
 {
-    public class SudokuTrainingCell : SudokuCell, INotifyPropertyChanged
+    public class SudokuTrainingCell : GameCell, INotifyPropertyChanged
     {
         private const int DEFAULT_FONTSIZE = 35;
         private const int HINT_FONTSIZE = 10;
         private Brush _defaultForeground;
         private Brush _hintForeground;
+        private Brush _crosshairBackground;
 
         private int _fontsize;
         public int FontSize
@@ -47,20 +47,21 @@ namespace Sudoku.Models.GameElements
         }
 
         public ICommand RightClickCommand { get; private set; }
-        public SudokuTrainingCell RightClickParameter { get; private set; }
+        public ICommand MouseOverCommand { get; private set; }
 
-        public SudokuTrainingCell(int row, int column, string content, Thickness bordrThickness, Brush background, Brush foreground, ICommand command, ICommand rightClickCommand) :
-                base(row, column, content, bordrThickness, background, command)
+        public SudokuTrainingCell(int row, int column, string content, Thickness bordrThickness,
+                                  Brush background, Brush foreground, Brush hintForeground, Brush crosshairBackground,
+                                  ICommand command, ICommand rightClickCommand, ICommand mouseOverCommand) :
+        base(row, column, content, bordrThickness, background, command)
         {
-            ConfigHandler configHandler = new ConfigHandler();
-
             RightClickCommand = rightClickCommand;
-            RightClickParameter = this;
+            MouseOverCommand = mouseOverCommand;
             Alignment = VerticalAlignment.Center;
             FontSize = DEFAULT_FONTSIZE;
-            Foreground = foreground;
+            _foreground = foreground;
             _defaultForeground = foreground;
-            _hintForeground = configHandler.Theme().Equals("dark") ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.Gray);
+            _hintForeground = hintForeground;
+            _crosshairBackground = crosshairBackground;
         }
 
         public void SetHintFontSize()
@@ -93,9 +94,24 @@ namespace Sudoku.Models.GameElements
             Alignment = VerticalAlignment.Center;
         }
 
+        public void SetDefaultBackground()
+        {
+            Background = DefaultBackground;
+        }
+
+        public void SetSelectedNumberBackground()
+        {
+            Background = new SolidColorBrush(Colors.Green);
+        }
+
         public void SetHintBackground()
         {
             Background = new SolidColorBrush(Colors.Turquoise);
+        }
+
+        public void SetCrosshairBackground()
+        {
+            Background = _crosshairBackground;
         }
 
     }

@@ -35,11 +35,15 @@ namespace Sudoku.Models.Pause
         private void RedirectToHintOptions()
         {
             HintsVisible = ToggleVisibility(HintsVisible);
+            Visible = ToggleVisibility(Visible);
         }
 
         public override void PauseToggle()
         {
-            Visible = ToggleVisibility(Visible);
+            if (HintsVisible == Visibility.Hidden)
+            {
+                Visible = ToggleVisibility(Visible);
+            }
         }
     }
 }

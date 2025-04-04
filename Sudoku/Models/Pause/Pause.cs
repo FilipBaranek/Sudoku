@@ -39,7 +39,7 @@ namespace Sudoku.Models.Pause
 
         public void RedirectToRules()
         {
-            //TODO
+            _router.RedirectTo(new RulesView(_router));
         }
 
         public void RedirectToMenu()
