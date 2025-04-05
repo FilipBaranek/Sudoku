@@ -321,6 +321,78 @@
                                MaxWidth="400"/>
                     </Grid>
 
+                    <Grid Width="1200"
+                          Height="550">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Style="{DynamicResource ParagraphSmallHeader}"
+                                   Text="Row X-Wing"/>
+                        <StackPanel Grid.Column="0"
+                                    VerticalAlignment="Center">
+                            <TextBlock Style="{DynamicResource Paragraph}"
+                                       Text="A row-based X-Wing occurs when two rows contain a matching candidate in exactly two"/>
+                            <TextBlock Style="{DynamicResource Paragraph}"
+                                       Text="columns, forming an X pattern, this means the candidate can be eliminated from all"/>
+                            <TextBlock Style="{DynamicResource Paragraph}"
+                                       Text="other cells in those columns and cannot appear elsewhere in the same rows."/>
+                        </StackPanel>
+                        <Image Grid.Column="1"
+                               Source="{DynamicResource RowXWing}"
+                               MaxHeight="400"
+                               MaxWidth="400"/>
+                    </Grid>
+
+                    <Grid Width="1200"
+                          Height="550">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Style="{DynamicResource ParagraphSmallHeader}"
+                                   Text="Column X-Wing"/>
+                        <StackPanel Grid.Column="0"
+                                    VerticalAlignment="Center">
+                            <TextBlock Style="{DynamicResource Paragraph}"
+                                      Text="A column-based X-Wing occurs when two columns contain a matching candidate in"/>
+                            <TextBlock Style="{DynamicResource Paragraph}"
+                                       Text="exactly two rows, forming an X pattern, this means the candidate can be eliminated from"/>
+                            <TextBlock Style="{DynamicResource Paragraph}"
+                                       Text="all other cells in those rows and cannot appear elsewhere in the same columns."/>
+                        </StackPanel>
+                        <Image Grid.Column="1"
+                               Source="{DynamicResource ColumnXWing}"
+                               MaxHeight="400"
+                               MaxWidth="400"/>
+                    </Grid>
+
+                    <Grid Width="1200"
+                          Height="550">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Style="{DynamicResource ParagraphSmallHeader}"
+                                   Text="Y-Wing"/>
+                        <StackPanel Grid.Column="1"
+                                    VerticalAlignment="Center">
+                            <TextBlock Style="{DynamicResource Paragraph}"
+                                       Text="A Y-Wing is a three-cell pattern involving a hinge cell with two candidates and two"/>
+                            <TextBlock Style="{DynamicResource Paragraph}"
+                                       Text="pincer cells that each share a candidate with the hinge. If both pincers see a common cell,"/>
+                            <TextBlock Style="{DynamicResource Paragraph}"
+                                       Text="the candidate they share can be eliminated from that cell."/>
+                        </StackPanel>
+                        <Image Grid.Column="0"
+                               Source="{DynamicResource YWing}"
+                               MaxHeight="400"
+                               MaxWidth="400"/>
+                    </Grid>
+
                     <Grid Width="1600"
                           Height="500">
 
@@ -366,7 +438,7 @@
                             <TextBlock  Style="{DynamicResource ParagraphSmallHeader}"
                                         Text="Wings"/>
                             <TextBlock  Style="{DynamicResource Paragraph}"
-                                        Text="wing strategy description"/>
+                                        Text="As first this strategy finds a X-Wing if any exist and than tries to find Y-Wing."/>
                         </StackPanel>
                     </Grid>
 

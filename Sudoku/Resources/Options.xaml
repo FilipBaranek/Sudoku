@@ -5,19 +5,48 @@
     <Style x:Key="Wins" TargetType="TextBlock">
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
-        <Setter Property="FontSize" Value="80"/>
+        <Setter Property="FontSize" Value="70"/>
         <Setter Property="FontWeight" Value="UltraBold"/>
         <Setter Property="Foreground" Value="Gold"/>
     </Style>
     
-    <!-- Row -->
-    <Style x:Key="RowStyle" TargetType="TextBlock">
+    <!-- Table -->
+    <Style x:Key="ListViewStyle" TargetType="ListView">
+        <Setter Property="Width" Value="900"/>
+        <Setter Property="Height" Value="500"/>
+    </Style>
+
+    <!-- Buttons -->
+    <Style x:Key="ButtonStyle" TargetType="Button">
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="FontSize" Value="40"/>
+        <Setter Property="Margin" Value="10"/>
+        <Setter Property="Width" Value="380"/>
+        <Setter Property="Height" Value="90"/>
+        <Setter Property="FontSize" Value="35"/>
         <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border x:Name="BorderElement"
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="Turquoise"
+                            BorderThickness="2"
+                            CornerRadius="15">
+                        <ContentPresenter HorizontalAlignment="Center"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter TargetName="BorderElement" Property="Background" Value="{DynamicResource ButtonHoverBackground}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter TargetName="BorderElement" Property="Background" Value="{DynamicResource ButtonPressedBackgruond}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
-    
-    
-    
+
 </ResourceDictionary>

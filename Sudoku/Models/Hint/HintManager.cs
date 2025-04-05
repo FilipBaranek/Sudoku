@@ -131,11 +131,25 @@ namespace Sudoku.Models.Hint
             MessageVisible = MessageVisible == Visibility.Visible ? Visibility.Hidden : Visibility.Visible;
         }
 
+        public void ClearGameboardHints()
+        {
+            if (SelectedHint != null && SelectedHint.MarkedHint.Count > 0)
+            {
+                SelectedHint.MarkedHint.Clear();
+            }
+        }
+
         public void ChangeCandidates(List<int>[,] newGameBoard)
         {
             foreach (var hint in HintTypes)
             {
                 hint.ChangeCandidates(newGameBoard);
+
+                if (hint is OptimalHint optimalHint)
+                {
+                    optimalHint.PairHints.ChangeCandidates(newGameBoard);
+                    optimalHint.WingHints.ChangeCandidates(newGameBoard);
+                }
             }
         }
 

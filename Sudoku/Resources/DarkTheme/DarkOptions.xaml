@@ -5,16 +5,61 @@
         <ResourceDictionary Source="../Options.xaml"/>
     </ResourceDictionary.MergedDictionaries>
     
-    <!-- Row -->
-    <Style x:Key="Row" TargetType="TextBlock" BasedOn="{StaticResource RowStyle}">
+    <!-- Table -->
+    <Style x:Key="ListView" TargetType="ListView" BasedOn="{StaticResource ListViewStyle}">
+        <Setter Property="Background" Value="#111"/>
+        <Setter Property="BorderBrush" Value="Turquoise"/>
         <Setter Property="Foreground" Value="#DCDCAA"/>
+        <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
+        <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled"/>
     </Style>
     
-    <!-- Row border -->
-    <Style x:Key="RowBorder" TargetType="Border">
-        <Setter Property="Background" Value="Transparent"/>
-        <Setter Property="BorderBrush" Value="#333"/>
+    <!-- Column header -->
+    <Style TargetType="GridViewColumnHeader">
+        <Setter Property="Background" Value="#111"/>
+        <Setter Property="Foreground" Value="Turquoise"/>
+        <Setter Property="BorderBrush" Value="Turquoise"/>
+        <Setter Property="Height" Value="90"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontSize" Value="55"/>
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="IsHitTestVisible" Value="False"/>
+        
+    </Style>
+
+    <!-- Row -->
+    <Style TargetType="GridViewRowPresenter">
+        <Setter Property="Height" Value="70"/>
+    </Style>
+
+    <Style TargetType="ListViewItem">
+        <Setter Property="Focusable" Value="False"/>
+        <Setter Property="HorizontalContentAlignment" Value="Center"/>
+        <Setter Property="BorderBrush" Value="Turquoise"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="FontSize" Value="30"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="ListViewItem">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="0 0 1 1">
+                        <GridViewRowPresenter VerticalAlignment="Center"
+                                            HorizontalAlignment="Center"
+                                            Content="{TemplateBinding Content}"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
     
+    
+    <!-- Buttons-->
+    <SolidColorBrush x:Key="ButtonHoverBackground" Color="Turquoise"/>
+    <SolidColorBrush x:Key="ButtonPressedBackgruond" Color="Black"/>
+
+    <Style x:Key="Button" TargetType="Button" BasedOn="{StaticResource ButtonStyle}">
+        <Setter Property="Foreground" Value="#DCDCAA"/>
+        <Setter Property="Background" Value="#111"/>
+    </Style>
 
 </ResourceDictionary>

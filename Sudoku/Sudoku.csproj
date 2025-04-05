@@ -25,22 +25,40 @@
     <None Remove="Images\light_single_naked.png" />
     <None Remove="Images\light_training.png" />
     <None Remove="Images\logo.png" />
+    <None Remove="Images\Strategies\dark_column_xwing.png" />
     <None Remove="Images\Strategies\dark_double_hidden.png" />
     <None Remove="Images\Strategies\dark_double_naked.png" />
     <None Remove="Images\Strategies\dark_naked_triple.png" />
+    <None Remove="Images\Strategies\dark_row_xwing.png" />
     <None Remove="Images\Strategies\dark_single_hidden.png" />
     <None Remove="Images\Strategies\dark_single_naked.png" />
+    <None Remove="Images\Strategies\dark_ywing.png" />
+    <None Remove="Images\Strategies\light_column_xwing.png" />
     <None Remove="Images\Strategies\light_double_hidden.png" />
     <None Remove="Images\Strategies\light_double_naked.png" />
     <None Remove="Images\Strategies\light_naked_triple.png" />
+    <None Remove="Images\Strategies\light_row_xwing.png" />
     <None Remove="Images\Strategies\light_single_hidden.png" />
     <None Remove="Images\Strategies\light_single_naked.png" />
+    <None Remove="Images\Strategies\light_ywing.png" />
     <None Remove="Images\Tools\dark_candidates.png" />
     <None Remove="Images\Tools\dark_crosshair.png" />
     <None Remove="Images\Tools\dark_marked_numbers.png" />
     <None Remove="Images\Tools\light_candidates.png" />
     <None Remove="Images\Tools\light_crosshair.png" />
     <None Remove="Images\Tools\light_marked_numbers.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\Strategies\light_column_xwing.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Images\Strategies\dark_ywing.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>
@@ -73,6 +91,9 @@
     <Resource Include="Images\logo.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\Strategies\dark_column_xwing.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\Strategies\dark_double_hidden.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
@@ -80,6 +101,9 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\Strategies\dark_naked_triple.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Strategies\dark_row_xwing.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\Strategies\dark_single_hidden.png">
@@ -97,10 +121,16 @@
     <Resource Include="Images\Strategies\light_naked_triple.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Images\Strategies\light_row_xwing.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Images\Strategies\light_single_hidden.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\Strategies\light_single_naked.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Images\Strategies\light_ywing.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>
     <Resource Include="Images\Tools\dark_candidates.png">

@@ -45,6 +45,9 @@
     <BitmapImage x:Key="DoubleNaked" UriSource="/Images/Strategies/light_double_naked.png"/>
     <BitmapImage x:Key="DoubleHidden" UriSource="/Images/Strategies/light_double_hidden.png"/>
     <BitmapImage x:Key="NakedTriple" UriSource="/Images/Strategies/light_naked_triple.png"/>
+    <BitmapImage x:Key="RowXWing" UriSource="/Images/Strategies/light_row_xwing.png"/>
+    <BitmapImage x:Key="ColumnXWing" UriSource="/Images/Strategies/light_column_xwing.png"/>
+    <BitmapImage x:Key="YWing" UriSource="/Images/Strategies/light_ywing.png"/>
 
 
 </ResourceDictionary>

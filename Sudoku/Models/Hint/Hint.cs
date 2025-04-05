@@ -33,6 +33,17 @@ namespace Sudoku.Models.Hint
             return true;
         }
 
+        protected void UpdateHints(List<Cell> hintCells)
+        {
+            MarkedHint.Clear();
+
+            foreach (Cell hintCell in hintCells)
+            {
+                MarkedHint.Add(hintCell);
+                _usedHints.Add(hintCell);
+            }
+        }
+
         public void ClearPotentialHint(int row, int column)
         {
             _gameBoard[row, column].Clear();

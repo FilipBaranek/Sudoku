@@ -86,6 +86,7 @@ namespace Sudoku.ViewModels
         public Pause PauseManager { get; private set; }
         public HintManager HintManager { get; private set; }
         public ICommand SelectNumberByKeyTrigger { get; private set; }
+        public ICommand ClearHintsTrigger { get; private set; }
 
         public TrainingViewModel(Router router, Difficulty difficulty)
         {
@@ -99,6 +100,7 @@ namespace Sudoku.ViewModels
             HintManager = new HintManager(_game.ActualCandidates, UpdateMarkedCells, _config);
             PauseManager = new TrainingPause(router);
             SelectNumberByKeyTrigger = new RelayCommand<string>(SelectNumberByKey);
+            ClearHintsTrigger = new RelayCommand(ClearGameboardHints);
 
             LoadConfig();
         }
@@ -247,6 +249,13 @@ namespace Sudoku.ViewModels
                     cell.SetDefaultBackground();
                 }
             }
+        }
+
+        private void ClearGameboardHints()
+        {
+            HintManager.ClearGameboardHints();
+
+            UpdateMarkedCells();
         }
 
         private void RemoveMarkedNumbers()

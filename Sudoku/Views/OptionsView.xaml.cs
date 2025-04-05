@@ -1,4 +1,6 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using Sudoku.Service;
 using Sudoku.ViewModels;
 
@@ -14,5 +16,6 @@ namespace Sudoku.Views
 
             DataContext = new OptionsViewModel(router);
         }
+
     }
 }

@@ -14,5 +14,6 @@ namespace Sudoku.Views
 
             DataContext = new RulesViewModel(router);
         }
+
     }
 }

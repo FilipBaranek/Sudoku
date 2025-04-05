@@ -58,3 +58,4 @@ C:\Users\filip\Desktop\skola\C#\bakalarka\Sudoku\Sudoku\obj\Debug\net8.0-windows
 C:\Users\filip\Desktop\skola\C#\bakalarka\Sudoku\Sudoku\obj\Debug\net8.0-windows\Resources\Options.baml
 C:\Users\filip\Desktop\skola\C#\bakalarka\Sudoku\Sudoku\obj\Debug\net8.0-windows\Views\OptionsView.g.cs
 C:\Users\filip\Desktop\skola\C#\bakalarka\Sudoku\Sudoku\obj\Debug\net8.0-windows\Views\OptionsView.baml
+C:\Users\filip\Desktop\skola\C#\bakalarka\Sudoku\Sudoku\obj\Debug\net8.0-windows\Resources\LightTheme\LightOptions.baml

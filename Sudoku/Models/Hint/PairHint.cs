@@ -26,7 +26,7 @@ namespace Sudoku.Models.Hint
             MarkedHint = markedHints;
         }
 
-        private List<Cell> GetRow(int rowIndex, int candidateSize)
+        public List<Cell> GetRow(int rowIndex, int candidateSize)
         {
             var row = new List<Cell>();
 
@@ -41,7 +41,7 @@ namespace Sudoku.Models.Hint
             return row;
         }
 
-        private List<Cell> GetColumn(int columnIndex, int candidateSize)
+        public List<Cell> GetColumn(int columnIndex, int candidateSize)
         {
             var column = new List<Cell>();
 
@@ -56,12 +56,33 @@ namespace Sudoku.Models.Hint
             return column;
         }
 
-        private List<Cell> GetBlock(int blockIndex, int candidateSize)
+        public List<Cell> GetBlock(int blockIndex, int candidateSize)
         {
             var block = new List<Cell>();
 
             int rowIndex = (blockIndex / 3) * 3;
             int columnIndex = (blockIndex % 3) * 3;
+
+            for (int i = rowIndex; i < rowIndex + 3; ++i)
+            {
+                for (int j = columnIndex; j < columnIndex + 3; ++j)
+                {
+                    if (_gameBoard[i, j].Count >= candidateSize)
+                    {
+                        block.Add(new Cell(i, j));
+                    }
+                }
+            }
+
+            return block;
+        }
+
+        public List<Cell> GetBlock(int row, int column, int candidateSize)
+        {
+            var block = new List<Cell>();
+
+            int rowIndex = (row / 3) * 3;
+            int columnIndex = (column / 3) * 3;
 
             for (int i = rowIndex; i < rowIndex + 3; ++i)
             {
@@ -156,7 +177,7 @@ namespace Sudoku.Models.Hint
             return false;
         }
 
-        private bool IsNakedDouble(List<int> pivotCandidates, List<int> compareCandidates, bool isNakedDouble)
+        public bool IsNakedDouble(List<int> pivotCandidates, List<int> compareCandidates, bool isNakedDouble)
         {
             if (isNakedDouble && (pivotCandidates.Count != 2 || compareCandidates.Count != 2))
             {
@@ -359,17 +380,6 @@ namespace Sudoku.Models.Hint
             for (int i = 1; i <= 2; ++i)
             {
                 _usedHints.Remove(_usedHints[_usedHints.Count - 1]);
-            }
-        }
-
-        private void UpdateHints(List<Cell> hintCells)
-        {
-            MarkedHint.Clear();
-
-            foreach (Cell hintCell in hintCells)
-            {
-                MarkedHint.Add(hintCell);
-                _usedHints.Add(hintCell);
             }
         }
 

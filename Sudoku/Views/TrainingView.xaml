@@ -11,6 +11,7 @@
     <UserControl.InputBindings>
         <KeyBinding Key="Esc" Command="{Binding PauseManager.PauseTrigger}"/>
         <KeyBinding Key="H" Command="{Binding HintManager.HintTrigger}"/>
+        <KeyBinding Key="C" Command="{Binding ClearHintsTrigger}"/>
         <KeyBinding Key="D1" Command="{Binding SelectNumberByKeyTrigger}" CommandParameter="1"/>
         <KeyBinding Key="D2" Command="{Binding SelectNumberByKeyTrigger}" CommandParameter="2"/>
         <KeyBinding Key="D3" Command="{Binding SelectNumberByKeyTrigger}" CommandParameter="3"/>

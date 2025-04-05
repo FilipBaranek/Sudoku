@@ -4,13 +4,13 @@ namespace Sudoku.Models.Hint
 {
     public class OptimalHint : Hint
     {
-        private Hint _pairHint;
-        private Hint _wingHint;
+        public Hint PairHints;
+        public Hint WingHints;
 
         public OptimalHint(string name, List<int>[,] gameboard) : base(name, gameboard)
         {
-            _pairHint = new PairHint(name, gameboard, MarkedHint);
-            _wingHint = new WingHint(name, gameboard);
+            PairHints = new PairHint(name, gameboard, MarkedHint);
+            WingHints = new WingHint(name, gameboard, MarkedHint);
         }
 
         private bool TryFindSingleCandidate()
@@ -21,12 +21,13 @@ namespace Sudoku.Models.Hint
                 {
                     if (_gameBoard[i,j].Count == 1 && IsNewHint(i, j))
                     {
-                        var cell = new Cell(i, j);
+                        var hints = new List<Cell>
+                        {
+                            new Cell(i, j)
+                        };
 
-                        MarkedHint.Clear();
-                        MarkedHint.Add(cell);
-                        _usedHints.Add(cell);
-
+                        UpdateHints(hints);
+                        
                         return true;
                     }
                 }
@@ -51,26 +52,26 @@ namespace Sudoku.Models.Hint
 
                 string? hint = null;
 
-                hint = _pairHint.GetHint();
+                hint = PairHints.GetHint();
                 if (hint != null)
                 {
                     return hint;
                 }
 
-                hint = _wingHint.GetHint();
+                hint = WingHints.GetHint();
                 if (hint != null)
                 {
                     return hint;
                 }
 
-                if (_usedHints.Count == 0 && _pairHint.UsedHints.Count == 0 && _wingHint.UsedHints.Count == 0)
+                if (_usedHints.Count == 0 && PairHints.UsedHints.Count == 0 && WingHints.UsedHints.Count == 0)
                 {
                     break;
                 }
 
                 _usedHints.Clear();
-                _pairHint.UsedHints.Clear();
-                _wingHint.UsedHints.Clear();
+                PairHints.UsedHints.Clear();
+                WingHints.UsedHints.Clear();
             }
 
             return null;
