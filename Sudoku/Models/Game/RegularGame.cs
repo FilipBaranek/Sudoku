@@ -18,6 +18,8 @@ namespace Sudoku.Models.Game
             }
         }
 
+        public event PropertyChangedEventHandler? PropertyChanged;
+
         public bool Lose { get; set; }
 
         public RegularGame(Difficulty difficulty) : base(difficulty)
@@ -56,8 +58,6 @@ namespace Sudoku.Models.Game
                 _isWrongMove = true;
             }
         }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
 
         public void OnPropertyChanged(string propertyName)
         {

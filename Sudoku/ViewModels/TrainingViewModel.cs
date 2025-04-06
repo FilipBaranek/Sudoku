@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
-using System.Windows.Media;
 using Sudoku.Commands;
 using Sudoku.Models;
 using Sudoku.Models.Game;
@@ -66,12 +65,12 @@ namespace Sudoku.ViewModels
             {
                 _toggleCrosshair = value;
                 OnPropertyChanged(nameof(ToggleCrosshair));
-                UpdateConfig();
-                if (!ToggleCandidates)
+                if (!ToggleCrosshair)
                 {
                     _cellsInCrossHair.Clear();
                     UpdateMarkedCells();
                 }
+                UpdateConfig();
             }
         }
 
@@ -81,6 +80,7 @@ namespace Sudoku.ViewModels
             get => _game;
         }
 
+        public event PropertyChangedEventHandler? PropertyChanged;
         public ObservableCollection<SudokuTrainingCell> GameCells { get; private set; }
         public ObservableCollection<SudokuPivot> PivotElements { get; private set; }
         public Pause PauseManager { get; private set; }
@@ -156,14 +156,15 @@ namespace Sudoku.ViewModels
                 SetCellToDefault(cell);
                 UpdateCandidates(cell);
                 HintManager.ClearPotentialHint(cell.Row, cell.Column);
+                UpdateMarkedCells();
             }
             else if (_game.IsWrongMove())
             {
-                cell.Background = new SolidColorBrush(Colors.Red);
+                cell.Background = cell.WrongMoveBackground;
 
                 await Task.Delay(2000);
 
-                cell.Background = cell.DefaultBackground;
+                cell.SetDefaultBackground();
             }
 
             if (_game.Win)
@@ -232,21 +233,31 @@ namespace Sudoku.ViewModels
         {
             foreach (var cell in GameCells)
             {
-                if (IsMarkedAsHint(cell))
+                if (cell.Background != cell.WrongMoveBackground)
                 {
-                    cell.SetHintBackground();
-                }
-                else if (ToggleMarkNumbers && _game.IsMarkedNumber(cell.Row, cell.Column))
-                {
-                    cell.SetSelectedNumberBackground();
-                }
-                else if (IsMarkedAsCrosshair(cell))
-                {
-                    cell.SetCrosshairBackground();
-                }
-                else
-                {
-                    cell.SetDefaultBackground();
+                    if (IsMarkedAsHint(cell))
+                    {
+                        cell.SetHintBackground();
+                    }
+                    else if (ToggleMarkNumbers && _game.IsMarkedNumber(cell.Row, cell.Column))
+                    {
+                        if (_game.IsFullyFilled(int.Parse(cell.Content)))
+                        {
+                            cell.SetSelectedFilledNumberBackgorund();
+                        }
+                        else
+                        {
+                            cell.SetSelectedNumberBackground();
+                        }
+                    }
+                    else if (IsMarkedAsCrosshair(cell))
+                    {
+                        cell.SetCrosshairBackground();
+                    }
+                    else
+                    {
+                        cell.SetDefaultBackground();
+                    }
                 }
             }
         }
@@ -358,8 +369,6 @@ namespace Sudoku.ViewModels
         {
             _router.RedirectTo(new GameEndView(_router, true));
         }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
 
         public void OnPropertyChanged(string propertyName)
         {

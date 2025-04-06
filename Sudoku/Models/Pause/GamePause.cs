@@ -1,7 +1,5 @@
 ﻿using System.Windows;
-using System.Windows.Input;
 using System.Windows.Threading;
-using Sudoku.Commands;
 using Sudoku.Service;
 
 namespace Sudoku.Models.Pause

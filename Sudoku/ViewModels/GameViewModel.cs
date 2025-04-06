@@ -36,6 +36,7 @@ namespace Sudoku.ViewModels
             get => _game;
         }
 
+        public event PropertyChangedEventHandler? PropertyChanged;
         public ICommand PauseTrigger { get; private set; }
         public ICommand SelectNumber {  get; private set; }
         public Pause PauseManager { get; private set; }
@@ -114,8 +115,6 @@ namespace Sudoku.ViewModels
                 GameEnd(false);
             }
         }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
 
         public void OnPropertyChanged(string propertyName)
         {

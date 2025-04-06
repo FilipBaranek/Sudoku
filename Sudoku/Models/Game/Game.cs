@@ -1,5 +1,4 @@
-﻿using System.Windows.Media;
-using Sudoku.Models.GameElements;
+﻿using Sudoku.Models.GameElements;
 
 namespace Sudoku.Models.Game
 {

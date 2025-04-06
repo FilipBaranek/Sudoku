@@ -5,6 +5,7 @@ namespace Sudoku.Models.GameElements
 {
     public class SudokuPivot : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler? PropertyChanged;
         public int Value { get; private set; }
         public string Content { get; private set; }
         public ICommand Command { get; private set; }
@@ -29,8 +30,6 @@ namespace Sudoku.Models.GameElements
             Content = content;
             Command = command;
         }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
 
         public void OnPropertyChanged(string propertyName)
         {

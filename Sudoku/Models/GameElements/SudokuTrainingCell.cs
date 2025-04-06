@@ -101,6 +101,11 @@ namespace Sudoku.Models.GameElements
 
         public void SetSelectedNumberBackground()
         {
+            Background = new SolidColorBrush(Colors.LightGreen);
+        }
+
+        public void SetSelectedFilledNumberBackgorund()
+        {
             Background = new SolidColorBrush(Colors.Green);
         }
 

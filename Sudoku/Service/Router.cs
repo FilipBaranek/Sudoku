@@ -1,11 +1,25 @@
 ﻿using System.ComponentModel;
 using System.Windows.Controls;
+using Sudoku.Views;
 
 namespace Sudoku.Service
 {
     public class Router : INotifyPropertyChanged
     {
-        private UserControl _lastPage;
+        private UserControl? _lastPage;
+        private UserControl? LastPage
+        {
+            get => _lastPage;
+            set
+            {
+                if (_lastPage != null && _lastPage is IDisposable disposable)
+                {
+                    disposable.Dispose();
+                }
+
+                _lastPage = value;
+            }
+        }
 
         private UserControl _currentView;
         public UserControl CurrentView
@@ -13,16 +27,20 @@ namespace Sudoku.Service
             get => _currentView;
             set
             {
-                _lastPage = _currentView;
-
-                if (_currentView is IDisposable disposable)
-                {
-                    disposable.Dispose();
-                }
+                LastPage = _currentView;
 
                 _currentView = value;
                 OnPropertyChanged(nameof(CurrentView));
             }
+        }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        public Router()
+        {
+            var menu = new MenuView(this);
+
+            _currentView = menu;
         }
 
         public void RedirectTo(UserControl viewModel)
@@ -32,10 +50,12 @@ namespace Sudoku.Service
 
         public void NavigateBack()
         {
-            CurrentView = _lastPage;
+            if (LastPage != null)
+            {
+                CurrentView = LastPage;
+            }
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
         public void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

@@ -29,7 +29,9 @@ namespace Sudoku.Models.GameElements
             }
         }
 
+        public event PropertyChangedEventHandler? PropertyChanged;
         public Brush DefaultBackground { get; private set; }
+        public Brush WrongMoveBackground { get; private set; }
         public Thickness BorderThickness { get; private set; }
         public ICommand Command { get; private set; }
         public GameCell Parameter { get; private set; }
@@ -39,12 +41,11 @@ namespace Sudoku.Models.GameElements
             _content = content;
             _background = background;
             DefaultBackground = background;
+            WrongMoveBackground = new SolidColorBrush(Colors.Red);
             BorderThickness = bordrThickness;
             Command = command;
             Parameter = this;
         }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
 
         public void OnPropertyChanged(string propertyName)
         {

@@ -1,5 +1,4 @@
 ﻿using Sudoku.Service;
-using Sudoku.Views;
 
 namespace Sudoku.ViewModels
 {
@@ -9,8 +8,7 @@ namespace Sudoku.ViewModels
 
         public MainWindowViewModel()
         {
-            this.Router = new Router();
-            this.Router.RedirectTo(new MenuView(Router));
+            Router = new Router();
         }
     }
 }

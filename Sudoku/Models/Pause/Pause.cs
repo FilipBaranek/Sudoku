@@ -22,6 +22,7 @@ namespace Sudoku.Models.Pause
             }
         }
 
+        public event PropertyChangedEventHandler? PropertyChanged;
         public ICommand PauseTrigger { get; private set; }
         public ICommand Rules { get; private set; }
         public ICommand BackToMenu { get; private set; }
@@ -53,8 +54,6 @@ namespace Sudoku.Models.Pause
         }
 
         public abstract void PauseToggle();
-
-        public event PropertyChangedEventHandler? PropertyChanged;
 
         public void OnPropertyChanged(string propertyName)
         {

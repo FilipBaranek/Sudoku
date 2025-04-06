@@ -6,6 +6,7 @@ namespace Sudoku.Models.Game
     {
         private const int GAME_BOARD_SIZE = 9;
         private bool _isUpdateNeeded;
+        private Dictionary<int, int> _placedNumbersCount;
         public List<int>[,] _userCandidates;
         public List<int>[,] _automaticCandidates;
 
@@ -20,7 +21,9 @@ namespace Sudoku.Models.Game
         {
             _automaticCandidates = _gameBoard.TrainingGameBoard(_sudokuGameBoard);
             _userCandidates = new List<int>[GAME_BOARD_SIZE, GAME_BOARD_SIZE];
+            _placedNumbersCount = new Dictionary<int, int>();
             UserCandidatesInit();
+            LoadGeneratedNumbersCount();
 
             _actualCandidates = _userCandidates;
         }
@@ -39,6 +42,7 @@ namespace Sudoku.Models.Game
             else if (_solutionGameBoard[trainingCell.Row, trainingCell.Column] == SelectedNumber)
             {
                 _sudokuGameBoard[trainingCell.Row, trainingCell.Column] = SelectedNumber;
+                ++_placedNumbersCount[SelectedNumber];
                 ++_correct;
 
                 _isUpdateNeeded = true;
@@ -61,6 +65,25 @@ namespace Sudoku.Models.Game
                 for (int j = 0; j < GAME_BOARD_SIZE; ++j)
                 {
                     _userCandidates[i, j] = new List<int>();
+                }
+            }
+        }
+
+        private void LoadGeneratedNumbersCount()
+        {
+            for (int i = 1; i <= 9; ++i)
+            {
+                _placedNumbersCount.Add(i, 0);
+            }
+
+            for (int i = 0; i < GAME_BOARD_SIZE; ++i)
+            {
+                for (int j = 0; j < GAME_BOARD_SIZE; ++j)
+                {
+                    if (_sudokuGameBoard[i, j] != 0)
+                    {
+                        ++_placedNumbersCount[_sudokuGameBoard[i, j]];
+                    }
                 }
             }
         }
@@ -149,6 +172,16 @@ namespace Sudoku.Models.Game
         public bool IsMarkedNumber(int row, int column)
         {
             return SelectedNumber != 0 && _sudokuGameBoard[row, column] == SelectedNumber;
+        }
+
+        public bool IsFullyFilled(int number)
+        {
+            if (_placedNumbersCount[number] == 9)
+            {
+                return true;
+            }
+
+            return false;
         }
 
     }

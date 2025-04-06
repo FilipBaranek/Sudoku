@@ -7,7 +7,7 @@ using Sudoku.ViewModels;
 
 namespace Sudoku.Views
 {
-    public partial class GameView : UserControl
+    public partial class GameView : UserControl, IDisposable
     {
         public GameView(Router router, Difficulty difficulty)
         {
@@ -27,5 +27,14 @@ namespace Sudoku.Views
                 window.InputBindings.Add(ib);
             }
         }
+
+        public void Dispose()
+        {
+            if (DataContext is IDisposable disposable)
+            {
+                disposable.Dispose();
+            }
+        }
+
     }
 }

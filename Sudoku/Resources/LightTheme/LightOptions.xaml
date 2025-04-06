@@ -10,6 +10,7 @@
         <Setter Property="Background" Value="White"/>
         <Setter Property="BorderBrush" Value="Black"/>
         <Setter Property="Foreground" Value="Black"/>
+        <Setter Property="BorderThickness" Value="3"/>
         <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled"/>
         <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Disabled"/>
     </Style>
@@ -19,11 +20,24 @@
         <Setter Property="Background" Value="White"/>
         <Setter Property="Foreground" Value="Turquoise"/>
         <Setter Property="BorderBrush" Value="#111"/>
+        <Setter Property="BorderThickness" Value="0,0,3,3"/>
         <Setter Property="Height" Value="90"/>
         <Setter Property="FontWeight" Value="Bold"/>
         <Setter Property="FontSize" Value="55"/>
         <Setter Property="Focusable" Value="False"/>
         <Setter Property="IsHitTestVisible" Value="False"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="GridViewColumnHeader">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                Background="{TemplateBinding Background}">
+                        <ContentPresenter HorizontalAlignment="Center"
+                              VerticalAlignment="Center"/>
+                    </Border>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
 
     </Style>
 
@@ -41,11 +55,10 @@
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="ListViewItem">
-                    <Border BorderBrush="{TemplateBinding BorderBrush}"
-                        BorderThickness="0 0 1 1">
+                    <Border HorizontalAlignment="Stretch">
                         <GridViewRowPresenter VerticalAlignment="Center"
-                                        HorizontalAlignment="Center"
-                                        Content="{TemplateBinding Content}"/>
+                                      HorizontalAlignment="Stretch"
+                                      Content="{TemplateBinding Content}"/>
                     </Border>
                 </ControlTemplate>
             </Setter.Value>

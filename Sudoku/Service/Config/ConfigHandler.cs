@@ -6,7 +6,7 @@ namespace Sudoku.Service.Config
     public class ConfigHandler
     {
         private Config _config;
-        private readonly string _configPath = "C:\\Users\\filip\\Desktop\\skola\\C#\\bakalarka\\Sudoku\\Sudoku\\Config\\config.json"; // TREBA PREROBIT PATH
+        private readonly string _configPath;
 
         public bool AutomaticCandidates => _config.AutomaticCandidates;
         public bool MarkSelectedNumber => _config.MarkSelectedNumber;
@@ -17,6 +17,7 @@ namespace Sudoku.Service.Config
 
         public ConfigHandler()
         {
+            _configPath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "Config", "config.json"));
             _config = LoadConfig();
         }
 

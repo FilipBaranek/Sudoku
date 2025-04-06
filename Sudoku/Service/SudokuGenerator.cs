@@ -3,7 +3,6 @@ using System.Windows;
 using System.Windows.Media;
 using Sudoku.Commands;
 using Sudoku.Models.GameElements;
-using Sudoku.Service.Config;
 
 namespace Sudoku.Service
 {
