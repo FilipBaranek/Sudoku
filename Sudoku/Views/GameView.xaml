@@ -9,15 +9,15 @@
 
     <UserControl.InputBindings>
         <KeyBinding Key="Esc" Command="{Binding PauseManager.PauseTrigger}"/>
-        <KeyBinding Key="D1" Command="{Binding SelectNumber}" CommandParameter="1"/>
-        <KeyBinding Key="D2" Command="{Binding SelectNumber}" CommandParameter="2"/>
-        <KeyBinding Key="D3" Command="{Binding SelectNumber}" CommandParameter="3"/>
-        <KeyBinding Key="D4" Command="{Binding SelectNumber}" CommandParameter="4"/>
-        <KeyBinding Key="D5" Command="{Binding SelectNumber}" CommandParameter="5"/>
-        <KeyBinding Key="D6" Command="{Binding SelectNumber}" CommandParameter="6"/>
-        <KeyBinding Key="D7" Command="{Binding SelectNumber}" CommandParameter="7"/>
-        <KeyBinding Key="D8" Command="{Binding SelectNumber}" CommandParameter="8"/>
-        <KeyBinding Key="D9" Command="{Binding SelectNumber}" CommandParameter="9"/>
+        <KeyBinding Key="D1" Command="{Binding SelectNumberByKeyTrigger}" CommandParameter="1"/>
+        <KeyBinding Key="D2" Command="{Binding SelectNumberByKeyTrigger}" CommandParameter="2"/>
+        <KeyBinding Key="D3" Command="{Binding SelectNumberByKeyTrigger}" CommandParameter="3"/>
+        <KeyBinding Key="D4" Command="{Binding SelectNumberByKeyTrigger}" CommandParameter="4"/>
+        <KeyBinding Key="D5" Command="{Binding SelectNumberByKeyTrigger}" CommandParameter="5"/>
+        <KeyBinding Key="D6" Command="{Binding SelectNumberByKeyTrigger}" CommandParameter="6"/>
+        <KeyBinding Key="D7" Command="{Binding SelectNumberByKeyTrigger}" CommandParameter="7"/>
+        <KeyBinding Key="D8" Command="{Binding SelectNumberByKeyTrigger}" CommandParameter="8"/>
+        <KeyBinding Key="D9" Command="{Binding SelectNumberByKeyTrigger}" CommandParameter="9"/>
     </UserControl.InputBindings>
 
     <Grid Background="{DynamicResource Background}">
@@ -48,7 +48,16 @@
                             CommandParameter="{Binding Parameter}"
                             Background="{Binding Background}"
                             BorderThickness="{Binding BorderThickness}"
-                            Content="{Binding Content}"/>
+                            Content="{Binding Content}"
+                            Foreground="{Binding Foreground}"
+                            FontSize="{Binding FontSize}"
+                            VerticalContentAlignment="{Binding Alignment}">
+                        <Button.InputBindings>
+                            <MouseBinding Gesture="RightClick" 
+                                          Command="{Binding RightClickCommand}" 
+                                          CommandParameter="{Binding Parameter}"/>
+                        </Button.InputBindings>
+                    </Button>
                 </DataTemplate>
             </ItemsControl.ItemTemplate>
         </ItemsControl>
@@ -110,6 +119,9 @@
                 <Button Style="{DynamicResource PauseButton}"
                         Content="Help"
                         Command="{Binding PauseManager.Help}"/>
+                <Button Style="{DynamicResource PauseButton}"
+                        Content="Switch to training"
+                        Command="{Binding PauseManager.SwitchToTraining}"/>
                 <Button Style="{DynamicResource PauseButton}"
                         Content="Back to menu"
                         Command="{Binding PauseManager.BackToMenu}"/>

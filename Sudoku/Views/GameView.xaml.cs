@@ -15,7 +15,7 @@ namespace Sudoku.Views
 
             ThemeManager.SetTheme("Game");
 
-            DataContext = new GameViewModel(router, difficulty);
+            DataContext = new RegularGameViewModel(router, difficulty);
             Loaded += GameView_Loaded;
         }
 

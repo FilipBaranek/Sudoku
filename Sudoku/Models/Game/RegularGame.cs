@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using Sudoku.Models.GameElements;
 
-namespace Sudoku.Models.Game
+namespace Sudoku.Models.GameLib
 {
     public class RegularGame : Game, INotifyPropertyChanged
     {
@@ -38,8 +38,7 @@ namespace Sudoku.Models.Game
                 _sudokuGameBoard[cell.Row, cell.Column] = SelectedNumber;
                 ++_correct;
 
-                cell.Content = SelectedNumber.ToString();
-                cell.Background = cell.DefaultBackground;
+                _isUpdateNeeded = true;
 
                 if (_correct == TOTAL_CORRECT)
                 {

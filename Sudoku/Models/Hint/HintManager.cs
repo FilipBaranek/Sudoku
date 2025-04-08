@@ -161,6 +161,22 @@ namespace Sudoku.Models.Hint
             }
         }
 
+        public bool IsMarkedAsHint(int row, int column)
+        {
+            if (HintCells != null)
+            {
+                foreach (var hintCell in HintCells)
+                {
+                    if (hintCell.Row == row && hintCell.Column == column)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
         public void OnPropertyChanged(string propertyName)

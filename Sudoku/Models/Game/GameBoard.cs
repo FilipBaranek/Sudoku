@@ -1,4 +1,4 @@
-﻿namespace Sudoku.Models.Game
+﻿namespace Sudoku.Models.GameLib
 {
     public class GameBoard
     {

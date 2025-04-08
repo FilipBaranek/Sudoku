@@ -19,6 +19,17 @@ namespace Sudoku.Views
             Loaded += TrainingView_Loaded;
         }
 
+        public TrainingView(Router router, int[,] solutionGameBoard, int[,] sudokuGameBoard, int correct)
+        {
+            InitializeComponent();
+
+            ThemeManager.SetTheme("Training");
+
+            DataContext = new TrainingViewModel(router, solutionGameBoard, sudokuGameBoard, correct);
+            Loaded += TrainingView_Loaded;
+
+        }
+
         private void TrainingView_Loaded(object sender, RoutedEventArgs e)
         {
             Window window = Window.GetWindow(this);

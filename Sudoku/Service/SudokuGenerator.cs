@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
+using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using Sudoku.Commands;
 using Sudoku.Models.GameElements;
@@ -26,12 +27,16 @@ namespace Sudoku.Service
             return new Thickness(left, top, right, bottom);
         }
 
-        public static ObservableCollection<GameCell> GenerateCells(Action<GameCell> command, int[,] sudokuElements)
+        public static ObservableCollection<GameCell> GenerateCells(Action<GameCell> command, Action<GameCell> rightClickCommand, int[,] sudokuElements)
         {
             var sudokuGameBoard = new ObservableCollection<GameCell>();
-            
+
+            var theme = ThemeManager.ThemeType();
             var buttonBackground = ThemeManager.GameButtonColor();
-            var buttonCommand = new RelayCommand<GameCell>(command);
+            var leftClick = new RelayCommand<GameCell>(command);
+            var rightClick = new RelayCommand<GameCell>(rightClickCommand);
+            var foreground = ThemeManager.GameButtonTextColor();
+            var candidateForeground = theme.Equals("dark") ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.Gray);
 
             for (int i = 0; i < ROW_COUNT; ++i)
             {
@@ -39,7 +44,7 @@ namespace Sudoku.Service
                 {
                     string content = sudokuElements[i, j] == 0 ? "" : sudokuElements[i, j].ToString();
                     
-                    sudokuGameBoard.Add(new GameCell(i, j, content, Borders(i, j), buttonBackground, buttonCommand));
+                    sudokuGameBoard.Add(new GameCell(i, j, content, Borders(i, j), buttonBackground, foreground, candidateForeground, leftClick, rightClick));
                 }
             }
 
@@ -53,7 +58,7 @@ namespace Sudoku.Service
             var theme = ThemeManager.ThemeType();
             var background = ThemeManager.GameButtonColor();
             var foreground = ThemeManager.GameButtonTextColor();
-            var hintForeground = theme.Equals("dark") ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.Gray);
+            var candidateForeground = theme.Equals("dark") ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.Gray);
             var crosshairBackground = theme.Equals("dark") ? new SolidColorBrush(Color.FromRgb(25, 25, 25)) : new SolidColorBrush(Colors.LightGoldenrodYellow);
             var leftClick = new RelayCommand<SudokuTrainingCell>(command);
             var rightClick = new RelayCommand<SudokuTrainingCell>(rightClickCommand);
@@ -65,7 +70,7 @@ namespace Sudoku.Service
                 {
                     string content = trainingElements[i, j] == 0 ? "" : trainingElements[i, j].ToString();
                 
-                    trainingGameBoard.Add(new SudokuTrainingCell(i, j, content, Borders(i, j), background, foreground, hintForeground, crosshairBackground, leftClick, rightClick, mouseOver));
+                    trainingGameBoard.Add(new SudokuTrainingCell(i, j, content, Borders(i, j), background, foreground, candidateForeground, crosshairBackground, leftClick, rightClick, mouseOver));
                 }
             }
 

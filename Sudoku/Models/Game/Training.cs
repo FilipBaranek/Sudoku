@@ -1,47 +1,32 @@
 ﻿using Sudoku.Models.GameElements;
 
-namespace Sudoku.Models.Game
+namespace Sudoku.Models.GameLib
 {
     public class Training : Game
     {
-        private const int GAME_BOARD_SIZE = 9;
-        private bool _isUpdateNeeded;
         private Dictionary<int, int> _placedNumbersCount;
-        public List<int>[,] _userCandidates;
-        public List<int>[,] _automaticCandidates;
-
-        private List<int>[,] _actualCandidates;
-        public List<int>[,] ActualCandidates
-        {
-            get => _actualCandidates;
-            private set => _actualCandidates = value;
-        }
-
+        
         public Training(Difficulty difficulty) : base(difficulty)
         {
-            _automaticCandidates = _gameBoard.TrainingGameBoard(_sudokuGameBoard);
-            _userCandidates = new List<int>[GAME_BOARD_SIZE, GAME_BOARD_SIZE];
             _placedNumbersCount = new Dictionary<int, int>();
-            UserCandidatesInit();
             LoadGeneratedNumbersCount();
+        }
 
-            _actualCandidates = _userCandidates;
+        public Training(int[,] solutionGameBoard, int[,] sudokuGameBoard, int correct) : base(solutionGameBoard, sudokuGameBoard, correct)
+        {
+            _placedNumbersCount = new Dictionary<int, int>();
+            LoadGeneratedNumbersCount();
         }
 
         public override void PlaceNumber(GameCell cell)
         {
-            if (cell is not SudokuTrainingCell trainingCell)
+            if (SelectedNumber == 0 || _sudokuGameBoard[cell.Row, cell.Column] != 0)
             {
                 return;
             }
-
-            if (SelectedNumber == 0 || _sudokuGameBoard[trainingCell.Row, trainingCell.Column] != 0)
+            else if (_solutionGameBoard[cell.Row, cell.Column] == SelectedNumber)
             {
-                return;
-            }
-            else if (_solutionGameBoard[trainingCell.Row, trainingCell.Column] == SelectedNumber)
-            {
-                _sudokuGameBoard[trainingCell.Row, trainingCell.Column] = SelectedNumber;
+                _sudokuGameBoard[cell.Row, cell.Column] = SelectedNumber;
                 ++_placedNumbersCount[SelectedNumber];
                 ++_correct;
 
@@ -55,17 +40,6 @@ namespace Sudoku.Models.Game
             else
             {
                 _isWrongMove = true;
-            }
-        }
-
-        private void UserCandidatesInit()
-        {
-            for (int i = 0; i < GAME_BOARD_SIZE; ++i)
-            {
-                for (int j = 0; j < GAME_BOARD_SIZE; ++j)
-                {
-                    _userCandidates[i, j] = new List<int>();
-                }
             }
         }
 
@@ -88,28 +62,24 @@ namespace Sudoku.Models.Game
             }
         }
 
-        public void SwitchCandidatesGameBoard()
+        public bool IsMarkedNumber(int row, int column)
         {
-            ActualCandidates = ActualCandidates == _automaticCandidates ? _userCandidates : _automaticCandidates;
+            return SelectedNumber != 0 && _sudokuGameBoard[row, column] == SelectedNumber;
         }
 
-        public bool HandleCandidate(int row, int column)
+        public bool IsFullyFilled(int number)
         {
-            if (SelectedNumber != 0)
+            if (_placedNumbersCount[number] == 9)
             {
-                if (ActualCandidates[row, column].Contains(SelectedNumber))
-                {
-                    ActualCandidates[row, column].Remove(SelectedNumber);
-
-                    return true;
-                }
-                else
-                {
-                    ActualCandidates[row, column].Add(SelectedNumber);
-                }
+                return true;
             }
 
             return false;
+        }
+
+        public void SwitchCandidatesGameBoard()
+        {
+            ActualCandidates = ActualCandidates == _automaticCandidates ? _userCandidates : _automaticCandidates;
         }
 
         public void UpdateRowAndColumn(int row, int column)
@@ -143,45 +113,6 @@ namespace Sudoku.Models.Game
                     }
                 }
             }
-        }
-
-        public bool IsCandidateCell(int row, int column)
-        {
-            return _sudokuGameBoard[row, column] == 0;
-        }
-
-        public List<int>? Candidates(int row, int column)
-        {
-            if (IsCandidateCell(row, column))
-            {
-                return ActualCandidates[row, column];
-            }
-
-            return null;
-        }
-
-        public bool IsUpdateNeeded()
-        {
-            bool needToUpdate = _isUpdateNeeded;
-            
-            _isUpdateNeeded = false;
-
-            return needToUpdate;
-        }
-
-        public bool IsMarkedNumber(int row, int column)
-        {
-            return SelectedNumber != 0 && _sudokuGameBoard[row, column] == SelectedNumber;
-        }
-
-        public bool IsFullyFilled(int number)
-        {
-            if (_placedNumbersCount[number] == 9)
-            {
-                return true;
-            }
-
-            return false;
         }
 
     }
