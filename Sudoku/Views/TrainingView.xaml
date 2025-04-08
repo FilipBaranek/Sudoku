@@ -123,8 +123,8 @@
                         Content="Resume"
                         Command="{Binding PauseManager.PauseTrigger}"/>
                 <Button Style="{DynamicResource PauseButton}"
-                        Content="Rules"
-                        Command="{Binding PauseManager.Rules}"/>
+                        Content="Help"
+                        Command="{Binding PauseManager.Help}"/>
                 <Button Style="{DynamicResource PauseButton}"
                         Content="Hint options"
                         Command="{Binding PauseManager.HintOptions}"/>

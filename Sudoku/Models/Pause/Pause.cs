@@ -24,7 +24,7 @@ namespace Sudoku.Models.Pause
 
         public event PropertyChangedEventHandler? PropertyChanged;
         public ICommand PauseTrigger { get; private set; }
-        public ICommand Rules { get; private set; }
+        public ICommand Help { get; private set; }
         public ICommand BackToMenu { get; private set; }
 
         public Pause(Router router)
@@ -35,12 +35,12 @@ namespace Sudoku.Models.Pause
 
             PauseTrigger = new RelayCommand(PauseToggle);
             BackToMenu = new RelayCommand(RedirectToMenu);
-            Rules = new RelayCommand(RedirectToRules);
+            Help = new RelayCommand(RedirectToHelp);
         }
 
-        public void RedirectToRules()
+        public void RedirectToHelp()
         {
-            _router.RedirectTo(new RulesView(_router));
+            _router.RedirectTo(new HelpView(_router));
         }
 
         public void RedirectToMenu()

@@ -15,7 +15,7 @@ namespace Sudoku.ViewModels
 {
     public class GameViewModel : INotifyPropertyChanged, IDisposable
     {
-        private const int INITIAL_TIME = 300;
+        private const int INITIAL_TIME = 500;
         private readonly Router _router;
         private DispatcherTimer _timer;
 
@@ -93,7 +93,7 @@ namespace Sudoku.ViewModels
 
         private void GameEnd(bool win)
         {
-            _router.RedirectTo(new GameEndView(_router, win));
+            _router.RedirectTo(new GameEndView(_router, win, false));
         }
 
         private void TimerInit()

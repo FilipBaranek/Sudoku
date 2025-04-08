@@ -28,8 +28,8 @@
                     Command="{Binding TrainingCommand}"
                     Content="TRAINING"/>
             <Button Style="{DynamicResource MenuButton}"
-                    Command="{Binding RulesCommand}"
-                    Content="RULES"/>
+                    Command="{Binding HelpCommand}"
+                    Content="HELP"/>
             <Button Style="{DynamicResource MenuButton}"
                     Command="{Binding OptionsCommand}"
                     Content="OPTIONS"/>

@@ -11,7 +11,7 @@ namespace Sudoku.ViewModels
         private readonly Router _router;
         public ICommand PlayCommand { get; private set; }
         public ICommand TrainingCommand { get; private set; }
-        public ICommand RulesCommand { get; private set; }
+        public ICommand HelpCommand { get; private set; }
         public ICommand OptionsCommand { get; private set; }
         public ICommand ExitCommand { get; private set; }
 
@@ -21,7 +21,7 @@ namespace Sudoku.ViewModels
 
             PlayCommand = new RelayCommand(Play);
             TrainingCommand = new RelayCommand(Training);
-            RulesCommand = new RelayCommand(Rules);
+            HelpCommand = new RelayCommand(Help);
             OptionsCommand = new RelayCommand(Options);
             ExitCommand = new RelayCommand(Exit);
         }
@@ -36,9 +36,9 @@ namespace Sudoku.ViewModels
             _router.CurrentView = new DifficultyView(_router, true);
         }
 
-        private void Rules()
+        private void Help()
         {
-            _router.CurrentView = new RulesView(_router);
+            _router.CurrentView = new HelpView(_router);
         }
 
         private void Options()

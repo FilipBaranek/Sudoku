@@ -22,7 +22,7 @@
     <Compile Update="Views\OptionsView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="Views\RulesView.xaml.cs">
+    <Compile Update="Views\HelpView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Update="Views\TrainingView.xaml.cs">
@@ -120,7 +120,7 @@
     <Page Update="Views\OptionsView.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Views\RulesView.xaml">
+    <Page Update="Views\HelpView.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Views\TrainingView.xaml">

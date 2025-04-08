@@ -49,8 +49,6 @@ C:\Users\filip\Desktop\skola\C#\bakalarka\Sudoku\Sudoku\obj\Debug\net8.0-windows
 C:\Users\filip\Desktop\skola\C#\bakalarka\Sudoku\Sudoku\obj\Debug\net8.0-windows\Sudoku.csproj.AssemblyReference.cache
 C:\Users\filip\Desktop\skola\C#\bakalarka\Sudoku\Sudoku\bin\Debug\net8.0-windows\Microsoft.Xaml.Behaviors.dll
 C:\Users\filip\Desktop\skola\C#\bakalarka\Sudoku\Sudoku\obj\Debug\net8.0-windows\Sudoku.csproj.Up2Date
-C:\Users\filip\Desktop\skola\C#\bakalarka\Sudoku\Sudoku\obj\Debug\net8.0-windows\Views\RulesView.g.cs
-C:\Users\filip\Desktop\skola\C#\bakalarka\Sudoku\Sudoku\obj\Debug\net8.0-windows\Views\RulesView.baml
 C:\Users\filip\Desktop\skola\C#\bakalarka\Sudoku\Sudoku\obj\Debug\net8.0-windows\Resources\LightTheme\LightRules.baml
 C:\Users\filip\Desktop\skola\C#\bakalarka\Sudoku\Sudoku\obj\Debug\net8.0-windows\Resources\Rules.baml
 C:\Users\filip\Desktop\skola\C#\bakalarka\Sudoku\Sudoku\obj\Debug\net8.0-windows\Resources\DarkTheme\DarkRules.baml
@@ -59,3 +57,5 @@ C:\Users\filip\Desktop\skola\C#\bakalarka\Sudoku\Sudoku\obj\Debug\net8.0-windows
 C:\Users\filip\Desktop\skola\C#\bakalarka\Sudoku\Sudoku\obj\Debug\net8.0-windows\Views\OptionsView.g.cs
 C:\Users\filip\Desktop\skola\C#\bakalarka\Sudoku\Sudoku\obj\Debug\net8.0-windows\Views\OptionsView.baml
 C:\Users\filip\Desktop\skola\C#\bakalarka\Sudoku\Sudoku\obj\Debug\net8.0-windows\Resources\LightTheme\LightOptions.baml
+C:\Users\filip\Desktop\skola\C#\bakalarka\Sudoku\Sudoku\obj\Debug\net8.0-windows\Views\HelpView.g.cs
+C:\Users\filip\Desktop\skola\C#\bakalarka\Sudoku\Sudoku\obj\Debug\net8.0-windows\Views\HelpView.baml

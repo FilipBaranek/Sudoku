@@ -233,7 +233,7 @@ namespace Sudoku.Models.Hint
                                              IsNewHint(firstCompareCell.Row, firstCompareCell.Column) ||
                                              IsNewHint(secondCompareCell.Row, secondCompareCell.Column);
 
-                            if (combined.Count == 3 && !isNakedDouble && isNewHint)
+                            if (combined.Count == 3 && !isNakedDouble && !IsNakedTriple(pivotCell, firstCompareCell, secondCompareCell) && isNewHint)
                             {
                                 var hints = new List<Cell>
                                     {
@@ -250,6 +250,14 @@ namespace Sudoku.Models.Hint
             }
 
             return false;
+        }
+
+        private bool IsNakedTriple(Cell pivotCell, Cell firstCompareCell, Cell secondCompareCell)
+        {
+            bool isNakedTriple = (pivotCell.Row == firstCompareCell.Row && pivotCell.Row == secondCompareCell.Row) ||
+                                 (pivotCell.Column == firstCompareCell.Column && pivotCell.Column == secondCompareCell.Column);
+
+            return isNakedTriple;
         }
 
         private bool IsPotentialYWingPair(Cell pivotCell, Cell compareCell)

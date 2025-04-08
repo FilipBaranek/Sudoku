@@ -4,13 +4,13 @@ using Sudoku.Service;
 
 namespace Sudoku.ViewModels
 {
-    public class RulesViewModel
+    public class HelpViewModel
     {
         private readonly Router _router;
 
         public ICommand Redirect { get; private set; }
 
-        public RulesViewModel(Router router)
+        public HelpViewModel(Router router)
         {
             _router = router;
 

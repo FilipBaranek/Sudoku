@@ -15,7 +15,7 @@ namespace Sudoku.ViewModels
         public Brush FinalMessageColor { get; private set; }
         public ICommand BackToMenu { get; private set; }
 
-        public GameEndViewModel(Router router, bool win)
+        public GameEndViewModel(Router router, bool win, bool isTraining)
         {
             _router = router;
 
@@ -24,7 +24,10 @@ namespace Sudoku.ViewModels
                 Message = "You won";
                 FinalMessageColor = new SolidColorBrush(Colors.LightGreen);
 
-                UpdateWins();
+                if (!isTraining)
+                {
+                    UpdateWins();
+                }
             }
             else
             {

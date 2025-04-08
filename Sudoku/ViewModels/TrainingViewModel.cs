@@ -235,11 +235,7 @@ namespace Sudoku.ViewModels
             {
                 if (cell.Background != cell.WrongMoveBackground)
                 {
-                    if (IsMarkedAsHint(cell))
-                    {
-                        cell.SetHintBackground();
-                    }
-                    else if (ToggleMarkNumbers && _game.IsMarkedNumber(cell.Row, cell.Column))
+                    if (ToggleMarkNumbers && _game.IsMarkedNumber(cell.Row, cell.Column))
                     {
                         if (_game.IsFullyFilled(int.Parse(cell.Content)))
                         {
@@ -249,6 +245,10 @@ namespace Sudoku.ViewModels
                         {
                             cell.SetSelectedNumberBackground();
                         }
+                    }
+                    else if (IsMarkedAsHint(cell))
+                    {
+                        cell.SetHintBackground();
                     }
                     else if (IsMarkedAsCrosshair(cell))
                     {
@@ -367,7 +367,7 @@ namespace Sudoku.ViewModels
 
         private void GameEnd()
         {
-            _router.RedirectTo(new GameEndView(_router, true));
+            _router.RedirectTo(new GameEndView(_router, true, true));
         }
 
         public void OnPropertyChanged(string propertyName)

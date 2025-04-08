@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="Sudoku.Views.RulesView"
+﻿<UserControl x:Class="Sudoku.Views.HelpView"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -26,7 +26,7 @@
                            Height="220"
                            Width="220"/>
                     <TextBlock Style="{DynamicResource Header}"
-                           Text="RULES"/>
+                           Text="HELP"/>
                 </StackPanel>
 
                 <StackPanel Grid.Row="1"
@@ -162,7 +162,7 @@
                             <TextBlock Style="{DynamicResource Paragraph}"
                                        Text="The gameboard will be filled with every avalaible candidate for each cell."/>
                             <TextBlock Style="{DynamicResource Paragraph}"
-                                       Text="After placing a correct number, the candidates for it's row, column and block will be automaticly deleted."/>
+                                       Text="After placing a correct number, matching candidates for it's row, column and block will be automaticly deleted."/>
 
                         </StackPanel>
                         <Image Grid.Column="1"
@@ -183,7 +183,7 @@
                         <StackPanel Grid.Column="0"
                                     VerticalAlignment="Center">
                             <TextBlock Style="{DynamicResource Paragraph}"
-                                       Text="After checking this tool, every number on the gameboard, same as the selected pivot number, will be marked."/>
+                                       Text="This tool highlights every number on the gameboard, that is same as the selected pivot."/>
                         </StackPanel>
                         <Image Grid.Column="1"
                                Source="{DynamicResource MarkedNumbers}"
@@ -243,9 +243,9 @@
                         <StackPanel Grid.Column="0"
                                     VerticalAlignment="Center">
                             <TextBlock Style="{DynamicResource Paragraph}"
-                                       Text="Hidden single is same as naked single, but hidden behind other candidate."/>
+                                       Text="Hidden single is same as naked single, but hidden behind other candidate or candidates."/>
                             <TextBlock Style="{DynamicResource Paragraph}"
-                                       Text="That means no other number can be placed in this position, because it can not be placed anywhere else in the same block (the hidden candidate appears only once in the block)."/>
+                                       Text="That means this hidden candidate appears only once in its block and can be placed in."/>
                         </StackPanel>
                         <Image Grid.Column="1"
                                Source="{DynamicResource SingleHidden}"
@@ -267,7 +267,7 @@
                             <TextBlock Style="{DynamicResource Paragraph}"
                                        Text="Naked double represents a two cells with same two candidates."/>
                             <TextBlock Style="{DynamicResource Paragraph}"
-                                       Text="That means both of these candidates must be inside of these two cells and every other cell candidate same as these two can be deleted in found segment - either row, column or block."/>
+                                       Text="That means both of these candidates must be inside of one of these two cells and every other cell candidate same as these two can be deleted in found segment - either row, column or block."/>
                         </StackPanel>
                         <Image Grid.Column="1"
                                Source="{DynamicResource DoubleNaked}"
@@ -381,7 +381,7 @@
                         <StackPanel Grid.Column="1"
                                     VerticalAlignment="Center">
                             <TextBlock Style="{DynamicResource Paragraph}"
-                                       Text="A Y-Wing is a three-cell pattern involving a hinge cell with two candidates and two"/>
+                                       Text="An Y-Wing is a three-cell pattern involving a hinge cell with two candidates and two"/>
                             <TextBlock Style="{DynamicResource Paragraph}"
                                        Text="pincer cells that each share a candidate with the hinge. If both pincers see a common cell,"/>
                             <TextBlock Style="{DynamicResource Paragraph}"
@@ -420,7 +420,7 @@
                             <TextBlock  Style="{DynamicResource Paragraph}"
                                         Text="Optimal strategy recommends hints from low complexity to high complexity."/>
                             <TextBlock  Style="{DynamicResource Paragraph}"
-                                        Text="Firstly trying to find single candidates, than move on naked pairs and lastly on wing strategies."/>
+                                        Text="Firstly trying to find single candidates, than move on naked pairs, hidden pairs and lastly on wing strategies."/>
                         </StackPanel>
                         <StackPanel Grid.Row="1"
                                     Grid.Column="1"
@@ -429,7 +429,7 @@
                             <TextBlock  Style="{DynamicResource ParagraphSmallHeader}"
                                         Text="Naked/hidden pairs"/>
                             <TextBlock  Style="{DynamicResource Paragraph}"
-                                        Text="This strategy tries to find any naked pair as first and than moves on finding hidden pairs."/>
+                                        Text="This strategy tries to find any naked  pair as first and than moves on finding hidden singles and hidden pairs."/>
                         </StackPanel>
                         <StackPanel Grid.Row="1"
                                     Grid.Column="2"
