@@ -17,38 +17,40 @@ namespace Sudoku.Service.Config
 
         public ConfigHandler()
         {
-            _configPath = Path.GetFullPath(Path.Combine(AppContext.BaseDirectory, "Config", "config.json"));
+            string appData = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            string sudokuConfigDir = Path.Combine(appData, "Sudoku");
+            if (!File.Exists(sudokuConfigDir))
+            {
+                Directory.CreateDirectory(sudokuConfigDir);
+            }
+
+            _configPath = Path.Combine(sudokuConfigDir, "config.json");
             _config = LoadConfig();
         }
 
         private Config LoadConfig()
         {
-            FileInfo file = new FileInfo(_configPath);
 
-            if (!file.Exists)
+            if (!File.Exists(_configPath))
             {
-                throw new FileNotFoundException();
+                _config = new Config(false, false, false, null, "light", 0);
+
+                SaveConfig();
+
+                return _config;
             }
 
-            string jsonData = File.ReadAllText(file.FullName);
-
+            string jsonData = File.ReadAllText(_configPath);
             Config? config = JsonSerializer.Deserialize<Config>(jsonData);
-        
-            if (config == null)
-            {
-                throw new InvalidOperationException("Wrong config format");
-            }
 
-            return config;
+            return config ?? throw new InvalidOperationException("Wrong config format");
         }
 
         private void SaveConfig()
         {
-            FileInfo file = new FileInfo(_configPath);
-
             string jsonData = JsonSerializer.Serialize(_config);
 
-            File.WriteAllText(file.FullName, jsonData);
+            File.WriteAllText(_configPath, jsonData);
         }
 
         public void SwitchTheme()

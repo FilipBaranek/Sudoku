@@ -37,17 +37,22 @@ namespace Sudoku.Models.Pause
 
         private void RedirectToTraining()
         {
-            int correctCount = 0;
-            
-            foreach (int cell in _sudokuGameBoard)
-            {
-                if (cell != 0)
-                {
-                    ++correctCount;
-                }
-            }
+            MessageBoxResult result = MessageBox.Show("Are you sure you want to switch to training mode?", "Switch to training", MessageBoxButton.YesNo, MessageBoxImage.Question);
 
-            _router.RedirectTo(new TrainingView(_router, _solutionGameBoard, _sudokuGameBoard, correctCount));
+            if (result == MessageBoxResult.Yes)
+            {
+                int correctCount = 0;
+
+                foreach (int cell in _sudokuGameBoard)
+                {
+                    if (cell != 0)
+                    {
+                        ++correctCount;
+                    }
+                }
+
+                _router.RedirectTo(new TrainingView(_router, _solutionGameBoard, _sudokuGameBoard, correctCount));
+            }
         }
 
         public override void PauseToggle()
