@@ -8,48 +8,50 @@
              d:DesignHeight="1080" d:DesignWidth="1920">
 
     <Grid Background="{DynamicResource Background}">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="5*"/>
-        </Grid.RowDefinitions>
+        <Viewbox>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-        <Image Grid.Row="0"
-               HorizontalAlignment="Center"
-               VerticalAlignment="Center"
-               Source="/Images/logo.png"/>
+                <Image Grid.Row="0"
+                       Source="/Images/logo.png"
+                       Style="{DynamicResource OptionsLogo}"/>
 
-        <TextBlock Grid.Row="1"
-                   Style="{DynamicResource Wins}"
-                   Text="{Binding Wins}"/>
+                <TextBlock Grid.Row="1"
+                           Style="{DynamicResource Wins}"
+                           Text="{Binding Wins}"/>
 
-        <StackPanel Grid.Row="2"
-                    Orientation="Vertical">
-            <ListView Style="{DynamicResource ListView}"
-                      ItemsSource="{Binding Hotkeys}">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="Function"
-                                        DisplayMemberBinding="{Binding Function}" 
-                                        Width="650"/>
-                        <GridViewColumn Header="Key" 
-                                        DisplayMemberBinding="{Binding Key}" 
-                                        Width="250"/>
-                    </GridView>
-                </ListView.View>
-            </ListView>
+                <StackPanel Grid.Row="2"
+                            Orientation="Vertical">
+                    <ListView Style="{DynamicResource ListView}"
+                              ItemsSource="{Binding Hotkeys}">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Function"
+                                                DisplayMemberBinding="{Binding Function}" 
+                                                Width="650"/>
+                                <GridViewColumn Header="Key" 
+                                                DisplayMemberBinding="{Binding Key}" 
+                                                Width="250"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
 
-            <StackPanel HorizontalAlignment="Center"
-                        Margin="40"
-                        Orientation="Horizontal">
-                <Button Style="{DynamicResource Button}"
-                        Content="{Binding ThemeTriggerContent}"
-                        Command="{Binding ThemeSwitchTrigger}"/>
-                <Button Style="{DynamicResource Button}"
-                        Content="Back to menu"
-                        Command="{Binding RedirectBackTrigger}"/>
-            </StackPanel>
-        </StackPanel>
-
+                    <StackPanel HorizontalAlignment="Center"
+                                Margin="80"
+                                Orientation="Horizontal">
+                        <Button Style="{DynamicResource Button}"
+                                Content="{Binding ThemeTriggerContent}"
+                                Command="{Binding ThemeSwitchTrigger}"/>
+                        <Button Style="{DynamicResource Button}"
+                                Content="Back to menu"
+                                Command="{Binding RedirectBackTrigger}"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Viewbox>
     </Grid>
 </UserControl>

@@ -7,8 +7,8 @@ namespace Sudoku.Models.GameElements
 {
     public class GameCell : Cell, INotifyPropertyChanged
     {
-        private const int DEFAULT_FONTSIZE = 35;
-        private const int CANDIDATE_FONTSIZE = 10;
+        private const double DEFAULT_FONTSIZE = 23;
+        private const double CANDIDATE_FONTSIZE = 7;
         private Brush _defaultForeground;
         private Brush _candidateForeground;
 
@@ -34,8 +34,8 @@ namespace Sudoku.Models.GameElements
             }
         }
 
-        private int _fontsize;
-        public int FontSize
+        private double _fontsize;
+        public double FontSize
         {
             get => _fontsize;
             set

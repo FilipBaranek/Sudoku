@@ -5,8 +5,8 @@ namespace Sudoku.Service.Config
 {
     public class ConfigHandler
     {
-        private Config _config;
         private readonly string _configPath;
+        private Config _config;
 
         public bool AutomaticCandidates => _config.AutomaticCandidates;
         public bool MarkSelectedNumber => _config.MarkSelectedNumber;

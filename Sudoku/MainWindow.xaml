@@ -6,6 +6,8 @@
         xmlns:local="clr-namespace:Sudoku"
         mc:Ignorable="d"
         WindowState="Maximized"
+        ResizeMode="NoResize"
+        WindowStyle="None"
         Title="Sudoku" Height="1080" Width="1920">
     <Grid>
         <ContentControl Content="{Binding Router.CurrentView}"/>

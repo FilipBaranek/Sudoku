@@ -43,6 +43,8 @@ namespace Sudoku.ViewModels
             Hotkeys.Add(new Hotkey("H", "Hint"));
             Hotkeys.Add(new Hotkey("C", "Clear hints"));
             Hotkeys.Add(new Hotkey("ESC", "Pause menu toggle"));
+            Hotkeys.Add(new Hotkey("Left click", "Place selected number"));
+            Hotkeys.Add(new Hotkey("Right click", "Place selected number as candidate"));
         }
 
         private void SwitchTheme()

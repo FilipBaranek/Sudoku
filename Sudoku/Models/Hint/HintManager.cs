@@ -63,6 +63,8 @@ namespace Sudoku.Models.Hint
             }
         }
 
+        public event PropertyChangedEventHandler? PropertyChanged;
+
         public HintManager(List<int>[,] gameboard, Action markHintCells, ConfigHandler config)
         {
             _config = config;
@@ -176,8 +178,6 @@ namespace Sudoku.Models.Hint
 
             return false;
         }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
 
         public void OnPropertyChanged(string propertyName)
         {

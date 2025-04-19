@@ -24,91 +24,99 @@
     </UserControl.InputBindings>
 
     <Grid Background="{DynamicResource Background}">
-        
-        <Grid.RowDefinitions>
-            <RowDefinition Height="0.5*"/>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="0.3*"/>
-            <RowDefinition Height="0.3*"/>
-        </Grid.RowDefinitions>
+        <Viewbox>
+            <Grid >
 
-        <Image Grid.Row="0" Source="/Images/logo.png"/>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-        <ItemsControl Grid.Row="1"
-                      VerticalAlignment="Center"
-                      HorizontalAlignment="Center"
-                      ItemsSource="{Binding GameCells}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <UniformGrid Rows="9" Columns="9"/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
+                <Image Grid.Row="0"
+                       Source="/Images/logo.png"
+                       Style="{DynamicResource GameLogo}"/>
 
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Button Style="{DynamicResource GameButton}"
-                            Command="{Binding Command}"
-                            CommandParameter="{Binding Parameter}"
-                            Background="{Binding Background}"
-                            BorderThickness="{Binding BorderThickness}"
-                            Content="{Binding Content}"
-                            FontSize="{Binding FontSize}"
-                            Foreground="{Binding Foreground}"
-                            VerticalContentAlignment="{Binding Alignment}">
-                        <Button.InputBindings>
-                            <MouseBinding Gesture="RightClick" 
-                                          Command="{Binding RightClickCommand}" 
-                                          CommandParameter="{Binding Parameter}"/>
-                        </Button.InputBindings>
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="MouseEnter">
-                                <i:InvokeCommandAction Command="{Binding MouseOverCommand}"
-                                                       CommandParameter="{Binding Parameter}" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </Button>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+                <ItemsControl Grid.Row="1"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Center"
+                              Margin="20pt"
+                              ItemsSource="{Binding GameCells}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Rows="9" Columns="9"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
 
-        <ItemsControl Grid.Row="2"
-                      VerticalAlignment="Center"
-                      HorizontalAlignment="Center"
-                      ItemsSource="{Binding PivotElements}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal"/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Style="{DynamicResource GameButton}"
+                                    Command="{Binding Command}"
+                                    CommandParameter="{Binding Parameter}"
+                                    Background="{Binding Background}"
+                                    BorderThickness="{Binding BorderThickness}"
+                                    Content="{Binding Content}"
+                                    FontSize="{Binding FontSize}"
+                                    Foreground="{Binding Foreground}"
+                                    VerticalContentAlignment="{Binding Alignment}">
+                                <Button.InputBindings>
+                                    <MouseBinding Gesture="RightClick" 
+                                                  Command="{Binding RightClickCommand}" 
+                                                  CommandParameter="{Binding Parameter}"/>
+                                </Button.InputBindings>
+                                <i:Interaction.Triggers>
+                                    <i:EventTrigger EventName="MouseEnter">
+                                        <i:InvokeCommandAction Command="{Binding MouseOverCommand}"
+                                                               CommandParameter="{Binding Parameter}" />
+                                    </i:EventTrigger>
+                                </i:Interaction.Triggers>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
 
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <RadioButton Style="{DynamicResource PivotButton}"
-                                 GroupName="PivotGroup"
-                                 Command="{Binding Command}"
-                                 CommandParameter="{Binding Value}"
-                                 Content="{Binding Content}"
-                                 IsChecked="{Binding IsChecked}"/>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+                <ItemsControl Grid.Row="2"
+                              VerticalAlignment="Top"
+                              HorizontalAlignment="Center"
+                              ItemsSource="{Binding PivotElements}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
 
-        <Button Grid.Row="3"
-                HorizontalAlignment="Center"
-                Style="{DynamicResource HintButton}" 
-                Content="Hint"
-                Command="{Binding HintManager.HintTrigger}"/>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <RadioButton Style="{DynamicResource PivotButton}"
+                                         GroupName="PivotGroup"
+                                         Command="{Binding Command}"
+                                         CommandParameter="{Binding Value}"
+                                         Content="{Binding Content}"
+                                         IsChecked="{Binding IsChecked}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
 
-        <Border Grid.Row="1"
-                Style="{DynamicResource HintMessageBorder}"
-                Visibility="{Binding HintManager.MessageVisible}">
-            <Grid>
-                <TextBlock Style="{DynamicResource HintMessage}"
-                           Text="{Binding HintManager.Message}"/>
-                <Button Style="{DynamicResource CloseButton}"
-                        Command="{Binding HintManager.VisibilityTrigger}"/>
+                <Button Grid.Row="3"
+                        HorizontalAlignment="Center"
+                        Style="{DynamicResource HintButton}" 
+                        Content="Hint"
+                        Command="{Binding HintManager.HintTrigger}"/>
+
+                <Border Grid.Row="1"
+                        Style="{DynamicResource HintMessageBorder}"
+                        Visibility="{Binding HintManager.MessageVisible}">
+                    <Grid>
+                        <TextBlock Style="{DynamicResource HintMessage}"
+                                   Text="{Binding HintManager.Message}"/>
+                        <Button Style="{DynamicResource CloseButton}"
+                                Command="{Binding HintManager.VisibilityTrigger}"/>
+                    </Grid>
+                </Border>
+
             </Grid>
-        </Border>
+        </Viewbox>
 
         <Grid Grid.RowSpan="4"
               Background="#CC000000" 
@@ -143,7 +151,7 @@
                         VerticalAlignment="Center"
                         Orientation="Vertical">
                 <TextBlock Style="{DynamicResource HintOptionsHeader}"
-                           Text="CHECK GAMEBOARD STYLE"
+                           Text="CHOOSE TOOLS"
                            Margin="20"/>
                 <StackPanel HorizontalAlignment="Center">
                     <CheckBox Style="{DynamicResource CheckBox}" 
@@ -160,7 +168,7 @@
                 <StackPanel Orientation="Vertical"
                             Margin="60">
                     <TextBlock Style="{DynamicResource HintOptionsHeader}"
-                               Text="SELECT HINT TYPE"/>
+                               Text="SELECT STRATEGY TYPE"/>
                     <ComboBox Style="{DynamicResource Algorithms}"
                               ItemsSource="{Binding HintManager.HintTypes}"
                               DisplayMemberPath="Name"
@@ -170,10 +178,9 @@
 
             <Button Style="{DynamicResource PauseButton}"
                     VerticalAlignment="Bottom"
-                    Margin="100"
+                    Margin="42pt"
                     Content="Back"
                     Command="{Binding PauseManager.HintOptions}"/>
-
         </Grid>
 
     </Grid>

@@ -35,9 +35,10 @@ namespace Sudoku.ViewModels
             get => _game;
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
         public Pause PauseManager { get; private set; }
         public ObservableCollection<GameCell> GameCells { get; private set; }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public RegularGameViewModel(Router router, Difficulty difficulty) : base(router)
         {

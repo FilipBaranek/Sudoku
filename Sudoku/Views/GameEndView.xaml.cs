@@ -9,7 +9,9 @@ namespace Sudoku.Views
         public GameEndView(Router router, bool win, bool isTraining)
         {
             InitializeComponent();
+
             ThemeManager.SetTheme("GameEnd");
+
             DataContext = new GameEndViewModel(router, win, isTraining);
         }
     }

@@ -3,13 +3,15 @@
 
     <!-- Button -->
     <Style x:Key="DifficultyButtonStyle" TargetType="Button">
-        <Setter Property="FontSize" Value="70"/>
+        <Setter Property="FontSize" Value="12pt"/>
         <Setter Property="FontWeight" Value="Bold"/>
-        <Setter Property="Width" Value="320"/>
-        <Setter Property="Height" Value="130"/>
-        <Setter Property="BorderThickness" Value="3"/>
+        <Setter Property="Width" Value="60pt"/>
+        <Setter Property="Height" Value="23pt"/>
+        <Setter Property="MaxWidth" Value="250"/>
+        <Setter Property="MaxHeight" Value="130"/>
+        <Setter Property="BorderThickness" Value="1"/>
         <Setter Property="Cursor" Value="Hand"/>
-        <Setter Property="Margin" Value="20"/>
+        <Setter Property="Margin" Value="1pt"/>
         <Setter Property="Background" Value="Transparent"/>
 
         <Setter Property="Template">
@@ -19,7 +21,7 @@
                             Background="{TemplateBinding Background}"
                             BorderBrush="{TemplateBinding BorderBrush}"
                             BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="10">
+                            CornerRadius="5">
                         <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
                     </Border>
                     <ControlTemplate.Triggers>
@@ -39,7 +41,7 @@
     <Style x:Key="DifficultyTextStyle" TargetType="TextBlock">
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Bottom"/>
-        <Setter Property="FontSize" Value="60"/>
+        <Setter Property="FontSize" Value="12pt"/>
         <Setter Property="FontWeight" Value="Bold"/>
     </Style>
 

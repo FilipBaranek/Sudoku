@@ -4,14 +4,14 @@
     <!-- Logo -->
     <Style x:Key="HintMenuLogoStyle" TargetType="Image">
         <Setter Property="VerticalAlignment" Value="Top"/>
-        <Setter Property="Margin" Value="30"/>
-        <Setter Property="Width" Value="200"/>
-        <Setter Property="Height" Value="200"/>
+        <Setter Property="Margin" Value="17pt"/>
+        <Setter Property="Width" Value="100"/>
+        <Setter Property="Height" Value="100"/>
     </Style>
 
     <!-- Hint button -->
     <Style x:Key="HintButtonStyle" TargetType="Button">
-        <Setter Property="Margin" Value="5"/>
+        <Setter Property="Margin" Value="22pt"/>
         <Setter Property="Width" Value="150"/>
         <Setter Property="Height" Value="50"/>
         <Setter Property="FontWeight" Value="Bold"/>
@@ -43,8 +43,8 @@
     <Style x:Key="HintMessageBorderStyle" TargetType="Border">
         <Setter Property="BorderThickness" Value="2"/>
         <Setter Property="CornerRadius" Value="2"/>
-        <Setter Property="Width" Value="500"/>
-        <Setter Property="Height" Value="500"/>
+        <Setter Property="Width" Value="290pt"/>
+        <Setter Property="Height" Value="290pt"/>
         <Setter Property="CornerRadius" Value="5"/>
     </Style>
 
@@ -52,21 +52,21 @@
     <Style x:Key="HintMessageStyle" TargetType="TextBlock">
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
-        <Setter Property="Margin" Value="15"/>
+        <Setter Property="Margin" Value="8pt"/>
         <Setter Property="TextAlignment" Value="Center"/>
         <Setter Property="TextWrapping" Value="Wrap"/>
         <Setter Property="TextTrimming" Value="CharacterEllipsis"/>
-        <Setter Property="FontSize" Value="35"/>
+        <Setter Property="FontSize" Value="20pt"/>
         <Setter Property="FontWeight" Value="Bold"/>
     </Style>
     
     <!-- Close button -->
     <Style x:Key="CloseButtonStyle" TargetType="Button">
-        <Setter Property="Width" Value="40"/>
-        <Setter Property="Height" Value="40"/>
+        <Setter Property="Width" Value="25pt"/>
+        <Setter Property="Height" Value="25pt"/>
         <Setter Property="HorizontalAlignment" Value="Right"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
-        <Setter Property="Margin" Value="2"/>
+        <Setter Property="Margin" Value="1pt"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="Button">

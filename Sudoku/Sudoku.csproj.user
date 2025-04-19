@@ -101,7 +101,7 @@
     <Page Update="Resources\Pause.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Update="Resources\Rules.xaml">
+    <Page Update="Resources\Help.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Resources\Training.xaml">

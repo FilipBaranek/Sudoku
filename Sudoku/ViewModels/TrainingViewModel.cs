@@ -83,11 +83,12 @@ namespace Sudoku.ViewModels
             get => _game;
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
         public ObservableCollection<SudokuTrainingCell> GameCells { get; private set; }
         public Pause PauseManager { get; private set; }
         public HintManager HintManager { get; private set; }
         public ICommand ClearHintsTrigger { get; private set; }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public TrainingViewModel(Router router, Difficulty difficulty) : base(router)
         {

@@ -168,7 +168,7 @@
 
         public List<int>[,] TrainingGameBoard(int[,] gameBoard)
         {
-            var trainingElements = new List<int>[9, 9];
+            var trainingElements = new List<int>[GAMEBOARD_SIZE, GAMEBOARD_SIZE];
 
             for (int i = 0; i < 9; ++i)
             {

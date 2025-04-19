@@ -8,21 +8,23 @@ namespace Sudoku.Models.GameElements
     public class SudokuTrainingCell : GameCell, INotifyPropertyChanged
     {
         private Brush _crosshairBackground;
+        private Brush _selectedNumberBackground;
 
         public ICommand MouseOverCommand { get; private set; }
 
         public SudokuTrainingCell(int row, int column, string content, Thickness bordrThickness,
                                   Brush background, Brush foreground, Brush candidateForeground, Brush crosshairBackground,
-                                  ICommand command, ICommand rightClickCommand, ICommand mouseOverCommand) :
+                                  Brush selectedNumberBackground, ICommand command, ICommand rightClickCommand, ICommand mouseOverCommand) :
         base(row, column, content, bordrThickness, background, foreground, candidateForeground, command, rightClickCommand)
         {
             MouseOverCommand = mouseOverCommand;
             _crosshairBackground = crosshairBackground;
+            _selectedNumberBackground = selectedNumberBackground;
         }
 
         public void SetSelectedNumberBackground()
         {
-            Background = new SolidColorBrush(Colors.LightGreen);
+            Background = _selectedNumberBackground;
         }
 
         public void SetSelectedFilledNumberBackgorund()

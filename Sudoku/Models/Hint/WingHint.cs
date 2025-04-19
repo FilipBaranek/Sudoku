@@ -269,13 +269,13 @@ namespace Sudoku.Models.Hint
         {
             if (_type.Equals("X"))
             {
-                string deleteSegment = _location.Equals("Row") ? "Column" : "Row";
+                string deleteSegment = _location.Equals("Row") ? "column" : "row";
 
                 return $"{_location} X-Wing was found. Every cell candidate same as one in marked cells from the same {deleteSegment} can be deleted.";
             }
             else
             {
-                return $"Y-Wing was found. Every cell candidate where the Y-Wing intersect might be deleted.";
+                return $"Y-Wing was found. The common cell candidate where the Y-Wing intersect might be deleted.";
             }
         }
 

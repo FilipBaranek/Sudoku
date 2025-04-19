@@ -21,92 +21,98 @@
     </UserControl.InputBindings>
 
     <Grid Background="{DynamicResource Background}">
+        <Viewbox>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
 
-        <Grid.RowDefinitions>
-            <RowDefinition Height="0.5*"/>
-            <RowDefinition Height="2*"/>
-            <RowDefinition Height="0.3*"/>
-            <RowDefinition Height="0.3*"/>
-        </Grid.RowDefinitions>
+                <Image Grid.Row="0"
+                       Source="/Images/logo.png"
+                       Style="{DynamicResource GameLogo}"/>
 
-        <Image Grid.Row="0" Source="/Images/logo.png"/>
+                <ItemsControl Grid.Row="1"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Center"
+                              Margin="20pt"
+                              ItemsSource="{Binding GameCells}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <UniformGrid Rows="9" Columns="9"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
 
-        <ItemsControl Grid.Row="1"
-                      VerticalAlignment="Center"
-                      HorizontalAlignment="Center"
-                      ItemsSource="{Binding GameCells}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <UniformGrid Rows="9" Columns="9"/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Button Style="{DynamicResource GameButton}"
+                                    Command="{Binding Command}"
+                                    CommandParameter="{Binding Parameter}"
+                                    Background="{Binding Background}"
+                                    BorderThickness="{Binding BorderThickness}"
+                                    Content="{Binding Content}"
+                                    Foreground="{Binding Foreground}"
+                                    FontSize="{Binding FontSize}"
+                                    VerticalContentAlignment="{Binding Alignment}">
+                                <Button.InputBindings>
+                                    <MouseBinding Gesture="RightClick" 
+                                                  Command="{Binding RightClickCommand}" 
+                                                  CommandParameter="{Binding Parameter}"/>
+                                </Button.InputBindings>
+                            </Button>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
 
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <Button Style="{DynamicResource GameButton}"
-                            Command="{Binding Command}"
-                            CommandParameter="{Binding Parameter}"
-                            Background="{Binding Background}"
-                            BorderThickness="{Binding BorderThickness}"
-                            Content="{Binding Content}"
-                            Foreground="{Binding Foreground}"
-                            FontSize="{Binding FontSize}"
-                            VerticalContentAlignment="{Binding Alignment}">
-                        <Button.InputBindings>
-                            <MouseBinding Gesture="RightClick" 
-                                          Command="{Binding RightClickCommand}" 
-                                          CommandParameter="{Binding Parameter}"/>
-                        </Button.InputBindings>
-                    </Button>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+                <ItemsControl Grid.Row="2"
+                              VerticalAlignment="Center"
+                              HorizontalAlignment="Center"
+                              ItemsSource="{Binding PivotElements}">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Horizontal"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
 
-        <ItemsControl Grid.Row="2"
-              VerticalAlignment="Center"
-              HorizontalAlignment="Center"
-              ItemsSource="{Binding PivotElements}">
-            <ItemsControl.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <StackPanel Orientation="Horizontal"/>
-                </ItemsPanelTemplate>
-            </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <RadioButton Style="{DynamicResource PivotButton}"
+                                         GroupName="PivotGroup"
+                                         Command="{Binding Command}"
+                                         CommandParameter="{Binding Value}"
+                                         Content="{Binding Content}"
+                                         IsChecked="{Binding IsChecked}"/>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
 
-            <ItemsControl.ItemTemplate>
-                <DataTemplate>
-                    <RadioButton Style="{DynamicResource PivotButton}"
-                                 GroupName="PivotGroup"
-                                 Command="{Binding Command}"
-                                 CommandParameter="{Binding Value}"
-                                 Content="{Binding Content}"
-                                 IsChecked="{Binding IsChecked}"/>
-                </DataTemplate>
-            </ItemsControl.ItemTemplate>
-        </ItemsControl>
+                <StackPanel Grid.Row="3"
+                            Orientation="Vertical"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Top"
+                            Margin="22pt">
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center">
+                        <TextBlock Style="{DynamicResource GameText}"
+                                   Text="Time left: "/>
+                        <TextBlock Style="{DynamicResource GameText}"
+                                   Text="{Binding TimeLeft}"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal"
+                                HorizontalAlignment="Center">
+                        <TextBlock Style="{DynamicResource GameText}"
+                                   Text="Incorrect left: "/>
+                        <TextBlock Style="{DynamicResource GameText}"
+                                   Text="{Binding Game.Incorrect}"/>
+                    </StackPanel>
+                </StackPanel>
 
-        <StackPanel Grid.Row="3" 
-                    Orientation="Vertical"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Top"
-                    Margin="3">
-            <StackPanel Orientation="Horizontal"
-                        HorizontalAlignment="Center">
-                <TextBlock Style="{DynamicResource GameText}"
-                           Text="Time left: "/>
-                <TextBlock Style="{DynamicResource GameText}"
-                           Text="{Binding TimeLeft}"/>
-            </StackPanel>
-            <StackPanel Orientation="Horizontal"
-                        HorizontalAlignment="Center">
-                <TextBlock Style="{DynamicResource GameText}"
-                           Text="Incorrect left: "/>
-                <TextBlock Style="{DynamicResource GameText}"
-                           Text="{Binding Game.Incorrect}"/>
-            </StackPanel>
-        </StackPanel>
+            </Grid>
+        </Viewbox>
 
-        <Grid Grid.RowSpan="4" 
-              Background="#CC000000" 
+        <Grid Background="#CC000000" 
               Visibility="{Binding PauseManager.Visible}">
             <StackPanel HorizontalAlignment="Center"
                         VerticalAlignment="Center"
@@ -127,7 +133,7 @@
                         Command="{Binding PauseManager.BackToMenu}"/>
             </StackPanel>
         </Grid>
-        
+
     </Grid>
-    
+
 </UserControl>

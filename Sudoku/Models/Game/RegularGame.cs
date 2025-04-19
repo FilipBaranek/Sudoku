@@ -18,9 +18,9 @@ namespace Sudoku.Models.GameLib
             }
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
-
         public bool Lose { get; set; }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public RegularGame(Difficulty difficulty) : base(difficulty)
         {

@@ -1,6 +1,5 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows;
-using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 using Sudoku.Commands;
 using Sudoku.Models.GameElements;
@@ -17,12 +16,12 @@ namespace Sudoku.Service
             row = row % 3;
             column = column % 3;
 
-            int left, top, right, bottom;
+            double left, top, right, bottom;
 
-            top = row == 0 ? 3 : 1;
-            bottom = row == 2 ? 3 : 1;
-            left = column == 0 ? 3 : 1;
-            right = column == 2 ? 3 : 1;
+            top = row == 0 ? 2 : 0.5;
+            bottom = row == 2 ? 2 : 0.5;
+            left = column == 0 ? 2 : 0.5;
+            right = column == 2 ? 2 : 0.5;
 
             return new Thickness(left, top, right, bottom);
         }
@@ -60,6 +59,7 @@ namespace Sudoku.Service
             var foreground = ThemeManager.GameButtonTextColor();
             var candidateForeground = theme.Equals("dark") ? new SolidColorBrush(Colors.White) : new SolidColorBrush(Colors.Gray);
             var crosshairBackground = theme.Equals("dark") ? new SolidColorBrush(Color.FromRgb(25, 25, 25)) : new SolidColorBrush(Colors.LightGoldenrodYellow);
+            var selectedNumberBackground = theme.Equals("dark") ? new SolidColorBrush(Colors.Blue) : new SolidColorBrush(Colors.LightBlue);
             var leftClick = new RelayCommand<SudokuTrainingCell>(command);
             var rightClick = new RelayCommand<SudokuTrainingCell>(rightClickCommand);
             var mouseOver = new RelayCommand<SudokuTrainingCell>(mouseOverCommand);
@@ -70,7 +70,7 @@ namespace Sudoku.Service
                 {
                     string content = trainingElements[i, j] == 0 ? "" : trainingElements[i, j].ToString();
                 
-                    trainingGameBoard.Add(new SudokuTrainingCell(i, j, content, Borders(i, j), background, foreground, candidateForeground, crosshairBackground, leftClick, rightClick, mouseOver));
+                    trainingGameBoard.Add(new SudokuTrainingCell(i, j, content, Borders(i, j), background, foreground, candidateForeground, crosshairBackground, selectedNumberBackground, leftClick, rightClick, mouseOver));
                 }
             }
 

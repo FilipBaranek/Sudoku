@@ -22,10 +22,11 @@ namespace Sudoku.Models.Pause
             }
         }
 
-        public event PropertyChangedEventHandler? PropertyChanged;
         public ICommand PauseTrigger { get; private set; }
         public ICommand Help { get; private set; }
         public ICommand BackToMenu { get; private set; }
+
+        public event PropertyChangedEventHandler? PropertyChanged;
 
         public Pause(Router router)
         {
