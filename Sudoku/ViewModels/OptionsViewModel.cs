@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
 using Sudoku.Commands;
+using Sudoku.Models;
 using Sudoku.Models.Bindings;
 using Sudoku.Service;
 using Sudoku.Service.Config;
@@ -15,6 +16,7 @@ namespace Sudoku.ViewModels
 
         public string ThemeTriggerContent { get; private set; }
         public string Wins { get; private set; }
+        public string Records { get; private set; }
         public ObservableCollection<Hotkey> Hotkeys { get; private set; }
         public ICommand ThemeSwitchTrigger { get; private set; }
         public ICommand RedirectBackTrigger { get; private set; }
@@ -25,8 +27,10 @@ namespace Sudoku.ViewModels
             _router = router;
 
             string switchTheme = _config.Theme.Equals("dark") ? "light" : "dark";
+
             ThemeTriggerContent = $"Switch to {switchTheme} theme";
             Wins = _config.Wins.ToString() + " total wins";
+            Records = $"Records: Easy - {_config.Record(Difficulty.Easy)}sec Medium - {_config.Record(Difficulty.Medium)}sec Hard - {_config.Record(Difficulty.Hard)}sec";
             Hotkeys = new ObservableCollection<Hotkey>();
             ThemeSwitchTrigger = new RelayCommand(SwitchTheme);
             RedirectBackTrigger = new RelayCommand(RedirectToMenu);

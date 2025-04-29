@@ -9,10 +9,19 @@
         <Setter Property="FontWeight" Value="Bold"/>
     </Style>
     
+    <!-- Solve Time -->
+    <Style x:Key="SolveTime" TargetType="TextBlock">
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="FontSize" Value="30pt"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+    </Style>
+    
     <!-- Button -->
     <Style x:Key="GameEndButtonStyle" TargetType="Button">
         <Setter Property="HorizontalAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="Margin" Value="10"/>
         <Setter Property="FontSize" Value="27pt"/>
         <Setter Property="FontWeight" Value="Bold"/>
         <Setter Property="BorderThickness" Value="1pt"/>

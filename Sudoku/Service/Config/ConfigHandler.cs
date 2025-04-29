@@ -1,10 +1,12 @@
 ﻿using System.IO;
 using System.Text.Json;
+using Sudoku.Models;
 
 namespace Sudoku.Service.Config
 {
     public class ConfigHandler
     {
+        private const int DEFAULT_TIME = 500;
         private readonly string _configPath;
         private Config _config;
 
@@ -33,7 +35,7 @@ namespace Sudoku.Service.Config
 
             if (!File.Exists(_configPath))
             {
-                _config = new Config(false, false, false, null, "light", 0);
+                _config = new Config(false, false, false, null, "light", 0, DEFAULT_TIME, DEFAULT_TIME, DEFAULT_TIME);
 
                 SaveConfig();
 
@@ -76,6 +78,36 @@ namespace Sudoku.Service.Config
         public void UpdateAlgorithm(string algorithm)
         {
             _config.Algorithm = algorithm;
+            SaveConfig();
+        }
+
+        public double Record(Difficulty difficulty)
+        {
+            switch (difficulty)
+            {
+                case Difficulty.Easy:
+                    return _config.EasyRecord;
+                case Difficulty.Medium:
+                    return _config.MediumRecord;
+                default:
+                    return _config.HardRecord;
+            }
+        }
+
+        public void UpdateRecord(Difficulty difficulty, int record)
+        {
+            switch (difficulty)
+            {
+                case Difficulty.Easy:
+                    _config.EasyRecord = record;
+                    break;
+                case Difficulty.Medium:
+                    _config.MediumRecord = record;
+                    break;
+                default:
+                    _config.HardRecord = record;
+                    break;
+            }
             SaveConfig();
         }
 

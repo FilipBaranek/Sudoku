@@ -15,8 +15,10 @@ namespace Sudoku.ViewModels
     public class RegularGameViewModel : GameViewModel, INotifyPropertyChanged, IDisposable
     {
         private const int INITIAL_TIME = 500;
+        private bool _win;
         private DispatcherTimer _timer;
         private Candidates _candidates;
+        private Difficulty _difficulty;
 
         private int _timeLeft;
         public int TimeLeft
@@ -42,6 +44,7 @@ namespace Sudoku.ViewModels
 
         public RegularGameViewModel(Router router, Difficulty difficulty) : base(router)
         {
+            _difficulty = difficulty;
             _game = new RegularGame(difficulty);
             _candidates = new Candidates(_game);
             _timer = new DispatcherTimer
@@ -71,7 +74,7 @@ namespace Sudoku.ViewModels
             {
                 if (_game.Lose)
                 {
-                    GameEnd(false);
+                    GameEnd();
                 }
 
                 cell.Background = new SolidColorBrush(Colors.Red);
@@ -83,13 +86,14 @@ namespace Sudoku.ViewModels
 
             if (_game.Win)
             {
-                GameEnd(true);
+                _win = true;
+                GameEnd();
             }
         }
 
-        public override void GameEnd(bool win)
+        public override void GameEnd()
         {
-            _router.RedirectTo(new GameEndView(_router, win, false));
+            _router.RedirectTo(new GameEndView(_router, _win, (INITIAL_TIME - _timeLeft), _difficulty));
         }
 
         private void TimerInit()
@@ -108,7 +112,7 @@ namespace Sudoku.ViewModels
             {
                 _timer.Stop();
 
-                GameEnd(false);
+                GameEnd();
             }
         }
 

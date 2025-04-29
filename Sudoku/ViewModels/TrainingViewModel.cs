@@ -160,7 +160,7 @@ namespace Sudoku.ViewModels
 
                 if (_game.Win)
                 {
-                    GameEnd(true);
+                    GameEnd();
                 }
             }
         }
@@ -223,9 +223,9 @@ namespace Sudoku.ViewModels
             UpdateGameboard();
         }
 
-        public override void GameEnd(bool isWin)
+        public override void GameEnd()
         {
-            _router.RedirectTo(new GameEndView(_router, isWin, true));
+            _router.RedirectTo(new GameEndView(_router));
         }
 
         private void LoadConfig()

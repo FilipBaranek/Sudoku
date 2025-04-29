@@ -14,6 +14,7 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
                 <Image Grid.Row="0"
@@ -24,7 +25,11 @@
                            Style="{DynamicResource Wins}"
                            Text="{Binding Wins}"/>
 
-                <StackPanel Grid.Row="2"
+                <TextBlock Grid.Row="2"
+                           Style="{DynamicResource Records}"
+                           Text="{Binding Records}"/>
+
+                <StackPanel Grid.Row="3"
                             Orientation="Vertical">
                     <ListView Style="{DynamicResource ListView}"
                               ItemsSource="{Binding Hotkeys}">

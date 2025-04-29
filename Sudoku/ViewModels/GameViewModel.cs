@@ -31,7 +31,7 @@ namespace Sudoku.ViewModels
 
         public abstract void PlaceNumber(GameCell cell);
 
-        public abstract void GameEnd(bool isWin);
+        public abstract void GameEnd();
 
     }
 }

@@ -12,9 +12,9 @@ namespace Sudoku.Service
             get => _lastPage;
             set
             {
-                if (_lastPage != null && _lastPage is IDisposable disposable)
+                if (CurrentView.GetType() != typeof(HelpView))
                 {
-                    disposable.Dispose();
+                    DisposeLastView();
                 }
 
                 _lastPage = value;
@@ -53,6 +53,14 @@ namespace Sudoku.Service
             if (LastPage != null)
             {
                 CurrentView = LastPage;
+            }
+        }
+
+        public void DisposeLastView()
+        {
+            if (LastPage != null && LastPage is IDisposable disposable)
+            {
+                disposable.Dispose();
             }
         }
 

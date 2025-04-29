@@ -52,6 +52,8 @@ namespace Sudoku.ViewModels
 
             if (result == MessageBoxResult.Yes)
             {
+                _router.DisposeLastView();
+
                 Application.Current.Shutdown();
             }
         }
