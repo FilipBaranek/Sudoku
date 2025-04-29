@@ -20,12 +20,12 @@ namespace Sudoku.ViewModels
         public GameEndViewModel(Router router, bool win, int solveTime, Difficulty difficulty)
         {
             _router = router;
-            SolveTime = $"Solved in {solveTime}seconds";
             BackToMenu = new RelayCommand(RedirectToMenu);
 
             if (win)
             {
                 Message = "You won";
+                SolveTime = $"Solved in {solveTime}seconds";
                 FinalMessageColor = new SolidColorBrush(Colors.LightGreen);
 
                 UpdateWins(solveTime, difficulty);
@@ -33,6 +33,7 @@ namespace Sudoku.ViewModels
             else
             {
                 Message = "You lose";
+                SolveTime = "";
                 FinalMessageColor = new SolidColorBrush(Colors.Red);
             }
         }
