@@ -15,6 +15,7 @@
         <Setter Property="VerticalAlignment" Value="Top"/>
         <Setter Property="FontSize" Value="30pt"/>
         <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="Foreground" Value="Turquoise"/>
     </Style>
     
     <!-- Button -->
