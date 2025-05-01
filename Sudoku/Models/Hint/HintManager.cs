@@ -48,7 +48,6 @@ namespace Sudoku.Models.Hint
             }
         }
 
-        public ICommand VisibilityTrigger { get; private set; }
         public ICommand HintTrigger { get; private set; }
         public List<Hint> HintTypes { get; private set; }
         public List<Cell>? HintCells
@@ -71,7 +70,6 @@ namespace Sudoku.Models.Hint
             _message = "";
             _markHintCells = markHintCells;
             MessageVisible = Visibility.Hidden;
-            VisibilityTrigger = new RelayCommand(ToggleHintMessage);
             HintTrigger = new RelayCommand(GenerateHint);
             HintTypes = new List<Hint>();
 

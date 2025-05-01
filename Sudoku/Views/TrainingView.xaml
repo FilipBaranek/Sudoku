@@ -111,7 +111,7 @@
                         <TextBlock Style="{DynamicResource HintMessage}"
                                    Text="{Binding HintManager.Message}"/>
                         <Button Style="{DynamicResource CloseButton}"
-                                Command="{Binding HintManager.VisibilityTrigger}"/>
+                                Command="{Binding HintManager.HintTrigger}"/>
                     </Grid>
                 </Border>
 
