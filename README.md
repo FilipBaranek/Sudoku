@@ -29,6 +29,9 @@
 ## Nápovedy
 ![image](https://github.com/user-attachments/assets/07e638b9-06f8-4420-ab67-b089d0dd9618)
 
+## Rekordy
+- pre každý herný režim je 
+
 ## Informácie o nástrojoch a pravidlách hry
 ![image](https://github.com/user-attachments/assets/96b67f4a-1605-414c-9c40-e76cbe985317)
 
@@ -47,4 +50,4 @@
 - operačný systém Windows 11
 
 ## Doplňujúce informácie
-- aplikácia vytvára configuračný súbor v priečinku AppData/Roaming - aby umožnila zapamätať si zvolené nástroje a režim aplikácie v stave akom boli naposledy nastavené
+- aplikácia vytvára configuračný súbor v priečinku AppData/Roaming - aby umožnila zapamätať si všetky časové rekordy spolu so zvolenými nástrojmi a režimom aplikácie v stave akom boli naposledy používané
