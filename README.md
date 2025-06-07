@@ -30,7 +30,7 @@
 ![image](https://github.com/user-attachments/assets/07e638b9-06f8-4420-ab67-b089d0dd9618)
 
 ## Rekordy
-- pre každý herný režim je 
+- v každej obtiažnosti režimu riadnej hry je možné dosiahnúť osobný rekord, ktorý je zároveň viditelný v sekcii Options
 
 ## Informácie o nástrojoch a pravidlách hry
 ![image](https://github.com/user-attachments/assets/96b67f4a-1605-414c-9c40-e76cbe985317)
