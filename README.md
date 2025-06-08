@@ -47,7 +47,7 @@
 3. Konfiguračný súbor je potrebné odstrániť manuálne z priečinku Sudoku v /AppData/Roaming/
 
 ## Technické požiadavky
-- operačný systém Windows 11
+- operačný systém od verzie Windows 10 a vyššie
 
 ## Doplňujúce informácie
 - aplikácia vytvára configuračný súbor v priečinku AppData/Roaming - aby umožnila zapamätať si všetky časové rekordy spolu so zvolenými nástrojmi a režimom aplikácie v stave akom boli naposledy používané
